@@ -45,7 +45,8 @@ define(function(require)
 	Inventory.TAB = {
 		USABLE: 0,
 		EQUIP:  1,
-		ETC:    2
+		ETC:    2,
+		FAV:    3
 	};
 
 
@@ -53,6 +54,12 @@ define(function(require)
 	 * Store inventory items
 	 */
 	Inventory.list = [];
+
+
+    /**
+	 * @var {number} tab
+	 */
+	var _tab = Inventory.TAB.USABLE;
 
 
 	/**
@@ -98,7 +105,8 @@ define(function(require)
 
 		// on drop item
 		this.ui
-			.on('drop', OnDrop)
+			.on('drop', '.container', OnDrop)
+			.on('drop', '.tabs button', OnDropTab)
 			.on('dragover', function(event){
 				event.stopImmediatePropagation();
 				return false;
@@ -233,7 +241,7 @@ define(function(require)
 			this.ui.hide();
 		}
 
-		Client.loadFile( DB.INTERFACE_PATH + 'basic_interface/tab_itm_0'+ (_preferences.tab+1) +'.bmp', function(data){
+		Client.loadFile( DB.INTERFACE_PATH + 'basic_interface/tab_pri_0'+ (_tab+1) +'.bmp', function(data){
 			Inventory.ui.find('.tabs').css('backgroundImage', 'url("' + data + '")');
 		});
 
@@ -380,7 +388,7 @@ define(function(require)
 		var idx          = jQuery(this).index();
 		_preferences.tab = parseInt(idx, 10);
 
-		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_0'+ (idx+1) +'.bmp', function(data){
+		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_pri_0'+ (idx+1) +'.bmp', function(data){
 			Inventory.ui.find('.tabs').css('backgroundImage', 'url(' + data + ')');
 			Filter.call(Inventory, idx);
 		});
@@ -445,6 +453,32 @@ define(function(require)
 		return null;
 	};
 
+	/**
+	 * Drop an item from storage to inventory
+	 *
+	 * @param {event}
+	 */
+	function OnDropTab( event )
+	{
+		var item, data;
+		event.stopImmediatePropagation();
+
+		try {
+			data = JSON.parse(event.originalEvent.dataTransfer.getData('Text'));
+			item = data.data;
+		}
+		catch(e) {
+			return false;
+		}
+
+		// Just allow item from storage
+		if (data.type !== 'item') {
+			return false;
+		}
+		
+		Inventory.OnSetItemFavorite(item.index, event.currentTarget.className !== 'fav');
+		return false;
+	}
 
 	/**
 	 * Drop an item from storage to inventory
@@ -582,6 +616,11 @@ define(function(require)
 			case ItemType.AMMO:
 				tab = Inventory.TAB.ETC;
 				break;
+		}
+		
+		if (item.PlaceETCTab)
+		{
+			tab = Inventory.TAB.FAV;
 		}
 
 		// Equip item (if not arrow)
@@ -755,10 +794,11 @@ define(function(require)
 	/**
 	 * functions to define
 	 */
-	Inventory.onUseItem    = function OnUseItem(/* index */){};
-	Inventory.onUseCard    = function onUseCard(/* index */){};
-	Inventory.onEquipItem  = function OnEquipItem(/* index, location */){};
-	Inventory.onUpdateItem = function OnUpdateItem(/* index, amount */){};
+	Inventory.onUseItem            = function OnUseItem(/* index */){};
+	Inventory.onUseCard            = function onUseCard(/* index */){};
+	Inventory.onSetItemFavorite    = function OnSetItemFavorite(/* index, value */){};
+	Inventory.onEquipItem          = function OnEquipItem(/* index, location */){};
+	Inventory.onUpdateItem         = function OnUpdateItem(/* index, amount */){};
 
 
 	/**

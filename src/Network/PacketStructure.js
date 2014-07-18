@@ -11102,14 +11102,28 @@ define( ['Utils/BinaryWriter', './PacketVerManager'], function( BinaryWriter, PA
 	};
 	PACKET.ZC.MSG_STATE_CHANGE3.size = 24;
 
+	// 0x907
+	PACKET.CZ.INVENTORY_TAB = function PACKET_CZ_INVENTORY_TAB() {
+		this.index        = 0;
+		this.normalOrPrivate = 0;
 
-	// 0x908
-	PACKET.ZC.ITEM_FAVORITE = function PACKET_ZC_ITEM_FAVORITE(fp, end) {
-		this.index    = fp.readUShort();
-		this.favorite = fp.readUChar();
+		this.build = function() {
+			var ver = this.getPacketVersion();
+			var pkt = new BinaryWriter(ver[2]);
+
+			pkt.writeShort(ver[1]);
+			pkt.view.setUint16( ver[3], this.index,          true );
+			pkt.view.setUint8( ver[4], this.normalOrPrivate,   true );
+			return pkt;
+		};
 	};
-	PACKET.ZC.ITEM_FAVORITE.size = 5;
-
+	
+	// 0x908
+	PACKET.ZC.INVENTORY_TAB = function PACKET_ZC_INVENTORY_TAB(fp, end) {
+		this.index   = fp.readShort();
+		this.normalOrPrivate          = fp.readUChar();
+	};
+	PACKET.ZC.INVENTORY_TAB.size = 5;
 
 	// 0x90f
 	PACKET.ZC.NOTIFY_STANDENTRY7 = function PACKET_ZC_NOTIFY_STANDENTRY7(fp, end) {

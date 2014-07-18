@@ -191,6 +191,7 @@ define(function( require )
 		Equipment.onUnEquip             = onUnEquip;
 		Equipment.onConfigUpdate        = onConfigUpdate;
 		Equipment.onEquipItem           = onEquipItem;
+		Inventory.onSetItemFavorite     = onSetItemFavorite;
 		Equipment.onRemoveOption        = onRemoveOption;
 		Inventory.onUseItem             = onUseItem;
 		Inventory.onEquipItem           = onEquipItem;
@@ -647,6 +648,20 @@ define(function( require )
 		var pkt   = new PACKET.CZ.USE_ITEM();
 		pkt.index = index;
 		pkt.AID   = Session.Entity.GID;
+		Network.sendPacket(pkt);
+	}
+
+
+	/**
+	 * Use an item
+	 *
+	 * @param {number} item's index
+	 */
+	function onSetItemFavorite( index, normalOrPrivate )
+	{
+		var pkt          = new PACKET.CZ.INVENTORY_TAB();
+		pkt.index        = index;
+		pkt.normalOrPrivate = normalOrPrivate;
 		Network.sendPacket(pkt);
 	}
 

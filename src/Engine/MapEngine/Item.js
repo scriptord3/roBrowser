@@ -126,6 +126,21 @@ define(function( require )
 		Inventory.removeItem( pkt.Index, pkt.count || pkt.Count || 0);
 	}
 
+	/**
+	 * Place item in another Tab
+	 *
+	 * @param {object} pkt - PACKET.ZC.INVENTORY_TAB
+	 */
+	function onInventoryTab( pkt )
+	{
+		var item    = Inventory.getItemByIndex(pkt.index);
+		var count = item.count;
+		Inventory.removeItem( pkt.index, count );
+		item.count = count;
+		item.PlaceETCTab = !pkt.normalOrPrivate;
+		Inventory.addItem(item);
+	}
+
 
 	/**
 	 * Remove an item from equipment, add it to inventory
@@ -354,6 +369,7 @@ define(function( require )
 		Network.hookPacket( PACKET.ZC.ITEM_PICKUP_ACK3,       onItemPickAnswer );
 		Network.hookPacket( PACKET.ZC.ITEM_PICKUP_ACK5,       onItemPickAnswer );
 		Network.hookPacket( PACKET.ZC.ITEM_THROW_ACK,         onInventoryRemoveItem );
+		Network.hookPacket( PACKET.ZC.INVENTORY_TAB,          onInventoryTab );
 		Network.hookPacket( PACKET.ZC.NORMAL_ITEMLIST,        onInventorySetList );
 		Network.hookPacket( PACKET.ZC.NORMAL_ITEMLIST2,       onInventorySetList );
 		Network.hookPacket( PACKET.ZC.NORMAL_ITEMLIST3,       onInventorySetList );
