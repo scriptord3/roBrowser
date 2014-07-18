@@ -169,7 +169,7 @@ define(function( require )
 		WinDeal.init = function Init()
 		{
 			this.draggable();
-			this.ui.find('.text').text( DB.getMessage(92) );
+			this.ui.find('.text').text( DB.getMessage(MsgStringIDs.MSI_SELECT_DEAL_TYPE) );
 
 			this.ui.css({
 				top:  (Renderer.height) / 1.5,

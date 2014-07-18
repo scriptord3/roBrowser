@@ -210,7 +210,7 @@ define(function(require)
 			overlay.className = 'win_popup_overlay';
 			document.body.appendChild(overlay);
 
-			var popup = UIManager.showMessageBox( DB.getMessage(13), 'ok', function(){
+			var popup = UIManager.showMessageBox( DB.getMessage(MsgStringIDs.MSI_ENTER_ROOM_TITLE), 'ok', function(){
 				document.body.removeChild(overlay);
 			}, true);
 

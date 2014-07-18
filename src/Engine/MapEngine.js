@@ -71,6 +71,10 @@ define(function( require )
 	function init( ip, port, mapName )
 	{
 		_mapName = mapName;
+		// fix for instance maps
+		if (_mapName.indexOf("@") > -1) {
+			_mapName = _mapName.substring(3);
+		}
 
 		// Connect to char server
 		Network.connect( Network.utils.longToIP( ip ), port, function( success ){
@@ -80,7 +84,7 @@ define(function( require )
 
 			// Fail to connect...
 			if (!success) {
-				UIManager.showErrorBox( DB.getMessage(1) );
+				UIManager.showErrorBox( DB.getMessage(MsgStringIDs.MSI_SERVER_CONNECTION_FAILED) );
 				return;
 			}
 
@@ -303,7 +307,7 @@ define(function( require )
 	 */
 	function onExitFail( pkt )
 	{
-		ChatBox.addText( DB.getMessage(502), ChatBox.TYPE.ERROR);
+		ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
 	}
 
 
@@ -372,7 +376,7 @@ define(function( require )
 	{
 		if (!pkt.type) {
 			// Have to wait 10sec
-			ChatBox.addText( DB.getMessage(502), ChatBox.TYPE.ERROR );
+			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR );
 		}
 		else {
 			StatusIcons.clean();

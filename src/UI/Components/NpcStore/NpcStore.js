@@ -454,7 +454,7 @@ define(function(require)
 				// You don't have enough zeny
 				if (_type === NpcStore.Type.BUY) {
 					if (NpcStore.calculateCost() + _input[index].discountprice * count > Session.zeny) {
-						ChatBox.addText( DB.getMessage(55), ChatBox.TYPE.ERROR);
+						ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_INSUFFICIENT_MONEY), ChatBox.TYPE.ERROR);
 						return;
 					}
 				}

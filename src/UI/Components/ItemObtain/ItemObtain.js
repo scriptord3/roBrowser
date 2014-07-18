@@ -95,7 +95,7 @@ define(function(require)
 
 		this.ui.find('.content').html(
 			'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="'+ item.ITID +'" width="24" height="24" /> ' +
-			display + ' ' + DB.getMessage(696).replace('%d', item.count || 1)
+			display + ' ' + DB.getMessage(MsgStringIDs.MSI_EA_OBTAIN).replace('%d', item.count || 1)
 		);
 
 		this.ui.css('left', ( Renderer.width - (this.ui.width()) ) >> 1 );

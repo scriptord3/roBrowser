@@ -76,7 +76,7 @@ define(function( require )
 
 		ItemSelection.append();
 		ItemSelection.setList(pkt.eggList);
-		ItemSelection.setTitle(DB.getMessage(599));
+		ItemSelection.setTitle(DB.getMessage(MsgStringIDs.MSI_PET_EGG_LIST));
 		ItemSelection.onIndexSelected = function(index) {
 			if (index > -1) {
 				var pkt   = new PACKET.CZ.SELECT_PETEGG();
@@ -108,7 +108,7 @@ define(function( require )
 	{
 		// Fail to feed
 		if (!pkt.cRet) {
-			ChatBox.addText( DB.getMessage(591).replace('%s', DB.getItemInfo(pkt.ITID).identifiedDisplayName), ChatBox.TYPE.ERROR);
+			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_NOT_EXIST_PET_FOOD).replace('%s', DB.getItemInfo(pkt.ITID).identifiedDisplayName), ChatBox.TYPE.ERROR);
 			return;
 		}
 
@@ -214,7 +214,7 @@ define(function( require )
 	PetInformations.reqPetFeed = function reqPetFeed()
 	{
 		// Are you sure you want to feed your pet ?
-		UIManager.showPromptBox(DB.getMessage(601), 'ok', 'cancel', function(){
+		UIManager.showPromptBox(DB.getMessage(MsgStringIDs.MSI_SURE_TO_FEED_PET), 'ok', 'cancel', function(){
 			var pkt  = new PACKET.CZ.COMMAND_PET();
 			pkt.cSub = 1;
 			Network.sendPacket(pkt);
