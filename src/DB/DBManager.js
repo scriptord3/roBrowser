@@ -635,6 +635,14 @@ define(function(require)
 	{
 		return BabyTable.indexOf(jobid) > -1;
 	};
+	
+	/**
+	 * Get back town information by mapname
+	 * @param {number} efst id
+	 */
+		DB.getTownInfo = function GetTownInfo(mapname) {
+		return TownInfo[mapname] || null;
+	};
 
 
 	/**
