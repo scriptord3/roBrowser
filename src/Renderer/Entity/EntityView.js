@@ -17,6 +17,7 @@ define(function( require )
 	var DB           = require('DB/DBManager');
 	var ShadowTable  = require('DB/Monsters/ShadowTable');
 	var MountTable   = require('DB/Jobs/MountTable');
+	var MonsterSizeEffect = require('DB/Monsters/MonsterSizeEffect');
 	var EntityAction = require('./EntityAction');
 
 
@@ -111,7 +112,11 @@ define(function( require )
 		// Resize character
 		this.xSize = this.ySize = DB.isBaby(job) ? 4 : 5;
 
-
+		if (job in MonsterSizeEffect) {		
+			this.effect = MonsterSizeEffect[job].MonsterEff;
+			this.files.body.size = MonsterSizeEffect[job].MonsterSize;
+		}
+		
 		this.files.shadow.size = job in ShadowTable ? ShadowTable[job] : 1.0;
 		path                   = this.isAdmin ? DB.getAdminPath(this._sex) : DB.getBodyPath( job, this._sex );
 		Entity                 = this.constructor;

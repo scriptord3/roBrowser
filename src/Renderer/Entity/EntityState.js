@@ -27,6 +27,7 @@ define(function( require )
 	var _bodyStateColor   = new Float32Array([1,1,1,1]);
 	var _healthStateColor = new Float32Array([1,1,1,1]);
 	var _effectStateColor = new Float32Array([1,1,1,1]);
+	var _effectColor      = new Float32Array([1,1,1,1]);
 
 
 	/**
@@ -34,10 +35,10 @@ define(function( require )
 	 */
 	function recalculateBlendingColor()
 	{
-		this.effectColor[0] = this._bodyStateColor[0] * this._healthStateColor[0] * this._effectStateColor[0];
-		this.effectColor[1] = this._bodyStateColor[1] * this._healthStateColor[1] * this._effectStateColor[1];
-		this.effectColor[2] = this._bodyStateColor[2] * this._healthStateColor[2] * this._effectStateColor[2];
-		this.effectColor[3] = this._bodyStateColor[3] * this._healthStateColor[3] * this._effectStateColor[3];
+		this.effectColor[0] = this._bodyStateColor[0] * this._healthStateColor[0] * this._effectStateColor[0] * this._effectColor[0];
+		this.effectColor[1] = this._bodyStateColor[1] * this._healthStateColor[1] * this._effectStateColor[1] * this._effectColor[1];
+		this.effectColor[2] = this._bodyStateColor[2] * this._healthStateColor[2] * this._effectStateColor[2] * this._effectColor[2];
+		this.effectColor[3] = this._bodyStateColor[3] * this._healthStateColor[3] * this._effectStateColor[3] * this._effectColor[3];
 	}
 
 
@@ -211,9 +212,37 @@ define(function( require )
 		recalculateBlendingColor.call(this);
 	}
 
+	/**
+	 * Update entity effect (EF_REDLIGHTBODY)
+	 *
+	 * @param {number} new value
+	 */
+	function updateEffect( value )
+	{
+
+		this._effectColor[0] = 1.0;
+		this._effectColor[1] = 1.0;
+		this._effectColor[2] = 1.0;
+		this._effectColor[3] = 1.0;
+		
+		if (value == EFFECT.EF_REDLIGHTBODY) {
+			this._effectColor[0] = 1.0;
+			this._effectColor[1] = 0.65;
+			this._effectColor[2] = 0.65;
+		}
+		
+		if (value == EFFECT.EF_BLUELIGHTBODY) {
+			this._effectColor[0] = 0.65;
+			this._effectColor[1] = 0.65;
+			this._effectColor[2] = 1;
+		}
+		
+		this._effect = value;
+		recalculateBlendingColor.call(this);
+	}
 
 	/**
-	 * Update entity effect (invisible, ...)
+	 * Update entity effect state (invisible, ...)
 	 *
 	 * @param {number} new value
 	 */
@@ -320,6 +349,7 @@ define(function( require )
 		this._bodyStateColor   = new Float32Array([1, 1, 1, 1]);
 		this._healthStateColor = new Float32Array([1, 1, 1, 1]);
 		this._effectStateColor = new Float32Array([1, 1, 1, 1]);
+		this._effectColor      = new Float32Array([1, 1, 1, 1]);
 		this.effectColor       = new Float32Array([1, 1, 1, 1]);
 
 
@@ -336,6 +366,11 @@ define(function( require )
 		Object.defineProperty(this, 'effectState', {
 			get: function(){ return this._effectState },
 			set: updateEffectState
+		});
+
+		Object.defineProperty(this, 'effect', {
+			get: function(){ return this._effect },
+			set: updateEffect
 		});
 	};
 });
