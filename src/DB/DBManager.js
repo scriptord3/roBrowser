@@ -30,7 +30,8 @@ define(function(require)
 	var ItemTable        = require('./Items/ItemTable');
 	var HatTable         = require('./Items/HatTable');
 	var ShieldTable      = require('./Items/ShieldTable');
-	var WeaponTable      = require('./Items/WeaponTable');
+    	var TownInfo         = require('./TownInfo');
+    	var WeaponTable      = require('./Items/WeaponTable');
 	var WeaponType       = require('./Items/WeaponType');
 	var WeaponSoundTable = require('./Items/WeaponSoundTable');
 
