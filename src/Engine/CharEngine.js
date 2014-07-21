@@ -60,7 +60,7 @@ define(function( require )
 
 			// Fail to connect...
 			if (!success) {
-				UIManager.showErrorBox( DB.getMessage(1) );
+				UIManager.showErrorBox( DB.getMessage(MsgStringIDs.MSI_SERVER_CONNECTION_FAILED) );
 				return;
 			}
 

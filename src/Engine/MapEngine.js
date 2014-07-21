@@ -405,7 +405,7 @@ define(function( require )
 
 			case 1:
 				// Have to wait 10 sec
-				ChatBox.addText( DB.getMessage(502), ChatBox.TYPE.ERROR);
+				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
 				break;
 
 			default:
