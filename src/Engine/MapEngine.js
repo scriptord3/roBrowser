@@ -47,6 +47,7 @@ define(function( require )
 	var ChatRoomCreate   = require('UI/Components/ChatRoomCreate/ChatRoomCreate');
 	var Emoticons        = require('UI/Components/Emoticons/Emoticons');
 	var SkillList        = require('UI/Components/SkillList/SkillList');
+	var Guild = require('UI/Components/Guild/Guild');
 
 
 	/**
@@ -179,6 +180,7 @@ define(function( require )
 	{
 		Session.Entity = new Entity( Session.Character );
 		Session.Entity.onWalkEnd = onWalkEnd;
+		Session.Guild = null;
 
 		BasicInfo.update('blvl', Session.Character.level );
 		BasicInfo.update('jlvl', Session.Character.joblevel );
@@ -254,6 +256,7 @@ define(function( require )
 			ChatRoomCreate.append();
 			Emoticons.append();
 			SkillList.append();
+			Guild.append();
 
 			// Map loaded
 			Network.sendPacket(

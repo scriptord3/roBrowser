@@ -1,0 +1,48 @@
+﻿#Guild { position:absolute; top:100px; left:100px; width:400px; height:317px; font-size:12px; background-color:white; border-radius:5px; }
+
+#Guild .titlebar { width:100%; height:17px; background-color:white; background-repeat:repeat-x; border-radius:3px 3px 0px 0px; }
+#Guild .titlebar .base { width:11px; height:11px; border:none; background-color:transparent; background-repeat:no-repeat; vertical-align:middle; }
+#Guild .titlebar .text { text-shadow:1px 1px white; vertical-align:-2px; 
+ /* chrome bug */ display: inline-block; width: 80px; height:13px; }
+
+#Guild .titlebar .left { margin-left:3px; float:left; }
+#Guild .titlebar .right { float:right; margin-right:3px;}
+#Guild .titlebar .clear { clear:both; }
+#Guild .container {height:240px; }
+#Guild .content { overflow-y:auto; padding:5px; border-top:1px solid #c6c6c6; width:390px; height:238px; }
+/*#Guild .content { background-repeat:no-repeat; position:relative; width:100%; height:100%; }*/
+
+#Guild .contentInfo .name { position:absolute; top: 54px; left:9px; }
+#Guild .contentInfo .level { position:absolute; top: 69px; left:9px; }
+#Guild .contentInfo .master { position:absolute; top: 86px; left:9px; }
+#Guild .contentInfo .nummember { position:absolute; top: 102px; left:9px; }
+#Guild .contentInfo .avglevel { position:absolute; top: 118px; left:9px; }
+#Guild .contentInfo .manageland { position:absolute; top: 134px; left:9px; }
+#Guild .contentInfo .exp { position:absolute; top: 54px; left:201px; }
+#Guild .contentInfo .title_ally_guild { position:absolute; top: 144px; left:201px; }
+#Guild .contentInfo .ally_guild { position:absolute; top: 159px; left:201px; width: 168px; height: 48px; background: #CECECE; }
+#Guild .contentInfo .title_hostile_guild { position:absolute; top: 218px; left:201px; }
+#Guild .contentInfo .hostile_guild { position:absolute; top: 234px; left:201px; width: 168px; height: 48px; background: #CECECE; }
+#Guild .contentInfo .bexp { position:absolute; top:69px; left:201px; width:110px; height:4px; border:1px solid #afafaf; background-color:white; }
+#Guild .contentInfo .bexp div { position:absolute; top:0px; left:0px; width:0%; height:4px; background-color:#4262a5; }
+#Guild .contentInfo .bexp_value { position:absolute; top: 60px; left:321px; }
+
+#Guild .levelup { border:0; width:24px; height:24px; padding:0; background-repeat:no-repeat; background-color:transparent; }
+
+#Guild table {border-collapse: collapse; width: 385px;}
+#Guild td {border: 1px solid #CECECE;}
+#Guild .contentMemberInfo .memberTable .online {background: #E6FFE6;}
+
+#Guild .selected { background-color:#739cee;}
+/*#Guild .selected.passive .selectable { background-color:#73d5ee;}
+#Guild .selected.active .selectable { background-color:#739cee;}*/
+
+#Guild .contentGuildNotice .title {position:absolute; top: 54px; left:9px;}
+#Guild .contentGuildNotice .subject {position:absolute; top: 48px; left:50px;}
+#Guild .contentGuildNotice .contentNotice {position:absolute; top: 73px; left:9px;}
+#Guild .contentGuildNotice .contentArea {position:absolute; top: 93px; left:9px; margin: 0px; width: 377px; height: 168px; font-family: Arial;}
+
+
+#Guild .footer { width:100%; height:27px; background-repeat:repeat-x; background-color:transparent; position:relative; }
+#Guild .footer .btn { position: absolute; top:5px; border:0; width:42px; height:20px; background-repeat:no-repeat; background-color:transparent; display:none; }
+#Guild .footer .modifyGuildNotice { right: 5px; border:0; width:42px; height:20px; background-repeat:no-repeat; background-color:transparent; }

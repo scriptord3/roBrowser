@@ -1,0 +1,90 @@
+﻿<div id="Guild">
+    <div class="titlebar" data-background="basic_interface/titlebar_mid.bmp">
+        <div class="left">
+            <span class="text"></span>
+        </div>
+        <div class="right">
+            <button class="base close" data-background="basic_interface/sys_close_off.bmp" data-hover="basic_interface/sys_close_on.bmp"></button>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="tabs">
+        <button class="btnGuildInfo">Info</button><button class="btnGuildMemberInfo">Members</button><button class="btnGuildPosInfo">Ranks</button><button class="btnGuildSkill">Skills</button><button class="btnGuildBanish">Expels</button><button class="btnGuildNotice">Notice</button>
+    </div>
+    <div class="panel">
+        <div class="content contentInfo">
+            <div class="name"></div>
+            <div class="level"></div>
+            <div class="master"></div>
+            <div class="nummember"></div>
+            <div class="avglevel"></div>
+            <div class="manageland"></div>
+            <div class="exp"></div>
+            <div class="bexp_value"></div>
+            <div class="bexp">
+                <div> </div>
+            </div>
+            <div class="title_ally_guild" data-text="338"></div>
+            <div class="ally_guild"></div>
+            <div class="title_hostile_guild" data-text="339"></div>
+            <div class="hostile_guild"></div>
+        </div>
+        <div class="content contentMemberInfo" style="display:none;">
+            <table class="memberTable">
+                <thead>
+                    <tr>
+                        <th data-text="407"></th>
+                        <th data-text="503"></th>
+                        <th data-text="504"></th>
+                        <th data-text="408"></th>
+                        <!--<th data-text="505"></th>-->
+                        <th data-text="506"></th>
+                        <th data-text="507"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="content contentPositionInfo" style="display:none;">
+            <table class="positionTable">
+                <thead>
+                    <tr>
+                        <th data-text="510"></th>
+                        <th data-text="511"></th>
+                        <th data-text="512"></th>
+                        <th data-text="513"></th>
+                        <th data-text="514"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="content modifyGuildSkills" style="display:none;">
+            <table>
+                <!-- Just to get reference, will be removed -->
+                <button class="btn levelup" data-background="basic_interface/skill_up_a.bmp" data-hover="basic_interface/skill_up_b.bmp" data-down="basic_interface/skill_up_c.bmp"></button>
+            </table>
+        </div>
+        <div class="content contentGuildBanish" style="display:none;">
+            <table class="banishTable">
+                <thead>
+                    <tr>
+                        <th data-text="407"></th>
+                        <th data-text="462"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="content contentGuildNotice" style="display:none;">
+            <div data-text="515" class="title"></div>
+            <input type="text" name="subject" class="subject" />
+            <div data-text="516" class="contentNotice">Contents</div>
+            <textarea class="contentArea"></textarea>
+        </div>
+
+        <div class="footer" data-background="basic_interface/btnbar_mid2.bmp">
+            <button class="btn modifyGuildNotice" style="display:none;" data-background="btn_edit.bmp" data-hover="btn_edit_a.bmp" data-down="btn_edit_b.bmp"></button>
+        </div>
+    </div>
+</div>

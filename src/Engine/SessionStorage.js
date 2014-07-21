@@ -23,6 +23,7 @@ define(function()
 		LangType:    0,
 
 		Character:   null,
+        	Guild: null,
 		Entity:      null,
 
 		AdminList:   [],
