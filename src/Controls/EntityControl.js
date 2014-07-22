@@ -16,6 +16,7 @@ define(function( require )
 	var glMatrix    = require('Utils/gl-matrix');
 	var PathFinding = require('Utils/PathFinding');
 	var DB          = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var KEYS        = require('Controls/KeyEventHandler');
 	var Mouse       = require('Controls/MouseEventHandler');
 	var Preferences = require('Preferences/Controls');

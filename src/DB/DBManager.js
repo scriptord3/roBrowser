@@ -24,7 +24,7 @@ define(function(require)
 	var BabyTable        = require('./Jobs/BabyTable');
 	var HairIndexTable   = require('./Jobs/HairIndexTable');
 	var MonsterTable     = require('./Monsters/MonsterTable');
-    	var MsgStringTable   = require('./MsgStringTable');
+	var MsgStringIDs = require('./MsgStringIds');
 	var PetIllustration  = require('./Pets/PetIllustration');
 	var PetAction        = require('./Pets/PetAction');
 	var ItemTable        = require('./Items/ItemTable');

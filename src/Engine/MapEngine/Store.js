@@ -16,6 +16,7 @@ define(function( require )
 	 * Load dependencies
 	 */
 	var DB            = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var Network       = require('Network/NetworkManager');
 	var PACKET        = require('Network/PacketStructure');
 	var NpcStore      = require('UI/Components/NpcStore/NpcStore');

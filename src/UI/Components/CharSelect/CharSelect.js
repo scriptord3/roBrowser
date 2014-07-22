@@ -16,6 +16,7 @@ define(function(require)
 	 * Dependencies
 	 */
 	var DB                 = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var MonsterTable       = require('DB/Monsters/MonsterTable');
 	var Preferences        = require('Core/Preferences');
 	var KEYS               = require('Controls/KeyEventHandler');

@@ -19,6 +19,7 @@ define(function(require)
 	var Renderer           = require('Renderer/Renderer');
 	var KEYS               = require('Controls/KeyEventHandler');
 	var DB                 = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var UIManager          = require('UI/UIManager');
 	var UIComponent        = require('UI/UIComponent');
 	var htmlText           = require('text!./InputBox.html');

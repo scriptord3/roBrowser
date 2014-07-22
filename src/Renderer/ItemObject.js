@@ -7,8 +7,8 @@
  *
  * @author Vincent Thibault
  */
-define(['DB/DBManager', './EntityManager', './Entity/Entity', 'Renderer/Map/Altitude'],
-function(   DB,            EntityManager,            Entity,                Altitude)
+define(['DB/DBManager', 'DB/MsgStringIds', './EntityManager', './Entity/Entity', 'Renderer/Map/Altitude'],
+function (DB, MsgStringIDs, EntityManager, Entity, Altitude)
 {
 	'use strict';
 

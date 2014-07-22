@@ -17,6 +17,7 @@ define(function(require)
 	 */
 	var jQuery      = require('Utils/jquery');
 	var DB          = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var KEYS        = require('Controls/KeyEventHandler');
 	var Renderer    = require('Renderer/Renderer');
 	var Preferences = require('Core/Preferences');

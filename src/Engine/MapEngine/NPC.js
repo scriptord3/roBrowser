@@ -18,6 +18,7 @@ define(function( require )
 	 */
 	var jQuery        = require('Utils/jquery');
 	var DB            = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var Sound         = require('Audio/SoundManager');
 	var BGM           = require('Audio/BGM');
 	var Client        = require('Core/Client');

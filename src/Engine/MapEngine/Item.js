@@ -17,6 +17,7 @@ define(function( require )
 	 * Load dependencies
 	 */
 	var DB            = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var EquipLocation = require('DB/Items/EquipmentLocation');
 	var Network       = require('Network/NetworkManager');
 	var PACKET        = require('Network/PacketStructure');

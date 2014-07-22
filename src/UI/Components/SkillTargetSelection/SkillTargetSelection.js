@@ -16,6 +16,7 @@ define(function(require)
 	 * Dependencies
 	 */
 	var DB            = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var SkillInfo     = require('DB/Skills/SkillInfo');
 	var KEYS          = require('Controls/KeyEventHandler');
 	var Mouse         = require('Controls/MouseEventHandler');

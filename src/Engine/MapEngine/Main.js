@@ -17,6 +17,7 @@ define(function( require )
 	 * Load dependencies
 	 */
 	var DB             = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var StatusProperty = require('DB/Status/StatusProperty');
 	var Session        = require('Engine/SessionStorage');
 	var Network        = require('Network/NetworkManager');

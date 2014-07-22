@@ -15,6 +15,7 @@ define(function( require )
 	// Load dependencies
 	var jQuery        = require('Utils/jquery');
 	var DB            = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var Cursor        = require('UI/CursorManager');
 	var InputBox      = require('UI/Components/InputBox/InputBox');
 	var ChatBox       = require('UI/Components/ChatBox/ChatBox');

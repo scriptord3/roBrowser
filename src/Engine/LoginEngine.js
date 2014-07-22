@@ -17,6 +17,7 @@ define(function( require )
 	// Load dependencies
 	var TextEncoding = require('Vendors/text-encoding');
 	var DB           = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var Sound        = require('Audio/SoundManager');
 	var Configs      = require('Core/Configs');
 	var Thread       = require('Core/Thread');

@@ -14,6 +14,7 @@ define(function(require)
 	 * Dependencies
 	 */
 	var DB           = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var jQuery       = require('Utils/jquery');
 	var Client       = require('Core/Client');
 	var Session      = require('Engine/SessionStorage');

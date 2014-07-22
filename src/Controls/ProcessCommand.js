@@ -14,6 +14,7 @@ define(function( require )
 
 	// Load dependencies
 	var DB                 = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var Emotions           = require('DB/Emotions');
 	var BGM                = require('Audio/BGM');
 	var Sound              = require('Audio/SoundManager');

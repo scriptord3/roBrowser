@@ -19,6 +19,7 @@ define(function( require )
 	 */
 	var jQuery           = require('Utils/jquery');
 	var DB               = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var SoundManager     = require('Audio/SoundManager');
 	var BGM              = require('Audio/BGM');
 	var Events           = require('Core/Events');

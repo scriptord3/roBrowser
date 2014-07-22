@@ -17,6 +17,7 @@ define(function( require )
 	 * Load dependencies
 	 */
 	var DB                   = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var SkillId              = require('DB/Skills/SkillConst');
 	var PathFinding          = require('Utils/PathFinding');
 	var Session              = require('Engine/SessionStorage');

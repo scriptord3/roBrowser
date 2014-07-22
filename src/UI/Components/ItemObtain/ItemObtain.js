@@ -16,6 +16,7 @@ define(function(require)
 	 * Dependencies
 	 */
 	var DB                 = require('DB/DBManager');
+	var MsgStringIDs = require('DB/MsgStringIds');
 	var Client             = require('Core/Client');
 	var Events             = require('Core/Events');
 	var Renderer           = require('Renderer/Renderer');
