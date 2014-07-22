@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define([ './Context' ], function( Context )
+define(['./Context'], function (Context)
 {
 	'use strict';
 
@@ -15,17 +15,19 @@ define([ './Context' ], function( Context )
 	var Storage = Context.Is.APP ?
 		window.chrome.storage.local :
 		{
-			get: function Get( key, fn ){
+			get: function Get(key, fn)
+			{
 				var out = {};
 				out[key] = localStorage.getItem(key);
-				fn( out );
+				fn(out);
 			},
-			set: function Set( obj, fn ) {
-				var keys = Object.keys( obj );
+			set: function Set(obj, fn)
+			{
+				var keys = Object.keys(obj);
 				var i, count;
 
 				for (i = 0, count = keys.length; i < count; ++i) {
-					localStorage.setItem( keys[i], obj[ keys[i] ] );
+					localStorage.setItem(keys[i], obj[keys[i]]);
 				}
 
 				if (fn) {
@@ -42,36 +44,37 @@ define([ './Context' ], function( Context )
 	 * @param {mixed} default value
 	 * @param {number} optional version
 	 */
-	function get( key, def, version )
+	function get(key, def, version)
 	{
-		Storage.get( key, function( value ){
+		Storage.get(key, function (value)
+		{
 			var data, keys;
 			var i, count;
 
-			version   = version || 0.0;
+			version = version || 0.0;
 
 			// Not existing, storing it
 			if (!value[key] || JSON.parse(value[key])._version !== version) {
-				save( def );
+				save(def);
 				return;
 			}
 
-			data          = JSON.parse( value[key] );
-			data._key     = key;
+			data = JSON.parse(value[key]);
+			data._key = key;
 			data._version = version;
-			data.save     = selfSave;
+			data.save = selfSave;
 
-			keys          = Object.keys(data);
-			count         = keys.length;
+			keys = Object.keys(data);
+			count = keys.length;
 
 			for (i = 0; i < count; ++i) {
-				def[ keys[i] ] = data[ keys[i] ];
+				def[keys[i]] = data[keys[i]];
 			}
 		});
 
-		def._key     = key;
+		def._key = key;
 		def._version = version;
-		def.save     = selfSave;
+		def.save = selfSave;
 
 		return def;
 	}
@@ -83,7 +86,7 @@ define([ './Context' ], function( Context )
 	 * @param {string} key
 	 * @param {object} value to store
 	 */
-	function save( data )
+	function save(data)
 	{
 		var key = data._key;
 		delete data._key;
@@ -92,10 +95,10 @@ define([ './Context' ], function( Context )
 		var store = {};
 		store[key] = JSON.stringify(data);
 
-		Storage.set( store );
+		Storage.set(store);
 
-		data._key  = key;
-		data.save  = selfSave;
+		data._key = key;
+		data.save = selfSave;
 	}
 
 
@@ -104,7 +107,7 @@ define([ './Context' ], function( Context )
 	 */
 	function selfSave()
 	{
-		save( this );
+		save(this);
 	}
 
 
@@ -112,7 +115,7 @@ define([ './Context' ], function( Context )
 	 *
 	 */
 	return {
-		get:  get,
+		get: get,
 		save: save
 	};
 });

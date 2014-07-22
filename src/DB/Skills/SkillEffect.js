@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(['./SkillConst'], function( SK )
+define(['./SkillConst'], function (SK)
 {
 	'use strict';
 
@@ -28,7 +28,7 @@ define(['./SkillConst'], function( SK )
 		effectId: 23
 	};
 
-	SkillEffect[SK.MG_FIREWALL] =  {
+	SkillEffect[SK.MG_FIREWALL] = {
 		hitEffectId: 49,
 		groundEffectId: 25
 	};
@@ -71,7 +71,7 @@ define(['./SkillConst'], function( SK )
 		effectId: 77
 	};
 
-	SkillEffect[SK.KN_PIERCE] =  {
+	SkillEffect[SK.KN_PIERCE] = {
 		effectId: 148
 	};
 
@@ -79,7 +79,7 @@ define(['./SkillConst'], function( SK )
 		effectId: 144
 	};
 
-	SkillEffect[SK.KN_SPEARSTAB] =	{
+	SkillEffect[SK.KN_SPEARSTAB] = {
 		effectId: 150
 	};
 

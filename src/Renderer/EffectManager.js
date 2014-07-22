@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,18 +15,18 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var EffectDB      = require('DB/Effects/EffectTable');
-	var SkillEffect   = require('DB/Skills/SkillEffect');
-	var SkillUnit     = require('DB/Skills/SkillUnit');
-	var Events        = require('Core/Events');
-	var Cylinder      = require('Renderer/Effects/Cylinder');
-	var StrEffect     = require('Renderer/Effects/StrEffect');
-	var Entity        = require('Renderer/Entity/Entity');
+	var EffectDB = require('DB/Effects/EffectTable');
+	var SkillEffect = require('DB/Skills/SkillEffect');
+	var SkillUnit = require('DB/Skills/SkillUnit');
+	var Events = require('Core/Events');
+	var Cylinder = require('Renderer/Effects/Cylinder');
+	var StrEffect = require('Renderer/Effects/StrEffect');
+	var Entity = require('Renderer/Entity/Entity');
 	var EntityManager = require('Renderer/EntityManager');
-	var Renderer      = require('Renderer/Renderer');
-	var Altitude      = require('Renderer/Map/Altitude');
-	var Sound         = require('Audio/SoundManager');
-	var Preferences   = require('Preferences/Map');
+	var Renderer = require('Renderer/Renderer');
+	var Altitude = require('Renderer/Map/Altitude');
+	var Sound = require('Audio/SoundManager');
+	var Preferences = require('Preferences/Map');
 
 
 	/**
@@ -89,7 +89,7 @@ define(function( require )
 			effect.init(_gl);
 		}
 
-		effect._uid        = uid;
+		effect._uid = uid;
 		effect._persistent = !!persistent;
 
 		_list[name].push(effect);
@@ -104,11 +104,12 @@ define(function( require )
 	 */
 	EffectManager.remove = function removeClosure()
 	{
-		function clean(name, uid) {
+		function clean(name, uid)
+		{
 			var list;
 			var i, count;
 
-			list  = _list[name];
+			list = _list[name];
 			count = list.length;
 
 			for (i = 0; i < count; ++i) {
@@ -137,14 +138,14 @@ define(function( require )
 				var keys = Object.keys(_list);
 
 				for (i = 0, count = keys.length; i < count; ++i) {
-					clean( keys[i], uid);
+					clean(keys[i], uid);
 				}
 
 				return;
 			}
 
 			if (effect.name in _list) {
-				clean( effect.name, uid);
+				clean(effect.name, uid);
 			}
 		};
 	}();
@@ -153,14 +154,14 @@ define(function( require )
 	/**
 	 * Destroy all effects
 	 */
-	EffectManager.free = function free( gl )
+	EffectManager.free = function free(gl)
 	{
 		var keys = Object.keys(_list);
 		var i, j, size, count;
 		var list, constructor;
 
 		for (i = 0, count = keys.length; i < count; ++i) {
-			list        = _list[ keys[i] ];
+			list = _list[keys[i]];
 			constructor = list[0].constructor;
 
 			for (j = 0, size = list.length; j < size; ++j) {
@@ -173,7 +174,7 @@ define(function( require )
 				constructor.free(gl);
 			}
 
-			delete _list[ keys[i] ];
+			delete _list[keys[i]];
 		}
 	};
 
@@ -190,7 +191,7 @@ define(function( require )
 	 * @param {number} game tick
 	 * @param {boolean} render before entities ?
 	 */
-	EffectManager.render = function render(gl, modelView, projection, fog, tick, renderBeforeEntities )
+	EffectManager.render = function render(gl, modelView, projection, fog, tick, renderBeforeEntities)
 	{
 		var keys = Object.keys(_list);
 		var i, count = keys.length;
@@ -198,10 +199,10 @@ define(function( require )
 		var list, constructor;
 
 		for (i = 0; i < count; ++i) {
-			list        = _list[ keys[i] ];
+			list = _list[keys[i]];
 
 			if (!list.length) {
-				delete _list[ keys[i] ];
+				delete _list[keys[i]];
 				continue;
 			}
 
@@ -222,7 +223,7 @@ define(function( require )
 
 					if (list[j].needCleanUp) {
 						if (list[j]._persistent) {
-							list[j].startTick   = tick;
+							list[j].startTick = tick;
 							list[j].needCleanUp = false;
 							continue;
 						}
@@ -230,7 +231,7 @@ define(function( require )
 						if (list[j].free) {
 							list[j].free(gl);
 						}
-						list.splice( j, 1);
+						list.splice(j, 1);
 						j--;
 						size--;
 					}
@@ -258,7 +259,7 @@ define(function( require )
 	 * @param {number} tick
 	 * @param {boolean} persistent
 	 */
-	EffectManager.spam = function spam( effectId, AID, position, tick, persistent )
+	EffectManager.spam = function spam(effectId, AID, position, tick, persistent)
 	{
 		var effects;
 		var i, count;
@@ -274,7 +275,7 @@ define(function( require )
 		}
 
 		effects = EffectDB[effectId];
-		tick    = tick || Renderer.tick;
+		tick = tick || Renderer.tick;
 
 		for (i = 0, count = effects.length; i < count; ++i) {
 			EffectManager.spamEffect(effects[i], AID, position, tick, persistent);
@@ -291,7 +292,7 @@ define(function( require )
 	 * @param {number} tick
 	 * @param {boolean} persistent
 	 */
-	EffectManager.spamEffect = function spamEffect( effect, AID, position, tick, persistent )
+	EffectManager.spamEffect = function spamEffect(effect, AID, position, tick, persistent)
 	{
 		var entity = EntityManager.get(AID);
 
@@ -303,20 +304,20 @@ define(function( require )
 		}
 
 		// Copy instead of get reference
-		position   = effect.attachedEntity ? position : [ position[0], position[1], position[2] ];
+		position = effect.attachedEntity ? position : [position[0], position[1], position[2]];
 		persistent = persistent || effect.repeat || false;
 
 		switch (effect.type) {
 			case 'SPR':
-				spamSprite( effect, AID, position, tick, persistent );
+				spamSprite(effect, AID, position, tick, persistent);
 				break;
 
 			case 'STR':
-				spamSTR( effect, AID, position, tick, persistent );
+				spamSTR(effect, AID, position, tick, persistent);
 				break;
 
 			case 'CYLINDER':
-				EffectManager.add(new Cylinder( position, effect.topSize, effect.bottomSize, effect.height, effect.textureName, tick), AID);
+				EffectManager.add(new Cylinder(position, effect.topSize, effect.bottomSize, effect.height, effect.textureName, tick), AID);
 				break;
 
 			case 'FUNC':
@@ -344,7 +345,7 @@ define(function( require )
 	 * @param {number} tick
 	 * @param {boolean} persistent
 	 */
-	function spamSTR( effect, AID, position, tick, persistent)
+	function spamSTR(effect, AID, position, tick, persistent)
 	{
 		var filename;
 
@@ -358,12 +359,13 @@ define(function( require )
 
 		// Randomize STR file name
 		if (effect.rand) {
-			filename = filename.replace('%d', Math.round(effect.rand[0] + (effect.rand[1]-effect.rand[0]) * Math.random()) );
+			filename = filename.replace('%d', Math.round(effect.rand[0] + (effect.rand[1] - effect.rand[0]) * Math.random()));
 		}
 
 		// Play sound
 		if (effect.wav) {
-			Events.setTimeout(function(){
+			Events.setTimeout(function ()
+			{
 				Sound.play(effect.wav + '.wav');
 			}, tick - Renderer.tick);
 		}
@@ -382,40 +384,41 @@ define(function( require )
 	 * @param {number} tick
 	 * @param {boolean} persistent
 	 */
-	function spamSprite( effect, AID, position, tick, persistent)
+	function spamSprite(effect, AID, position, tick, persistent)
 	{
 		var entity = EntityManager.get(AID);
 
 		if (!entity) {
-			entity            = new Entity();
-			entity.GID        = AID;
-			entity.position   = position;
+			entity = new Entity();
+			entity.GID = AID;
+			entity.position = position;
 			entity.objecttype = entity.constructor.TYPE_EFFECT;
 			EntityManager.add(entity);
 		}
 
 		else if (!effect.attachedEntity) {
-			entity            = new Entity();
-			entity.GID        = -1;
-			entity.position   = position;
+			entity = new Entity();
+			entity.GID = -1;
+			entity.position = position;
 			entity.objecttype = entity.constructor.TYPE_EFFECT;
 			EntityManager.add(entity);
 		}
 
 		// Play sound
 		if (effect.wav) {
-			Events.setTimeout(function(){
+			Events.setTimeout(function ()
+			{
 				Sound.play(effect.wav + '.wav');
 			}, tick - Renderer.tick);
 		}
 
 		// Sprite effect
 		entity.attachments.add({
-			file:           effect.file,
-			head:         !!effect.head,
-			direction:    !!effect.direction,
-			repeat:         persistent,
-			stopAtEnd:      effect.stopAtEnd
+			file: effect.file,
+			head: !!effect.head,
+			direction: !!effect.direction,
+			repeat: persistent,
+			stopAtEnd: effect.stopAtEnd
 		});
 	}
 
@@ -428,7 +431,7 @@ define(function( require )
 	 * @param {number} position y
 	 * @param {number} skill unique id
 	 */
-	EffectManager.spamSkillZone = function spamUnit( unit_id, xPos, yPos, uid )
+	EffectManager.spamSkillZone = function spamUnit(unit_id, xPos, yPos, uid)
 	{
 		var skillId, effectId;
 		var skill;
@@ -460,7 +463,7 @@ define(function( require )
 			return;
 		}
 
-		EffectManager.spam( effectId, uid, [ xPos, yPos, Altitude.getCellHeight( xPos, yPos) ], Renderer.tick, true);
+		EffectManager.spam(effectId, uid, [xPos, yPos, Altitude.getCellHeight(xPos, yPos)], Renderer.tick, true);
 	};
 
 
@@ -472,13 +475,13 @@ define(function( require )
 	 * @param {Array} position
 	 * @param {number} tick
 	 */
-	EffectManager.spamSkill = function spamSkill( skillId, AID, position, tick )
+	EffectManager.spamSkill = function spamSkill(skillId, AID, position, tick)
 	{
 		if (!(skillId in SkillEffect)) {
 			return;
 		}
 
-		EffectManager.spam( SkillEffect[skillId].effectId, AID, position, tick);
+		EffectManager.spam(SkillEffect[skillId].effectId, AID, position, tick);
 	};
 
 
@@ -489,14 +492,14 @@ define(function( require )
 	 * @param {number} target aid
 	 * @param {number} tick
 	 */
-	EffectManager.spamSkillHit = function spamSkillHit( skillId, AID, tick)
+	EffectManager.spamSkillHit = function spamSkillHit(skillId, AID, tick)
 	{
 		if (!(skillId in SkillEffect)) {
 			return;
 		}
 
 		if (SkillEffect[skillId].hitEffectId) {
-			EffectManager.spam( SkillEffect[skillId].hitEffectId, AID, null, tick);
+			EffectManager.spam(SkillEffect[skillId].hitEffectId, AID, null, tick);
 		}
 	};
 

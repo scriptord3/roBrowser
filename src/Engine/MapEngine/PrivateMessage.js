@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -16,11 +16,11 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var DB            = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Network       = require('Network/NetworkManager');
-	var PACKET        = require('Network/PacketStructure');
-	var ChatBox       = require('UI/Components/ChatBox/ChatBox');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
 
 
 	/**
@@ -28,9 +28,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.WHISPER
 	 */
-	function onPrivateMessage( pkt )
+	function onPrivateMessage(pkt)
 	{
-		ChatBox.addText('(From '+ pkt.sender +') : ' + pkt.msg.replace(/\|\d{2}/, ''), ChatBox.TYPE.PRIVATE );
+		ChatBox.addText('(From ' + pkt.sender + ') : ' + pkt.msg.replace(/\|\d{2}/, ''), ChatBox.TYPE.PRIVATE);
 	}
 
 
@@ -39,21 +39,21 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ACK_WHISPER
 	 */
-	function onPrivateMessageSent( pkt )
+	function onPrivateMessageSent(pkt)
 	{
 		// Official buggy feature
 		var user = ChatBox.PrivateMessageStorage.nick;
-		var msg  = ChatBox.PrivateMessageStorage.msg;
-		
+		var msg = ChatBox.PrivateMessageStorage.msg;
+
 		if (pkt.result === 0) {
-			ChatBox.addText( '(To '+ user +') : ' + msg, ChatBox.TYPE.PRIVATE );
+			ChatBox.addText('(To ' + user + ') : ' + msg, ChatBox.TYPE.PRIVATE);
 		}
 		else {
-			ChatBox.addText( '('+ user +') : ' + DB.getMessage(MsgStringIDs.MSI_YOU_THROW_MVPITEM + pkt.result),  ChatBox.TYPE.PRIVATE );
+			ChatBox.addText('(' + user + ') : ' + DB.getMessage(MsgStringIDs.MSI_YOU_THROW_MVPITEM + pkt.result), ChatBox.TYPE.PRIVATE);
 		}
-	
+
 		ChatBox.PrivateMessageStorage.nick = '';
-		ChatBox.PrivateMessageStorage.msg  = '';
+		ChatBox.PrivateMessageStorage.msg = '';
 	}
 
 
@@ -62,8 +62,8 @@ define(function( require )
 	 */
 	return function PrivateMessageEngine()
 	{
-		Network.hookPacket( PACKET.ZC.WHISPER,      onPrivateMessage );
-		Network.hookPacket( PACKET.ZC.ACK_WHISPER,  onPrivateMessageSent );
-		Network.hookPacket( PACKET.ZC.ACK_WHISPER2, onPrivateMessageSent );
+		Network.hookPacket(PACKET.ZC.WHISPER, onPrivateMessage);
+		Network.hookPacket(PACKET.ZC.ACK_WHISPER, onPrivateMessageSent);
+		Network.hookPacket(PACKET.ZC.ACK_WHISPER2, onPrivateMessageSent);
 	};
 });

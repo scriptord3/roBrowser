@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( ['Audio/SoundManager'], function( SoundManager )
+define(['Audio/SoundManager'], function (SoundManager)
 {
 	'use strict';
 
@@ -17,12 +17,12 @@ define( ['Audio/SoundManager'], function( SoundManager )
 	 */
 	function Sound()
 	{
-		this._lastActionId    = -1;
+		this._lastActionId = -1;
 		this._lastAnimationId = -1;
-		this._lastFileName    = null;
-		this._animCounter     = -1;
+		this._lastFileName = null;
+		this._animCounter = -1;
 
-		this.attackFile       = null;
+		this.attackFile = null;
 	}
 
 	/**
@@ -32,18 +32,18 @@ define( ['Audio/SoundManager'], function( SoundManager )
 	 * @param {number} action id
 	 * @param {number} animation id
 	 */
-	Sound.prototype.play = function play( fileName, action, animation )
+	Sound.prototype.play = function play(fileName, action, animation)
 	{
 		// Do not replay the sound if there is no updates
-		if (this._lastActionId    === action &&
+		if (this._lastActionId === action &&
 			this._lastAnimationId === animation &&
-			this._lastFileName    === fileName) {
+			this._lastFileName === fileName) {
 			return;
 		}
 
-		this._lastActionId    = action;
+		this._lastActionId = action;
 		this._lastAnimationId = animation;
-		this._lastFileName    = fileName;
+		this._lastFileName = fileName;
 
 		// Find Audio filename
 		if (fileName === 'atk') {
@@ -63,10 +63,10 @@ define( ['Audio/SoundManager'], function( SoundManager )
 	 */
 	Sound.prototype.free = function free()
 	{
-		this._lastActionId    = -1;
+		this._lastActionId = -1;
 		this._lastAnimationId = -1;
-		this._lastFileName    = null;
-		this._animCounter     = -1;
+		this._lastFileName = null;
+		this._animCounter = -1;
 	};
 
 

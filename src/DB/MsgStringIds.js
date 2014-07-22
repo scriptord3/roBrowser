@@ -7,7 +7,7 @@
  *
  * @author Scriptor
  */
- 
+
 define(function ()
 {
 	"use strict";

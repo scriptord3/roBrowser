@@ -7,7 +7,7 @@
  */
 
 define(['Core/Configs', 'Core/Context', 'Core/Preferences', 'Preferences/Audio', 'Preferences/Graphics'],
-function(     Configs,        Context,        Preferences,               Audio,               Graphics )
+function (Configs, Context, Preferences, Audio, Graphics)
 {
 	'use strict';
 
@@ -16,11 +16,11 @@ function(     Configs,        Context,        Preferences,               Audio, 
 	 * Preferences structure
 	 */
 	var _preferences = Preferences.get('Window', {
-		serverfile:  'clientinfo.xml',
-		serverlist:  [],
-		serverdef:   'serverfile',
-		save:        true
-	}, 1.1 );
+		serverfile: 'clientinfo.xml',
+		serverlist: [],
+		serverdef: 'serverfile',
+		save: true
+	}, 1.1);
 
 
 	/**
@@ -28,22 +28,22 @@ function(     Configs,        Context,        Preferences,               Audio, 
 	 *
 	 * @param {jQuery} ui
 	 */
-	function load( ui )
+	function load(ui)
 	{
 		if (Graphics.screensize === 'full' && !Context.isFullScreen()) {
 			Graphics.screensize = '800x600';
 		}
 
-		ui.find('.screensize').val( Graphics.screensize );
-		ui.find('.quality').val( Graphics.quality ).trigger('change');
+		ui.find('.screensize').val(Graphics.screensize);
+		ui.find('.quality').val(Graphics.quality).trigger('change');
 
-		ui.find('.serverdef').attr('checked', false );
+		ui.find('.serverdef').attr('checked', false);
 		ui.find('.cursor').attr('checked', Graphics.cursor);
-		ui.find('.serverdef[value="'+ _preferences.serverdef +'"]').attr('checked', 'true').trigger('click');
-		ui.find('.clientinfo').val( _preferences.serverfile );
-		
-		ui.find('.bgmvol').val( Audio.BGM.volume * 100 ).trigger('change');
-		ui.find('.soundvol').val( Audio.Sound.volume * 100 ).trigger('change');
+		ui.find('.serverdef[value="' + _preferences.serverdef + '"]').attr('checked', 'true').trigger('click');
+		ui.find('.clientinfo').val(_preferences.serverfile);
+
+		ui.find('.bgmvol').val(Audio.BGM.volume * 100).trigger('change');
+		ui.find('.soundvol').val(Audio.Sound.volume * 100).trigger('change');
 
 		if (!window.requestFileSystem && !window.webkitRequestFileSystem) {
 			Configs.set('saveFiles', false);
@@ -53,7 +53,7 @@ function(     Configs,        Context,        Preferences,               Audio, 
 			ui.find('.save').attr('disabled', 'disabled');
 		}
 		else {
-			ui.find('.save').attr('checked', _preferences.saveFiles ? 'checked' : false );
+			ui.find('.save').attr('checked', _preferences.saveFiles ? 'checked' : false);
 		}
 
 		var i, count;
@@ -63,11 +63,11 @@ function(     Configs,        Context,        Preferences,               Audio, 
 		for (i = 0, count = serverlist.length; i < count; ++i) {
 			$servers.append(
 				'<tr>' +
-				'	<td><input type="text" class="display" value="'+ serverlist[i].display +'"/></td>' +
-				'	<td><input type="text" class="address" value="'+ serverlist[i].address +':'+ serverlist[i].port +'"/></td>' +
-				'	<td><input type="text" class="version" value="'+ serverlist[i].version +'"/></td>' +
-				'	<td><input type="text" class="langtype" value="'+ serverlist[i].langtype +'"/></td>' +
-				'	<td><input type="text" class="packetver" value="'+ serverlist[i].packetver + '"/></td>' +
+				'	<td><input type="text" class="display" value="' + serverlist[i].display + '"/></td>' +
+				'	<td><input type="text" class="address" value="' + serverlist[i].address + ':' + serverlist[i].port + '"/></td>' +
+				'	<td><input type="text" class="version" value="' + serverlist[i].version + '"/></td>' +
+				'	<td><input type="text" class="langtype" value="' + serverlist[i].langtype + '"/></td>' +
+				'	<td><input type="text" class="packetver" value="' + serverlist[i].packetver + '"/></td>' +
 				'	<td><button class="btn_delete"></button></td>' +
 				'</tr>'
 			);
@@ -82,42 +82,42 @@ function(     Configs,        Context,        Preferences,               Audio, 
 	 *
 	 * @param {jQuery} ui
 	 */
-	function save( ui )
+	function save(ui)
 	{
-		Graphics.screensize    = ui.find('.screensize').val();
-		Graphics.quality       = ui.find('.quality').val();
-		Graphics.cursor        = ui.find('.cursor:checked').length ? true : false;
-		_preferences.saveFiles = ui.find('.save:checked').length   ? true : false;
+		Graphics.screensize = ui.find('.screensize').val();
+		Graphics.quality = ui.find('.quality').val();
+		Graphics.cursor = ui.find('.cursor:checked').length ? true : false;
+		_preferences.saveFiles = ui.find('.save:checked').length ? true : false;
 
 		var $servers = ui.find('.servers');
 		var i, count = $servers.find('tr').length;
 		var $server;
 
 		if (Configs.get('_serverEditMode')) {
-			_preferences.serverdef  = ui.find('.serverdef:checked').val();
+			_preferences.serverdef = ui.find('.serverdef:checked').val();
 			_preferences.serverfile = ui.find('.clientinfo').val();
 			_preferences.serverlist = [];
 
 			for (i = 0; i < count; ++i) {
-				$server = $servers.find('tr:eq('+ i +')');
+				$server = $servers.find('tr:eq(' + i + ')');
 				_preferences.serverlist.push({
-					display:   $server.find('.display').val(),
-					address:   $server.find('.address').val().split(':')[0],
-					port:      parseInt( $server.find('.address').val().split(':')[1], 10),
-					version:   $server.find('.version').val(),
-					langtype:  $server.find('.langtype').val(),
+					display: $server.find('.display').val(),
+					address: $server.find('.address').val().split(':')[0],
+					port: parseInt($server.find('.address').val().split(':')[1], 10),
+					version: $server.find('.version').val(),
+					langtype: $server.find('.langtype').val(),
 					packetver: $server.find('.packetver').val()
 				});
 			}
 		}
-		
-		Audio.BGM.volume    = ui.find('.bgmvol').val() / 100;
-		Audio.BGM.play      = Audio.BGM.volume > 0 ? true : false;
-		Audio.Sound.volume  = ui.find('.soundvol').val() / 100;
-		Audio.Sound.play    = Audio.Sound.volume > 0 ? true : false;
 
-        Audio.save();
-        Graphics.save();
+		Audio.BGM.volume = ui.find('.bgmvol').val() / 100;
+		Audio.BGM.play = Audio.BGM.volume > 0 ? true : false;
+		Audio.Sound.volume = ui.find('.soundvol').val() / 100;
+		Audio.Sound.play = Audio.Sound.volume > 0 ? true : false;
+
+		Audio.save();
+		Graphics.save();
 		_preferences.save();
 
 		apply();
@@ -149,23 +149,23 @@ function(     Configs,        Context,        Preferences,               Audio, 
 
 				// Only resize/move if needed
 				if (size[0] != window.innerWidth && size[1] != window.innerHeight) {
-					window.resizeTo( size[0], size[1] );
-					window.moveTo( (screen.availWidth - size[0]) / 2, (screen.availHeight - size[1]) / 2 );
+					window.resizeTo(size[0], size[1]);
+					window.moveTo((screen.availWidth - size[0]) / 2, (screen.availHeight - size[1]) / 2);
 				}
 			}
 		}
 
 		if (Configs.get('_serverEditMode')) {
 			if (_preferences.serverdef === 'serverlist') {
-				Configs.set('servers', _preferences.serverlist );
+				Configs.set('servers', _preferences.serverlist);
 			}
 			else {
-				Configs.set('servers', 'data/' + _preferences.serverfile );
+				Configs.set('servers', 'data/' + _preferences.serverfile);
 			}
 		}
 
 		Configs.set('saveFiles', _preferences.saveFiles);
-		Configs.set('quality',   Graphics.quality);
+		Configs.set('quality', Graphics.quality);
 	}
 
 

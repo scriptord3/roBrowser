@@ -9,7 +9,8 @@
  */
 
 // Errors Handler (hack)
-require.onError = function (err) {
+require.onError = function (err)
+{
 	'use strict';
 
 	if (require.defined('UI/Components/Error/Error')) {
@@ -17,7 +18,8 @@ require.onError = function (err) {
 		return;
 	}
 
-	require(['UI/Components/Error/Error'], function( Errors ){
+	require(['UI/Components/Error/Error'], function (Errors)
+	{
 		Errors.addTrace(err);
 	});
 };
@@ -26,7 +28,7 @@ require.onError = function (err) {
 require({
 	baseUrl: './src/',
 	paths: {
-		text:   'Vendors/text.require',
+		text: 'Vendors/text.require',
 		jquery: 'Vendors/jquery-1.9.1'
 	}
 },
@@ -38,7 +40,7 @@ require({
 	 'Controls/MouseEventHandler', 'Controls/MapControl',
 	 'UI/Components/Intro/Intro'],
 
-function(
+function (
 	Queue,
 	Configs, Client, Thread,
 	BGM,
@@ -46,7 +48,8 @@ function(
 	Renderer, MapRenderer, Camera, Altitude, Entity,
 	Mouse, MapControl,
 	Intro
-) {
+)
+{
 
 	'use strict';
 
@@ -77,21 +80,23 @@ function(
 		// Increase max intersection test (because of the max zoom)
 		Altitude.MAX_INTERSECT_COUNT = 500;
 
-		var ready     = false;
+		var ready = false;
 		var maptoload = '';
-		var q         = new Queue();
+		var q = new Queue();
 
 		// Resources sharing
 		if (Configs.get('API')) {
-			q.add(function(){
-				function onAPIMessage( event ) {
+			q.add(function ()
+			{
+				function onAPIMessage(event)
+				{
 					if (typeof event.data !== 'object') {
 						return;
 					}
 
 					switch (event.data.type) {
 						case 'init':
-							Thread.delegate( event.source, event.origin );
+							Thread.delegate(event.source, event.origin);
 							Thread.init();
 							Renderer.init();
 							q._next();
@@ -101,13 +106,13 @@ function(
 							MapRenderer.currentMap = '';
 
 							if (ready) {
-								MapRenderer.setMap(event.data.data.replace('data/',''));
+								MapRenderer.setMap(event.data.data.replace('data/', ''));
 							}
 							else {
-								maptoload = event.data.data.replace('data/','');
+								maptoload = event.data.data.replace('data/', '');
 							}
 							if (MapViewer.dropDown && MapViewer.dropDown.parentNode) {
-								document.body.removeChild( MapViewer.dropDown );
+								document.body.removeChild(MapViewer.dropDown);
 							}
 							event.stopPropagation();
 							break;
@@ -116,7 +121,7 @@ function(
 							var gl = Renderer.getContext();
 							MapRenderer.free();
 							Renderer.stop();
-							gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+							gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 							event.stopPropagation();
 							break;
 					}
@@ -126,25 +131,29 @@ function(
 			});
 		}
 
-		// Normal access
+			// Normal access
 		else {
 			// Waiting for the Thread to be ready
-			q.add(function(){
-				Thread.hook('THREAD_READY', q.next );
+			q.add(function ()
+			{
+				Thread.hook('THREAD_READY', q.next);
 				Thread.init();
 			});
-	
+
 			// Initialize renderer
-			q.add(function(){
+			q.add(function ()
+			{
 				Renderer.init();
 				q._next();
 			});
-	
+
 			// Start Intro, wait the user to add files
-			q.add(function(){
-				Intro.onFilesSubmit = function( files ) {
+			q.add(function ()
+			{
+				Intro.onFilesSubmit = function (files)
+				{
 					Client.onFilesLoaded = q.next;
-					Client.init( files );
+					Client.init(files);
 				};
 				Intro.append();
 			});
@@ -152,7 +161,8 @@ function(
 
 
 		// Start the MapViewer instance
-		q.add(function(){
+		q.add(function ()
+		{
 			Intro.remove();
 
 			MapRenderer.onLoad = MapViewer.onLoad;
@@ -160,32 +170,34 @@ function(
 
 			// Direct access from API
 			if (Configs.get('API')) {
-				ready     = true;
-				maptoload = maptoload || location.hash.substr(1).replace('data/','');
-				MapRenderer.setMap( maptoload );
+				ready = true;
+				maptoload = maptoload || location.hash.substr(1).replace('data/', '');
+				MapRenderer.setMap(maptoload);
 				return;
 			}
 
 			MapRenderer.setMap('guild_vs4.rsw');
 
 			// Initialize dropdown
-			Client.search(/data\\([^\0]+\.rsw)/gi, function( mapList ) {
+			Client.search(/data\\([^\0]+\.rsw)/gi, function (mapList)
+			{
 				var i, count;
 
 				mapList.sort();
 
 				MapViewer.dropDown = document.createElement('select');
-				MapViewer.dropDown.style.zIndex   = 50;
+				MapViewer.dropDown.style.zIndex = 50;
 				MapViewer.dropDown.style.position = 'relative';
 
 				for (i = 0, count = mapList.length; i < count; ++i) {
 					mapList[i] = mapList[i].substr(5); // Remove 'data\\' part
-					MapViewer.dropDown.add( new Option( mapList[i], mapList[i]), null );
+					MapViewer.dropDown.add(new Option(mapList[i], mapList[i]), null);
 				}
 
-				MapViewer.dropDown.onchange = function OnChange() {
-					MapRenderer.setMap( this.value );
-					document.body.removeChild( MapViewer.dropDown );
+				MapViewer.dropDown.onchange = function OnChange()
+				{
+					MapRenderer.setMap(this.value);
+					document.body.removeChild(MapViewer.dropDown);
 				};
 			});
 		});
@@ -198,23 +210,23 @@ function(
 	/**
 	 * Once map is ready to render
 	 */
-	MapViewer.onLoad = function()
+	MapViewer.onLoad = function ()
 	{
 		BGM.stop();
 
 		if (!Configs.get('API')) {
-			document.body.appendChild( MapViewer.dropDown );
+			document.body.appendChild(MapViewer.dropDown);
 		}
 
-		MapViewer.spot.position[0] = Altitude.width  >> 1;
+		MapViewer.spot.position[0] = Altitude.width >> 1;
 		MapViewer.spot.position[1] = Altitude.height >> 1;
-		MapViewer.spot.position[2] = Altitude.getCellHeight( MapViewer.spot.position[0], MapViewer.spot.position[1] );
+		MapViewer.spot.position[2] = Altitude.getCellHeight(MapViewer.spot.position[0], MapViewer.spot.position[1]);
 
-		Camera.setTarget( MapViewer.spot );
+		Camera.setTarget(MapViewer.spot);
 		Camera.init();
 
 		Camera.altitudeTo = -200;
-		Camera.zoomFinal  =  200;
+		Camera.zoomFinal = 200;
 	};
 
 
@@ -235,7 +247,7 @@ function(
 	 * Mouse up on canvas
 	 * Nothing to do here
 	 */
-	MapViewer.onMouseUp = function OnMouseUp(){};
+	MapViewer.onMouseUp = function OnMouseUp() { };
 
 
 	/**

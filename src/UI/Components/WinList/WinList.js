@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,19 +15,19 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var jQuery      = require('Utils/jquery');
-	var Renderer    = require('Renderer/Renderer');
-	var KEYS        = require('Controls/KeyEventHandler');
-	var UIManager   = require('UI/UIManager');
+	var jQuery = require('Utils/jquery');
+	var Renderer = require('Renderer/Renderer');
+	var KEYS = require('Controls/KeyEventHandler');
+	var UIManager = require('UI/UIManager');
 	var UIComponent = require('UI/UIComponent');
-	var htmlText    = require('text!./WinList.html');
-	var cssText     = require('text!./WinList.css');
+	var htmlText = require('text!./WinList.html');
+	var cssText = require('text!./WinList.css');
 
 
 	/**
 	 * Create WinList namespace
 	 */
-	var WinList = new UIComponent( 'WinList', htmlText, cssText );
+	var WinList = new UIComponent('WinList', htmlText, cssText);
 
 
 	/**
@@ -37,18 +37,18 @@ define(function(require)
 	{
 		// Show at center.
 		this.ui.css({
-			top: (Renderer.height - 280)/1.5,
-			left: (Renderer.width - 280)/2
+			top: (Renderer.height - 280) / 1.5,
+			left: (Renderer.width - 280) / 2
 		});
 		this.draggable();
 
 		this.ui_list = this.ui.find('.list:first');
-		this.list    = null;
-		this.index   = 0;
+		this.list = null;
+		this.index = 0;
 
 		// Click Events
-		this.ui.find('.ok').click( this.selectIndex.bind(this) );
-		this.ui.find('.cancel').click( this.exit.bind(this) );
+		this.ui.find('.ok').click(this.selectIndex.bind(this));
+		this.ui.find('.cancel').click(this.exit.bind(this));
 	};
 
 
@@ -57,7 +57,7 @@ define(function(require)
 	 *
 	 * @param {Array} list object to display
 	 */
-	WinList.setList = function setList( list )
+	WinList.setList = function setList(list)
 	{
 		var i, count;
 
@@ -70,14 +70,15 @@ define(function(require)
 					addClass('menu_node').
 					text(list[i]).
 					data('id', i).
-					mousedown(function(){
-						WinList.setIndex( jQuery(this).data('id') );
+					mousedown(function ()
+					{
+						WinList.setIndex(jQuery(this).data('id'));
 					}).
-					dblclick( this.selectIndex.bind(this) )
+					dblclick(this.selectIndex.bind(this))
 			);
 		}
 
-		this.setIndex( 0 );
+		this.setIndex(0);
 	};
 
 
@@ -93,8 +94,8 @@ define(function(require)
 	/**
 	 * Callback to use
 	 */
-	WinList.onExitRequest   = function onExitRequest(){};
-	WinList.onIndexSelected = function onIndexSelected(){};
+	WinList.onExitRequest = function onExitRequest() { };
+	WinList.onIndexSelected = function onIndexSelected() { };
 
 
 	/**
@@ -102,11 +103,11 @@ define(function(require)
 	 *
 	 * @param {number} id in list
 	 */
-	WinList.setIndex = function setIndex( id )
+	WinList.setIndex = function setIndex(id)
 	{
 		if (id > -1 && id < this.list.length) {
-			this.ui_list.find('div:eq('+ this.index +')').css('backgroundColor', 'transparent');
-			this.ui_list.find('div:eq('+ id +')').css('backgroundColor', '#cde0ff');
+			this.ui_list.find('div:eq(' + this.index + ')').css('backgroundColor', 'transparent');
+			this.ui_list.find('div:eq(' + id + ')').css('backgroundColor', '#cde0ff');
 			this.index = id;
 		}
 	};
@@ -117,7 +118,7 @@ define(function(require)
 	 */
 	WinList.selectIndex = function selectIndex()
 	{
-		this.onIndexSelected( this.index );
+		this.onIndexSelected(this.index);
 	};
 
 
@@ -126,14 +127,14 @@ define(function(require)
 	 *
 	 * @param {object} event
 	 */
-	WinList.onKeyDown = function onKeyDown( event )
+	WinList.onKeyDown = function onKeyDown(event)
 	{
 		switch (event.which) {
-			default:                                           return;
-			case KEYS.ENTER:  this.selectIndex();              break;
-			case KEYS.ESCAPE: this.exit();                     break;
-			case KEYS.UP:     this.setIndex( this.index - 1 ); break;
-			case KEYS.DOWN:   this.setIndex( this.index + 1 ); break;
+			default: return;
+			case KEYS.ENTER: this.selectIndex(); break;
+			case KEYS.ESCAPE: this.exit(); break;
+			case KEYS.UP: this.setIndex(this.index - 1); break;
+			case KEYS.DOWN: this.setIndex(this.index + 1); break;
 		}
 		event.stopImmediatePropagation();
 	};
@@ -145,7 +146,7 @@ define(function(require)
 	WinList.onRemove = function onRemove()
 	{
 		this.ui_list.empty();
-		this.list  = null;
+		this.list = null;
 		this.index = 0;
 	};
 

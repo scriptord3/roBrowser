@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -16,19 +16,19 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var DB                   = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Network              = require('Network/NetworkManager');
-	var PACKET               = require('Network/PacketStructure');
-	var Client               = require('Core/Client');
-	var Session              = require('Engine/SessionStorage');
-	var EntityManager        = require('Renderer/EntityManager');
-	var UIManager            = require('UI/UIManager');
-	var SlotMachine          = require('UI/Components/SlotMachine/SlotMachine');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var Client = require('Core/Client');
+	var Session = require('Engine/SessionStorage');
+	var EntityManager = require('Renderer/EntityManager');
+	var UIManager = require('UI/UIManager');
+	var SlotMachine = require('UI/Components/SlotMachine/SlotMachine');
 	var SkillTargetSelection = require('UI/Components/SkillTargetSelection/SkillTargetSelection');
-	var ItemSelection        = require('UI/Components/ItemSelection/ItemSelection');
-	var ChatBox              = require('UI/Components/ChatBox/ChatBox');
-	var PetInformations      = require('UI/Components/PetInformations/PetInformations');
+	var ItemSelection = require('UI/Components/ItemSelection/ItemSelection');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
+	var PetInformations = require('UI/Components/PetInformations/PetInformations');
 
 
 	/**
@@ -36,16 +36,18 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.START_CAPTURE
 	 */
-	function onStartCapture( pkt )
+	function onStartCapture(pkt)
 	{
-		var fakeSkill = { SKID:-10, level:0 };
+		var fakeSkill = { SKID: -10, level: 0 };
 
 		SkillTargetSelection.append();
-		SkillTargetSelection.set( fakeSkill, SkillTargetSelection.TYPE.PET, 'Capture Monster');
-		SkillTargetSelection.onPetSelected = function onPetSelected(gid){
+		SkillTargetSelection.set(fakeSkill, SkillTargetSelection.TYPE.PET, 'Capture Monster');
+		SkillTargetSelection.onPetSelected = function onPetSelected(gid)
+		{
 			SlotMachine.append();
-			SlotMachine.onTry = function onTry(){
-				var pkt       = new PACKET.CZ.TRYCAPTURE_MONSTER();
+			SlotMachine.onTry = function onTry()
+			{
+				var pkt = new PACKET.CZ.TRYCAPTURE_MONSTER();
 				pkt.targetAID = gid;
 				Network.sendPacket(pkt);
 			};
@@ -58,9 +60,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.TRYCAPTURE_MONSTER
 	 */
-	function onCaptureResult( pkt )
+	function onCaptureResult(pkt)
 	{
-		SlotMachine.setResult( pkt.result );
+		SlotMachine.setResult(pkt.result);
 	}
 
 
@@ -69,7 +71,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.PETEGG_LIST
 	 */
-	function onPetList( pkt )
+	function onPetList(pkt)
 	{
 		if (!pkt.eggList.length) {
 			return;
@@ -78,9 +80,10 @@ define(function( require )
 		ItemSelection.append();
 		ItemSelection.setList(pkt.eggList);
 		ItemSelection.setTitle(DB.getMessage(MsgStringIDs.MSI_PET_EGG_LIST));
-		ItemSelection.onIndexSelected = function(index) {
+		ItemSelection.onIndexSelected = function (index)
+		{
 			if (index > -1) {
-				var pkt   = new PACKET.CZ.SELECT_PETEGG();
+				var pkt = new PACKET.CZ.SELECT_PETEGG();
 				pkt.index = index;
 				Network.sendPacket(pkt);
 			}
@@ -93,10 +96,10 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.PROPERTY_PET
 	 */
-	function onPetInformation( pkt )
+	function onPetInformation(pkt)
 	{
 		PetInformations.append();
-		PetInformations.setInformations( pkt );
+		PetInformations.setInformations(pkt);
 	}
 
 
@@ -105,11 +108,11 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.FEED_PET
 	 */
-	function onFeedResult( pkt )
+	function onFeedResult(pkt)
 	{
 		// Fail to feed
 		if (!pkt.cRet) {
-			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_NOT_EXIST_PET_FOOD).replace('%s', DB.getItemInfo(pkt.ITID).identifiedDisplayName), ChatBox.TYPE.ERROR);
+			ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_NOT_EXIST_PET_FOOD).replace('%s', DB.getItemInfo(pkt.ITID).identifiedDisplayName), ChatBox.TYPE.ERROR);
 			return;
 		}
 
@@ -122,7 +125,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.CHANGESTATE_PET
 	 */
-	function onPetInformationUpdate( pkt )
+	function onPetInformationUpdate(pkt)
 	{
 		var entity = EntityManager.get(pkt.GID);
 		var path;
@@ -154,23 +157,23 @@ define(function( require )
 				}
 
 				if (path) {
-					Client.loadFile( path, function(){ entity.files.body.act = path; });
+					Client.loadFile(path, function () { entity.files.body.act = path; });
 				}
 				break;
 
 			case 4: /// 4 = performance (data = 1~3: normal, 4: special)
-				var action = [ entity.ACTION.PERF1, entity.ACTION.PERF2, entity.ACTION.PERF3, entity.ACTION.SPECIAL ];
+				var action = [entity.ACTION.PERF1, entity.ACTION.PERF2, entity.ACTION.PERF3, entity.ACTION.SPECIAL];
 				entity.setAction({
-					action: action[ (pkt.data-1 + action.length) % action.length ],
-					frame:  0,
+					action: action[(pkt.data - 1 + action.length) % action.length],
+					frame: 0,
 					repeat: false,
-					play:   true,
+					play: true,
 					next: {
 						action: entity.ACTION.IDLE,
-						frame:  0,
+						frame: 0,
 						repeat: true,
-						play:   true,
-						next:   false
+						play: true,
+						next: false
 					}
 				});
 				break;
@@ -186,7 +189,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.PET_ACT
 	 */
-	function onPetAction( pkt )
+	function onPetAction(pkt)
 	{
 		var entity = EntityManager.get(pkt.GID);
 		if (!entity) {
@@ -215,8 +218,9 @@ define(function( require )
 	PetInformations.reqPetFeed = function reqPetFeed()
 	{
 		// Are you sure you want to feed your pet ?
-		UIManager.showPromptBox(DB.getMessage(MsgStringIDs.MSI_SURE_TO_FEED_PET), 'ok', 'cancel', function(){
-			var pkt  = new PACKET.CZ.COMMAND_PET();
+		UIManager.showPromptBox(DB.getMessage(MsgStringIDs.MSI_SURE_TO_FEED_PET), 'ok', 'cancel', function ()
+		{
+			var pkt = new PACKET.CZ.COMMAND_PET();
 			pkt.cSub = 1;
 			Network.sendPacket(pkt);
 		});
@@ -228,7 +232,7 @@ define(function( require )
 	 */
 	PetInformations.reqPetAction = function reqPetAction()
 	{
-		var pkt  = new PACKET.CZ.COMMAND_PET();
+		var pkt = new PACKET.CZ.COMMAND_PET();
 		pkt.cSub = 2;
 		Network.sendPacket(pkt);
 	};
@@ -239,7 +243,7 @@ define(function( require )
 	 */
 	PetInformations.reqBackToEgg = function reqBackToEgg()
 	{
-		var pkt  = new PACKET.CZ.COMMAND_PET();
+		var pkt = new PACKET.CZ.COMMAND_PET();
 		pkt.cSub = 3;
 		Network.sendPacket(pkt);
 
@@ -252,7 +256,7 @@ define(function( require )
 	 */
 	PetInformations.reqUnEquipPet = function reqUnEquipPet()
 	{
-		var pkt  = new PACKET.CZ.COMMAND_PET();
+		var pkt = new PACKET.CZ.COMMAND_PET();
 		pkt.cSub = 4;
 		Network.sendPacket(pkt);
 	};
@@ -264,9 +268,9 @@ define(function( require )
 	 *
 	 * @param {string} new pet name
 	 */
-	PetInformations.reqNameEdit   = function reqNameEdit(name)
+	PetInformations.reqNameEdit = function reqNameEdit(name)
 	{
-		var pkt    = new PACKET.CZ.RENAME_PET();
+		var pkt = new PACKET.CZ.RENAME_PET();
 		pkt.szName = name;
 		Network.sendPacket(pkt);
 	};
@@ -282,12 +286,12 @@ define(function( require )
 	 */
 	return function NPCEngine()
 	{
-		Network.hookPacket( PACKET.ZC.START_CAPTURE,      onStartCapture);
-		Network.hookPacket( PACKET.ZC.TRYCAPTURE_MONSTER, onCaptureResult);
-		Network.hookPacket( PACKET.ZC.PETEGG_LIST,        onPetList);
-		Network.hookPacket( PACKET.ZC.PROPERTY_PET,       onPetInformation);
-		Network.hookPacket( PACKET.ZC.FEED_PET,           onFeedResult);
-		Network.hookPacket( PACKET.ZC.CHANGESTATE_PET,    onPetInformationUpdate);
-		Network.hookPacket( PACKET.ZC.PET_ACT,            onPetAction);
+		Network.hookPacket(PACKET.ZC.START_CAPTURE, onStartCapture);
+		Network.hookPacket(PACKET.ZC.TRYCAPTURE_MONSTER, onCaptureResult);
+		Network.hookPacket(PACKET.ZC.PETEGG_LIST, onPetList);
+		Network.hookPacket(PACKET.ZC.PROPERTY_PET, onPetInformation);
+		Network.hookPacket(PACKET.ZC.FEED_PET, onFeedResult);
+		Network.hookPacket(PACKET.ZC.CHANGESTATE_PET, onPetInformationUpdate);
+		Network.hookPacket(PACKET.ZC.PET_ACT, onPetAction);
 	};
 });

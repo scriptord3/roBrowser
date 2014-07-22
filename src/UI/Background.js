@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,7 +15,7 @@ define( function( require )
 	/**
 	 * Load dependencies
 	 */
-	var DB     = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var jQuery = require('Utils/jquery');
 	var Client = require('Core/Client');
 
@@ -30,7 +30,7 @@ define( function( require )
 	 * Background canvas element
 	 */
 	Background.canvas = jQuery('<canvas/>')
-		.css({ position: 'absolute', top: 0, left: 0, zIndex:5 });
+		.css({ position: 'absolute', top: 0, left: 0, zIndex: 5 });
 
 
 	/**
@@ -43,7 +43,7 @@ define( function( require )
 	 * Background overlay (used for transition)
 	 */
 	Background.overlay = jQuery('<div/>')
-		.css({ position: 'absolute', top: 0, left: 0, zIndex:1000, backgroundColor:'black', opacity:0 });
+		.css({ position: 'absolute', top: 0, left: 0, zIndex: 1000, backgroundColor: 'black', opacity: 0 });
 
 
 	/**
@@ -70,11 +70,11 @@ define( function( require )
 	 *
 	 * @param {Array} loading - Array of loading filenames stored in clientinfo.xml
 	 */
-	Background.init = function init( loading )
+	Background.init = function init(loading)
 	{
 		this.progress = 0;
 		this.resize();
-		Background.canvas.css('zIndex', 0 );
+		Background.canvas.css('zIndex', 0);
 
 		if (loading) {
 			this.loading = loading;
@@ -84,7 +84,7 @@ define( function( require )
 		// Generate default loadings
 		this.loading.length = 10;
 		for (var i = 1; i <= 10; ++i) {
-			this.loading[i-1] = 'loading' + ( i < 10 ? '0' + i : i ) + '.jpg';
+			this.loading[i - 1] = 'loading' + (i < 10 ? '0' + i : i) + '.jpg';
 		}
 	};
 
@@ -92,14 +92,14 @@ define( function( require )
 	/**
 	 * Resize the background
 	 */
-	Background.resize = function resize( width, height )
+	Background.resize = function resize(width, height)
 	{
-		this.canvas[0].width   = width;
-		this.canvas[0].height  = height;
-		this.overlay.css({ width:width, height:height });
+		this.canvas[0].width = width;
+		this.canvas[0].height = height;
+		this.overlay.css({ width: width, height: height });
 
 		this.ctx.fillStyle = 'black';
-		this.ctx.fillRect( 0, 0, width, height );
+		this.ctx.fillRect(0, 0, width, height);
 
 		this.render();
 	};
@@ -111,15 +111,15 @@ define( function( require )
 	Background.render = function render()
 	{
 		if (this.image.complete && this.image.width) {
-			this.ctx.drawImage( this.image, 0, 0, this.canvas[0].width, this.canvas[0].height );
+			this.ctx.drawImage(this.image, 0, 0, this.canvas[0].width, this.canvas[0].height);
 		}
 		else {
-			this.ctx.fillStyle='#000';
-			this.ctx.fillRect( 0, 0, this.canvas[0].width, this.canvas[0].height );
+			this.ctx.fillStyle = '#000';
+			this.ctx.fillRect(0, 0, this.canvas[0].width, this.canvas[0].height);
 		}
 
 		if (this.progress > -1) {
-			this.setPercent( this.progress );
+			this.setPercent(this.progress);
 		}
 	};
 
@@ -130,7 +130,7 @@ define( function( require )
 	 * @param {string} filename
 	 * @param {function} callback once the image is loaded (optional)
 	 */
-	Background.setImage = function setImage( filename, callback )
+	Background.setImage = function setImage(filename, callback)
 	{
 		var exist = !!this.canvas[0].parentNode;
 		this.progress = -1;
@@ -138,10 +138,12 @@ define( function( require )
 
 
 		// Get and load Image
-		Client.loadFile( DB.INTERFACE_PATH + filename, function(url) {
+		Client.loadFile(DB.INTERFACE_PATH + filename, function (url)
+		{
 			if (url !== Background.image.src) {
 				Background.image.src = url;
-				Background.image.onload  = function(){
+				Background.image.onload = function ()
+				{
 					Background.render();
 				};
 			}
@@ -149,7 +151,8 @@ define( function( require )
 			if (exist && callback) {
 				callback();
 			}
-		}, function(){
+		}, function ()
+		{
 			if (exist && callback) {
 				callback();
 			}
@@ -157,7 +160,8 @@ define( function( require )
 
 		// Add transition only if the background isn't here
 		if (!exist) {
-			this.transition(function(){
+			this.transition(function ()
+			{
 				Background.canvas.appendTo('body');
 				if (callback) {
 					callback();
@@ -172,12 +176,13 @@ define( function( require )
 	 *
 	 * @param {function} callback once the loading is display (optional)
 	 */
-	Background.setLoading = function setLoading( callback )
+	Background.setLoading = function setLoading(callback)
 	{
-		var index = Math.floor( Math.random() * Background.loading.length );
+		var index = Math.floor(Math.random() * Background.loading.length);
 
-		Background.setImage( Background.loading[index] || 'loading01.jpg', function() {
-			Background.canvas.css('zIndex', 999 );
+		Background.setImage(Background.loading[index] || 'loading01.jpg', function ()
+		{
+			Background.canvas.css('zIndex', 999);
 			Background.setPercent(0.0);
 
 			if (callback) {
@@ -192,10 +197,11 @@ define( function( require )
 	 *
 	 * @param {function} callback once the overlay hide the window (optional)
 	 */
-	Background.remove = function remove( callback )
+	Background.remove = function remove(callback)
 	{
-		this.transition(function(){
-			Background.canvas.css('zIndex', 0 );
+		this.transition(function ()
+		{
+			Background.canvas.css('zIndex', 0);
 			Background.canvas.remove();
 
 			if (callback) {
@@ -210,18 +216,20 @@ define( function( require )
 	 *
 	 * @param {function} callback once the overlay hide the window
 	 */
-	Background.transition = function transition( callback )
+	Background.transition = function transition(callback)
 	{
 		this.overlay
 			.stop()
-			.css( 'opacity', 0.01 )
+			.css('opacity', 0.01)
 			.appendTo('body')
-			.animate({ opacity: 1.0 }, 500, function(){
+			.animate({ opacity: 1.0 }, 500, function ()
+			{
 				callback();
 
 				Background.overlay
 					.stop()
-					.animate({ opacity: 0.01 }, 500, function(){
+					.animate({ opacity: 0.01 }, 500, function ()
+					{
 						Background.overlay.remove();
 					});
 			});
@@ -233,32 +241,32 @@ define( function( require )
 	 *
 	 * @param {number} percent
 	 */
-	Background.setPercent = function setPercent( percent )
+	Background.setPercent = function setPercent(percent)
 	{
 		var x, y, width, height;
 
-		this.progress = Math.min( Math.floor(percent), 100 );
+		this.progress = Math.min(Math.floor(percent), 100);
 
-		width         = 240;
-		height        = 15;
-		x             = Math.floor( ( this.canvas[0].width - width ) * 0.5 );
-		y             = Math.floor( this.canvas[0].height * 0.75 );
+		width = 240;
+		height = 15;
+		x = Math.floor((this.canvas[0].width - width) * 0.5);
+		y = Math.floor(this.canvas[0].height * 0.75);
 
 		// Draw Rectangle border
 		this.ctx.fillStyle = 'rgb(0,255,255)';
-		this.ctx.fillRect( x, y, width, height );
+		this.ctx.fillRect(x, y, width, height);
 
 		// Draw Rectangle "empty"
 		this.ctx.fillStyle = 'rgb(140,140,140)';
-		this.ctx.fillRect( x+1, y+1, width-2 , height-2 );
+		this.ctx.fillRect(x + 1, y + 1, width - 2, height - 2);
 
 		// Draw progressbar
 		this.ctx.fillStyle = 'rgb(66,99,165)';
-		this.ctx.fillRect( x+2, y+2, Math.floor( percent * (width-4) * 0.01 ), height-4 );
+		this.ctx.fillRect(x + 2, y + 2, Math.floor(percent * (width - 4) * 0.01), height - 4);
 
 		// Draw percent
 		this.ctx.fillStyle = 'rgb(255,255,0)';
-		this.ctx.fillText( percent + '%' ,  Math.floor( ( this.canvas[0].width - this.ctx.measureText( percent + '%' ).width ) * 0.5 ), y + 11  );
+		this.ctx.fillText(percent + '%', Math.floor((this.canvas[0].width - this.ctx.measureText(percent + '%').width) * 0.5), y + 11);
 	};
 
 

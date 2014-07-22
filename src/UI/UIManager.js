@@ -7,16 +7,16 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 	// Load dependencies
-	var jQuery      = require('Utils/jquery');
+	var jQuery = require('Utils/jquery');
 	var UIComponent = require('./UIComponent');
-	var KEYS        = require('Controls/KeyEventHandler');
-	var Renderer    = require('Renderer/Renderer');
-	var getModule   = require;
+	var KEYS = require('Controls/KeyEventHandler');
+	var Renderer = require('Renderer/Renderer');
+	var getModule = require;
 
 
 	/**
@@ -37,13 +37,13 @@ define(function( require )
 	 *
 	 * @param {UIComponent} component object
 	 */
-	UIManager.addComponent = function addComponent( component )
+	UIManager.addComponent = function addComponent(component)
 	{
 		if (!(component instanceof UIComponent)) {
 			throw new Error('UIManager::addComponent() - Invalid type of component');
 		}
 
-		this.components[ component.name ] = component;
+		this.components[component.name] = component;
 		return component;
 	};
 
@@ -54,13 +54,13 @@ define(function( require )
 	 * @param {string} component name
 	 * @return {UIComponent} object
 	 */
-	UIManager.getComponent = function getComponent( name )
+	UIManager.getComponent = function getComponent(name)
 	{
 		if (!(name in this.components)) {
 			throw new Error('UIManager.getComponent() - Component "' + name + '" not found');
 		}
 
-		return this.components[name] ;
+		return this.components[name];
 	};
 
 
@@ -73,7 +73,7 @@ define(function( require )
 		var i, count = keys.length;
 
 		for (i = 0; i < count; ++i) {
-			this.components[ keys[i] ].remove();
+			this.components[keys[i]].remove();
 		}
 	};
 
@@ -85,7 +85,7 @@ define(function( require )
 	 * @param {number} Game screen width
 	 * @param {number} Game screen height
 	 */
-	UIManager.fixResizeOverflow = function fixResizeOverflow( WIDTH, HEIGHT)
+	UIManager.fixResizeOverflow = function fixResizeOverflow(WIDTH, HEIGHT)
 	{
 		var keys = Object.keys(this.components);
 		var i, count = keys.length;
@@ -93,12 +93,12 @@ define(function( require )
 		var x, y, width, height;
 
 		for (i = 0; i < count; ++i) {
-			ui = this.components[ keys[i] ].ui;
+			ui = this.components[keys[i]].ui;
 
 			if (ui) {
-				x      = parseInt(ui.css('left'), 10);
-				y      = parseInt(ui.css('top'), 10);
-				width  = parseInt(ui.css('width'), 10);
+				x = parseInt(ui.css('left'), 10);
+				y = parseInt(ui.css('top'), 10);
+				width = parseInt(ui.css('width'), 10);
 				height = parseInt(ui.css('height'), 10);
 
 				if (y + height > HEIGHT && HEIGHT > height) {
@@ -119,22 +119,22 @@ define(function( require )
 	 *
 	 * @param {string} error message
 	 */
-	UIManager.showErrorBox = function showErrorBox( text )
+	UIManager.showErrorBox = function showErrorBox(text)
 	{
 		var WinError, overlay;
-	
+
 		// Create popup
 		WinError = this.getComponent('WinPopup').clone('WinError');
 		WinError.init = function Init()
 		{
 			this.ui.find('.text').text(text);
 			this.ui.css({
-				top:  (Renderer.height-120) / 1.5 - 120,
-				left: (Renderer.width -280) / 2.0,
+				top: (Renderer.height - 120) / 1.5 - 120,
+				left: (Renderer.width - 280) / 2.0,
 				zIndex: 100
 			});
 		};
-		WinError.onKeyDown = function OnKeyDown( event )
+		WinError.onKeyDown = function OnKeyDown(event)
 		{
 			event.stopImmediatePropagation();
 			switch (event.which) {
@@ -149,11 +149,12 @@ define(function( require )
 		// Add overlay (to block mouseover, click, etc.)
 		overlay = jQuery('<div/>').addClass('win_popup_overlay');
 		overlay.appendTo('body');
-	
+
 		// Push the event to the top, stopImmediatePropagation will block every key down event.
-		WinError.onAppend = function() {
-			var events = jQuery._data( window, 'events').keydown;
-			events.unshift( events.pop() );
+		WinError.onAppend = function ()
+		{
+			var events = jQuery._data(window, 'events').keydown;
+			events.unshift(events.pop());
 		};
 
 		WinError.append();
@@ -169,7 +170,7 @@ define(function( require )
 	 * @param {string} button name
 	 * @param {function} callback once the button is pressed
 	 */
-	UIManager.showMessageBox = function showMessageBox( text, btn_name, callback, keydown )
+	UIManager.showMessageBox = function showMessageBox(text, btn_name, callback, keydown)
 	{
 		var WinMSG;
 
@@ -180,8 +181,8 @@ define(function( require )
 			this.draggable();
 			this.ui.find('.text').text(text);
 			this.ui.css({
-				top:  (Renderer.height-120) / 1.5 - 120,
-				left: (Renderer.width -280) / 2.0,
+				top: (Renderer.height - 120) / 1.5 - 120,
+				left: (Renderer.width - 280) / 2.0,
 				zIndex: 100
 			});
 
@@ -191,15 +192,16 @@ define(function( require )
 					jQuery('<button/>').
 						addClass('btn').
 						data('background', 'btn_' + btn_name + '.bmp').
-						data('hover',      'btn_' + btn_name + '_a.bmp').
-						data('down',       'btn_' + btn_name + '_b.bmp').
-						one('click', function(){
+						data('hover', 'btn_' + btn_name + '_a.bmp').
+						data('down', 'btn_' + btn_name + '_b.bmp').
+						one('click', function ()
+						{
 							WinMSG.remove();
 							if (callback) {
 								callback();
 							}
 						}).
-						each( this.parseHTML )
+						each(this.parseHTML)
 				);
 			}
 		};
@@ -207,7 +209,8 @@ define(function( require )
 
 		// Just keydown
 		if (!btn_name || keydown) {
-			WinMSG.onKeyDown = function(event){
+			WinMSG.onKeyDown = function (event)
+			{
 				switch (event.which) {
 					case KEYS.ENTER:
 					case KEYS.ESCAPE:
@@ -220,9 +223,10 @@ define(function( require )
 			};
 
 			// Push the event to the top, stopImmediatePropagation will block every key down.
-			WinMSG.onAppend = function() {
-				var events = jQuery._data( window, 'events').keydown;
-				events.unshift( events.pop() );
+			WinMSG.onAppend = function ()
+			{
+				var events = jQuery._data(window, 'events').keydown;
+				events.unshift(events.pop());
 			};
 		}
 
@@ -241,18 +245,18 @@ define(function( require )
 	 * @param {function} callback when ok is pressed
 	 * @param {function} callback when cancel is pressed
 	 */
-	UIManager.showPromptBox = function showPromptBox( text, btn_yes, btn_no, onYes, onNo )
+	UIManager.showPromptBox = function showPromptBox(text, btn_yes, btn_no, onYes, onNo)
 	{
 		var WinPrompt;
-	
+
 		WinPrompt = this.getComponent('WinPopup').clone('WinPrompt');
 		WinPrompt.init = function Init()
 		{
 			this.draggable();
 			this.ui.find('.text').text(text);
 			this.ui.css({
-				top:  (Renderer.height-120) / 1.5 - 120,
-				left: (Renderer.width -280) / 2.0,
+				top: (Renderer.height - 120) / 1.5 - 120,
+				left: (Renderer.width - 280) / 2.0,
 				zIndex: 100
 			});
 			this.ui.find('.btns').append(
@@ -260,28 +264,30 @@ define(function( require )
 				jQuery('<button/>').
 					addClass('btn').
 					data('background', 'btn_' + btn_yes + '.bmp').
-					data('hover',      'btn_' + btn_yes + '_a.bmp').
-					data('down',       'btn_' + btn_yes + '_b.bmp').
-					one('click',function(){
+					data('hover', 'btn_' + btn_yes + '_a.bmp').
+					data('down', 'btn_' + btn_yes + '_b.bmp').
+					one('click', function ()
+					{
 						WinPrompt.remove();
 						if (onYes) {
 							onYes();
 						}
 					}).
-					each( this.parseHTML ),
+					each(this.parseHTML),
 
 				jQuery('<button/>').
 					addClass('btn').
 					data('background', 'btn_' + btn_no + '.bmp').
-					data('hover',      'btn_' + btn_no + '_a.bmp').
-					data('down',       'btn_' + btn_no + '_b.bmp').
-					one('click',function(){
+					data('hover', 'btn_' + btn_no + '_a.bmp').
+					data('down', 'btn_' + btn_no + '_b.bmp').
+					one('click', function ()
+					{
 						WinPrompt.remove();
 						if (onNo) {
 							onNo();
 						}
 					}).
-					each( this.parseHTML )
+					each(this.parseHTML)
 			);
 
 		};

@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( ['Core/Preferences'], function( Preferences )
+define(['Core/Preferences'], function (Preferences)
 {
 	'use strict';
 
@@ -15,8 +15,8 @@ define( ['Core/Preferences'], function( Preferences )
 	/**
 	 * Export
 	 */
-	return Preferences.get( 'Camera', {
-		smooth:  true,
-		zoom:    50.0
-	}, 1.1 );
+	return Preferences.get('Camera', {
+		smooth: true,
+		zoom: 50.0
+	}, 1.1);
 });

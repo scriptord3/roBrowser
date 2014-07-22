@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -20,9 +20,9 @@ define(function()
 	 * Get Informations about current Context
 	 */
 	Context.Is = {
-		APP:   !!(window.chrome && window.chrome.app && window.chrome.app.window),
+		APP: !!(window.chrome && window.chrome.app && window.chrome.app.window),
 		POPUP: !!(window.opener),
-		FRAME:    window.top !== window.self
+		FRAME: window.top !== window.self
 	};
 
 
@@ -36,7 +36,7 @@ define(function()
 			document.fullscreenElement ||
 			document.mozFullScreenElement ||
 			document.webkitFullscreenElement ||
-			( Context.Is.APP && window.chrome.app.window.current().isFullscreen() )
+			(Context.Is.APP && window.chrome.app.window.current().isFullscreen())
 		);
 	};
 
@@ -117,8 +117,8 @@ define(function()
 		}
 
 		element = document.createElement('canvas');
-		try { gl = element.getContext('webgl'); } catch(e){}
-		try { gl = gl || element.getContext('experimental-webgl'); } catch(e){}
+		try { gl = element.getContext('webgl'); } catch (e) { }
+		try { gl = gl || element.getContext('experimental-webgl'); } catch (e) { }
 
 		if (!gl) {
 			throw 'Your web browser OR your Graphics Card OR Drivers need to be update, it does not support 3D graphics.\nFor more informations check <a href="http://get.webgl.org/" target="_blank">get.webgl.org</a>';

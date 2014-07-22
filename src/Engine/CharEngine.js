@@ -9,29 +9,29 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load modules
-	var jQuery     = require('Utils/jquery');
-	var DB         = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Events     = require('Core/Events');
-	var Sound      = require('Audio/SoundManager');
-	var BGM        = require('Audio/BGM');
-	var Session    = require('Engine/SessionStorage');
-	var MapEngine  = require('Engine/MapEngine');
-	var Network    = require('Network/NetworkManager');
-	var PACKET     = require('Network/PacketStructure');
-	var PACKETVER  = require('Network/PacketVerManager');
-	var UIManager  = require('UI/UIManager');
+	var Events = require('Core/Events');
+	var Sound = require('Audio/SoundManager');
+	var BGM = require('Audio/BGM');
+	var Session = require('Engine/SessionStorage');
+	var MapEngine = require('Engine/MapEngine');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var PACKETVER = require('Network/PacketVerManager');
+	var UIManager = require('UI/UIManager');
 	var Background = require('UI/Background');
 	var CharSelect = require('UI/Components/CharSelect/CharSelect');
 	var CharCreate = require('UI/Components/CharCreate/CharCreate');
-	var InputBox   = require('UI/Components/InputBox/InputBox');
-	var getModule  = require;
+	var InputBox = require('UI/Components/InputBox/InputBox');
+	var getModule = require;
 
 
 	/**
@@ -49,7 +49,7 @@ define(function( require )
 	/*
 	 * Connect to char server
 	 */
-	function init( server )
+	function init(server)
 	{
 		BGM.play('01.mp3');
 
@@ -57,40 +57,42 @@ define(function( require )
 		_server = server;
 
 		// Connect to char server
-		Network.connect( Network.utils.longToIP( server.ip ), server.port, function( success ){
+		Network.connect(Network.utils.longToIP(server.ip), server.port, function (success)
+		{
 
 			// Fail to connect...
 			if (!success) {
-				UIManager.showErrorBox( DB.getMessage(MsgStringIDs.MSI_SERVER_CONNECTION_FAILED) );
+				UIManager.showErrorBox(DB.getMessage(MsgStringIDs.MSI_SERVER_CONNECTION_FAILED));
 				return;
 			}
 
 			// Success, try to connect
-			var pkt        = new PACKET.CH.ENTER();
-			pkt.AID        = Session.AID;
-			pkt.AuthCode   = Session.AuthCode;
-			pkt.userLevel  = Session.UserLevel;
-			pkt.Sex        = Session.Sex;
+			var pkt = new PACKET.CH.ENTER();
+			pkt.AID = Session.AID;
+			pkt.AuthCode = Session.AuthCode;
+			pkt.userLevel = Session.UserLevel;
+			pkt.Sex = Session.Sex;
 			pkt.clientType = Session.LangType;
 			Network.sendPacket(pkt);
 
 			// Server send back (new) AID
-			Network.read(function(fp){
+			Network.read(function (fp)
+			{
 				Session.AID = fp.readLong();
 			});
 		});
 
 		// Hook packets
-		Network.hookPacket( PACKET.HC.ACCEPT_ENTER_NEO_UNION,        onConnectionAccepted );
-		Network.hookPacket( PACKET.HC.REFUSE_ENTER,                  onConnectionRefused );
-		Network.hookPacket( PACKET.HC.ACCEPT_MAKECHAR_NEO_UNION,     onCreationSuccess );
-		Network.hookPacket( PACKET.HC.REFUSE_MAKECHAR,               onCreationFail );
-		Network.hookPacket( PACKET.HC.ACCEPT_DELETECHAR,             onDeleteAnswer );
-		Network.hookPacket( PACKET.HC.REFUSE_DELETECHAR,             onDeleteAnswer );
-		Network.hookPacket( PACKET.HC.NOTIFY_ZONESVR,                onReceiveMapInfo );
-		Network.hookPacket( PACKET.HC.ACCEPT_ENTER_NEO_UNION_HEADER, onConnectionAccepted );
-		Network.hookPacket( PACKET.HC.ACCEPT_ENTER_NEO_UNION_LIST,   onConnectionAccepted );
-		Network.hookPacket( PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME,     onMapUnavailable);
+		Network.hookPacket(PACKET.HC.ACCEPT_ENTER_NEO_UNION, onConnectionAccepted);
+		Network.hookPacket(PACKET.HC.REFUSE_ENTER, onConnectionRefused);
+		Network.hookPacket(PACKET.HC.ACCEPT_MAKECHAR_NEO_UNION, onCreationSuccess);
+		Network.hookPacket(PACKET.HC.REFUSE_MAKECHAR, onCreationFail);
+		Network.hookPacket(PACKET.HC.ACCEPT_DELETECHAR, onDeleteAnswer);
+		Network.hookPacket(PACKET.HC.REFUSE_DELETECHAR, onDeleteAnswer);
+		Network.hookPacket(PACKET.HC.NOTIFY_ZONESVR, onReceiveMapInfo);
+		Network.hookPacket(PACKET.HC.ACCEPT_ENTER_NEO_UNION_HEADER, onConnectionAccepted);
+		Network.hookPacket(PACKET.HC.ACCEPT_ENTER_NEO_UNION_LIST, onConnectionAccepted);
+		Network.hookPacket(PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME, onMapUnavailable);
 	}
 
 
@@ -100,9 +102,10 @@ define(function( require )
 	function reload()
 	{
 		Network.close();
-		Background.setImage( 'bgi_temp.bmp', function() {
+		Background.setImage('bgi_temp.bmp', function ()
+		{
 			UIManager.removeComponents();
-			init( _server );
+			init(_server);
 		});
 	}
 
@@ -122,26 +125,27 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.HC.ACCEPT_ENTER_NEO_UNION
 	 */
-	function onConnectionAccepted( pkt )
+	function onConnectionAccepted(pkt)
 	{
 		pkt.sex = Session.Sex;
 
 		// Start sending ping
 		var ping = new PACKET.CZ.PING();
 		ping.AID = Session.AID;
-		Network.setPing(function(){
+		Network.setPing(function ()
+		{
 			Network.sendPacket(ping);
 		});
 
 		UIManager.getComponent('WinLoading').remove();
 
 		// Initialize window
-		CharSelect.onExitRequest    = onExitRequest;
+		CharSelect.onExitRequest = onExitRequest;
 		CharSelect.onConnectRequest = onConnectRequest;
-		CharSelect.onCreateRequest  = onCreateRequest;
-		CharSelect.onDeleteRequest  = onDeleteRequest;
+		CharSelect.onCreateRequest = onCreateRequest;
+		CharSelect.onDeleteRequest = onDeleteRequest;
 		CharSelect.append();
-		CharSelect.setInfo( pkt );
+		CharSelect.setInfo(pkt);
 	}
 
 
@@ -150,17 +154,17 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.HC.REFUSE_ENTER
 	 */
-	function onConnectionRefused( pkt )
+	function onConnectionRefused(pkt)
 	{
 		var msg_id;
 
 		switch (pkt.ErrorCode) {
 			default:
-		    	case 0: msg_id = MsgStringIDs.MSI_BANNED; break;
-			// other types ?
+			case 0: msg_id = MsgStringIDs.MSI_BANNED; break;
+				// other types ?
 		}
 
-		UIManager.showErrorBox( DB.getMessage(msg_id) );
+		UIManager.showErrorBox(DB.getMessage(msg_id));
 	}
 
 
@@ -169,10 +173,11 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME
 	 */
-	function onMapUnavailable( pkt )
+	function onMapUnavailable(pkt)
 	{
 		// no map server avaiable
-		UIManager.showMessageBox( DB.getMessage(MsgStringIDs.MSI_NOT_EXIST_ENTRYMAP), null, function(){
+		UIManager.showMessageBox(DB.getMessage(MsgStringIDs.MSI_NOT_EXIST_ENTRYMAP), null, function ()
+		{
 			UIManager.getComponent('WinLoading').remove();
 			CharSelect.append();
 		});
@@ -184,7 +189,7 @@ define(function( require )
 	 *
 	 * @param {number} charID - Character ID
 	 */
-	function onDeleteRequest( charID )
+	function onDeleteRequest(charID)
 	{
 		var _ui_box;
 		var _email;
@@ -195,7 +200,8 @@ define(function( require )
 		var _TimeOut;
 
 		// Delete the character
-		function deleteCharacter() {
+		function deleteCharacter()
+		{
 			var pkt = new PACKET.CH.DELETE_CHAR();
 			pkt.GID = charID;
 			pkt.key = _email;
@@ -203,61 +209,66 @@ define(function( require )
 		}
 
 		// Cancel the prompt
-		function onCancel() {
+		function onCancel()
+		{
 			InputBox.remove();
 			_ui_box.remove();
 			_overlay.detach();
 			Events.clearTimeout(_TimeOut);
-			onDeleteAnswer({ ErrorCode: -2});
+			onDeleteAnswer({ ErrorCode: -2 });
 		}
 
 		// Ask the mail
-		function onOk(){
+		function onOk()
+		{
 			InputBox.append();
 			InputBox.setType('mail', true);
-			InputBox.ui.css('zIndex',101);
+			InputBox.ui.css('zIndex', 101);
 			InputBox.onSubmitRequest = onSubmit;
 			_ui_box.append(); // don't remove message box
 		}
 
 		// Display prompt message
-		_ui_box  = UIManager.showPromptBox( DB.getMessage(MsgStringIDs.MSI_DELETE_CHARACTER), 'ok', 'cancel', onOk, onCancel);
+		_ui_box = UIManager.showPromptBox(DB.getMessage(MsgStringIDs.MSI_DELETE_CHARACTER), 'ok', 'cancel', onOk, onCancel);
 		_overlay = jQuery('<div/>').addClass('win_popup_overlay').appendTo('body');
 
 		// Submit the mail
-		function onSubmit(email){
+		function onSubmit(email)
+		{
 			_email = email;
 			InputBox.remove();
 			_ui_box.remove();
 
 			// Stop rendering...
-			_ui_box = UIManager.showMessageBox( DB.getMessage(MsgStringIDs.MSI_CHARARATER_DELETE_COUNT).replace('%d',10), 'cancel', function(){
+			_ui_box = UIManager.showMessageBox(DB.getMessage(MsgStringIDs.MSI_CHARARATER_DELETE_COUNT).replace('%d', 10), 'cancel', function ()
+			{
 				_render = false;
 				onCancel();
 			});
 
 			// Build canvas
 			_canvas = document.createElement('canvas');
-			_ctx    = _canvas.getContext('2d');
-			_width  = _canvas.width  = 240;
+			_ctx = _canvas.getContext('2d');
+			_width = _canvas.width = 240;
 			_height = _canvas.height = 15;
-			_canvas.style.marginTop  = '10px';
+			_canvas.style.marginTop = '10px';
 			_canvas.style.marginLeft = '20px';
 			_ui_box.ui.append(_canvas);
 
 			// Parameter
 			_time_end = Date.now() + 10000;
-			_render  = true;
+			_render = true;
 
 			// Start the timing
 			render();
 		}
 
 		// Rendering
-		function render() {
+		function render()
+		{
 			// Calculate percent
 			var time_left = _time_end - Date.now();
-			var percent   =  Math.round( 100 - time_left / 100 );
+			var percent = Math.round(100 - time_left / 100);
 
 			// Delete character
 			if (percent >= 100) {
@@ -268,20 +279,20 @@ define(function( require )
 			}
 
 			// Update text
-			_ui_box.ui.find('.text').text( DB.getMessage(MsgStringIDs.MSI_CHARARATER_DELETE_COUNT).replace('%d', Math.round(10-percent/10) ) );
+			_ui_box.ui.find('.text').text(DB.getMessage(MsgStringIDs.MSI_CHARARATER_DELETE_COUNT).replace('%d', Math.round(10 - percent / 10)));
 
 			// Update progressbar
 			_ctx.clearRect(0, 0, _width, _height);
 			_ctx.fillStyle = 'rgb(0,255,255)';
-			_ctx.fillRect( 0, 0, _width, _height );
+			_ctx.fillRect(0, 0, _width, _height);
 			_ctx.fillStyle = 'rgb(140,140,140)';
-			_ctx.fillRect( 1, 1, _width-2 , _height-2 );
+			_ctx.fillRect(1, 1, _width - 2, _height - 2);
 			_ctx.fillStyle = 'rgb(66,99,165)';
-			_ctx.fillRect( 2, 2, Math.round(percent*(_width-4)/100) , _height-4 );
+			_ctx.fillRect(2, 2, Math.round(percent * (_width - 4) / 100), _height - 4);
 			_ctx.fillStyle = 'rgb(255,255,0)';
-			_ctx.fillText( percent + '%' ,  ( _width - _ctx.measureText( percent+'%').width ) * 0.5 , 12  );
+			_ctx.fillText(percent + '%', (_width - _ctx.measureText(percent + '%').width) * 0.5, 12);
 
-			_TimeOut = Events.setTimeout( render, 30);
+			_TimeOut = Events.setTimeout(render, 30);
 		}
 	}
 
@@ -293,7 +304,7 @@ define(function( require )
 	 */
 	function onDeleteAnswer(pkt)
 	{
-		var result = typeof( pkt.ErrorCode ) === 'undefined' ? -1 : pkt.ErrorCode;
+		var result = typeof (pkt.ErrorCode) === 'undefined' ? -1 : pkt.ErrorCode;
 		CharSelect.deleteAnswer(result);
 	}
 
@@ -303,13 +314,14 @@ define(function( require )
 	 *
 	 * @param {number} index - slot where to create character
 	 */
-	function onCreateRequest( index )
+	function onCreateRequest(index)
 	{
 		_creationSlot = index;
 		CharSelect.remove();
-		CharCreate.setAccountSex( Session.Sex );
+		CharCreate.setAccountSex(Session.Sex);
 		CharCreate.onCharCreationRequest = onCharCreationRequest;
-		CharCreate.onExitRequest = function(){
+		CharCreate.onExitRequest = function ()
+		{
 			CharCreate.remove();
 			CharSelect.append();
 		};
@@ -330,26 +342,26 @@ define(function( require )
 	 * @param {number} hair - hair style
 	 * @param {number} color - hair color
 	 */
-	function onCharCreationRequest( name, Str, Agi, Vit, Int, Dex, Luk, hair, color )
+	function onCharCreationRequest(name, Str, Agi, Vit, Int, Dex, Luk, hair, color)
 	{
 		var pkt;
 
 		// Old Packet required stats
 		if (PACKETVER.min < 20120307) {
 			pkt = new PACKET.CH.MAKE_CHAR();
-			pkt.Str  = Str;
-			pkt.Agi  = Agi;
-			pkt.Vit  = Vit;
-			pkt.Int  = Int;
-			pkt.Dex  = Dex;
-			pkt.Luk  = Luk;
+			pkt.Str = Str;
+			pkt.Agi = Agi;
+			pkt.Vit = Vit;
+			pkt.Int = Int;
+			pkt.Dex = Dex;
+			pkt.Luk = Luk;
 		}
 		else {
 			pkt = new PACKET.CH.MAKE_CHAR2();
 		}
 
-		pkt.name    = name;
-		pkt.head    = hair;
+		pkt.name = name;
+		pkt.head = hair;
 		pkt.headPal = color;
 		pkt.CharNum = _creationSlot;
 
@@ -362,10 +374,10 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.HC.ACCEPT_MAKECHAR_NEO_UNION
 	 */
-	function onCreationSuccess( pkt )
+	function onCreationSuccess(pkt)
 	{
 		CharCreate.remove();
-		CharSelect.addCharacter( pkt.charinfo );
+		CharSelect.addCharacter(pkt.charinfo);
 		CharSelect.append();
 	}
 
@@ -375,20 +387,20 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.HC.REFUSE_MAKECHAR
 	 */
-	function onCreationFail( pkt )
+	function onCreationFail(pkt)
 	{
 		var msg_id;
 
 		switch (pkt.ErrorCode) {
-			case 0x00: msg_id =   MsgStringIDs.MSI_CHARACTER_NAME_ALREADY_EXISTS;  break; // 'Charname already exists'
-			case 0x01: msg_id =  MsgStringIDs.MSI_LIMIT_AGE;  break; // 'You are underaged'
-			case 0x02: msg_id = MsgStringIDs.MSI_LIMIT_CHAR_DELETE;  break; // 'Symbols in Character Names are forbidden'
-			case 0x03: msg_id = MsgStringIDs.MSI_FR_ERR_MKCHAR_INVALID_SLOT;  break; // 'You are not elegible to open the Character Slot.'
+			case 0x00: msg_id = MsgStringIDs.MSI_CHARACTER_NAME_ALREADY_EXISTS; break; // 'Charname already exists'
+			case 0x01: msg_id = MsgStringIDs.MSI_LIMIT_AGE; break; // 'You are underaged'
+			case 0x02: msg_id = MsgStringIDs.MSI_LIMIT_CHAR_DELETE; break; // 'Symbols in Character Names are forbidden'
+			case 0x03: msg_id = MsgStringIDs.MSI_FR_ERR_MKCHAR_INVALID_SLOT; break; // 'You are not elegible to open the Character Slot.'
 			default:
-		    	case 0xFF: msg_id = MsgStringIDs.MSI_CHARACTER_CREATION_DENIED; break; // 'Char creation denied'
+			case 0xFF: msg_id = MsgStringIDs.MSI_CHARACTER_CREATION_DENIED; break; // 'Char creation denied'
 		}
 
-		UIManager.showMessageBox( DB.getMessage(msg_id), 'ok' );
+		UIManager.showMessageBox(DB.getMessage(msg_id), 'ok');
 	}
 
 
@@ -397,7 +409,7 @@ define(function( require )
 	 *
 	 * @param {object} entity to connect with
 	 */
-	function onConnectRequest( entity )
+	function onConnectRequest(entity)
 	{
 		// Play sound
 		Sound.play('\xB9\xF6\xC6\xB0\xBC\xD2\xB8\xAE.wav');
@@ -417,10 +429,10 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.HC.NOTIFY_ZONESVR
 	 */
-	function onReceiveMapInfo( pkt )
+	function onReceiveMapInfo(pkt)
 	{
 		Session.GID = pkt.GID;
-		MapEngine.init( pkt.addr.ip, pkt.addr.port, pkt.mapName);
+		MapEngine.init(pkt.addr.ip, pkt.addr.port, pkt.mapName);
 	}
 
 
@@ -475,7 +487,7 @@ define(function( require )
 	 * Export
 	 */
 	return {
-		init:   init,
+		init: init,
 		reload: reload
 	};
 });

@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -18,11 +18,11 @@ define(function()
 	 *
 	 * @param {string} url
 	 */
-	function Socket( host, port, proxy )
+	function Socket(host, port, proxy)
 	{
-		var url            = 'ws://' + host + ':' + port + '/';
-		var self           = this;
-		this.connected     = false;
+		var url = 'ws://' + host + ':' + port + '/';
+		var self = this;
+		this.connected = false;
 
 		// Use of a proxy
 		if (proxy) {
@@ -36,25 +36,25 @@ define(function()
 		}
 
 		// Open Websocket
-		this.ws            = new WebSocket(url);
+		this.ws = new WebSocket(url);
 		this.ws.binaryType = 'arraybuffer';
 
 		this.ws.onopen = function OnOpen()
 		{
 			self.connected = true;
-			self.onComplete( true );
+			self.onComplete(true);
 		};
 
 		this.ws.onerror = function OnError()
 		{
 			if (!self.connected) {
-				self.onComplete( false );
+				self.onComplete(false);
 			}
 		};
 
-		this.ws.onmessage = function OnMessage( event )
+		this.ws.onmessage = function OnMessage(event)
 		{
-			self.onMessage( event.data );
+			self.onMessage(event.data);
 		};
 
 		this.ws.onclose = function OnClose()
@@ -73,10 +73,10 @@ define(function()
 	 *
 	 * @param {ArrayBuffer} buffer
 	 */
-	Socket.prototype.send = function Send( buffer )
+	Socket.prototype.send = function Send(buffer)
 	{
 		if (this.connected) {
-			this.ws.send( buffer );
+			this.ws.send(buffer);
 		}
 	};
 

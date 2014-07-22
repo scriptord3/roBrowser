@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( ['Core/Preferences'], function( Preferences )
+define(['Core/Preferences'], function (Preferences)
 {
 	'use strict';
 
@@ -15,9 +15,9 @@ define( ['Core/Preferences'], function( Preferences )
 	/**
 	 * Export
 	 */
-	return Preferences.get( 'Controls', {
-		noctrl:  true,
+	return Preferences.get('Controls', {
+		noctrl: true,
 		noshift: false
-	}, 1.0 );
+	}, 1.0);
 
 });

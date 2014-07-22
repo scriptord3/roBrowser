@@ -7,8 +7,8 @@
  *
  * @author Vincent Thibault
  */
-define( ['Utils/gl-matrix', 'Audio/SoundManager'],
-function(        glMatrix,         SoundManager )
+define(['Utils/gl-matrix', 'Audio/SoundManager'],
+function (glMatrix, SoundManager)
 {
 	'use strict';
 
@@ -16,16 +16,16 @@ function(        glMatrix,         SoundManager )
 	/**
 	 * Sound renderer namespace
 	 */
-	var vec3   = glMatrix.vec3;
-	var _list  = [];
+	var vec3 = glMatrix.vec3;
+	var _list = [];
 
 
 	/**
 	 * Add 3D sound to the list
 	 */
-	function add( sound )
+	function add(sound)
 	{
-		_list.push( sound );
+		_list.push(sound);
 	}
 
 
@@ -43,7 +43,7 @@ function(        glMatrix,         SoundManager )
 	 *
 	 * @param {vec3} position
 	 */
-	function render( position, tick )
+	function render(position, tick)
 	{
 		var sound;
 		var i, count = _list.length;
@@ -53,7 +53,7 @@ function(        glMatrix,         SoundManager )
 
 			// TODO: check for sound.height
 			if (sound.tick < tick && vec3.dist(sound.pos, position) <= sound.range + sound.height) {
-				SoundManager.play( sound.file, sound.vol );
+				SoundManager.play(sound.file, sound.vol);
 				sound.tick = tick + sound.cycle * 1000;
 			}
 		}
@@ -64,8 +64,8 @@ function(        glMatrix,         SoundManager )
 	 * Export
 	 */
 	return {
-		add:    add,
-		free:   free,
+		add: add,
+		free: free,
 		render: render
 	};
 });

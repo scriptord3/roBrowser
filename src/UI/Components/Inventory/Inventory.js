@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,28 +15,28 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                 = require('DB/DBManager');
-	var ItemType           = require('DB/Items/ItemType');
-	var jQuery             = require('Utils/jquery');
-	var Client             = require('Core/Client');
-	var Preferences        = require('Core/Preferences');
-	var Renderer           = require('Renderer/Renderer');
-	var Mouse              = require('Controls/MouseEventHandler');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var InputBox           = require('UI/Components/InputBox/InputBox');
-	var ItemInfo           = require('UI/Components/ItemInfo/ItemInfo');
-	var Equipment          = require('UI/Components/Equipment/Equipment');
-	var htmlText           = require('text!./Inventory.html');
-	var cssText            = require('text!./Inventory.css');
-	var getModule          = require;
+	var DB = require('DB/DBManager');
+	var ItemType = require('DB/Items/ItemType');
+	var jQuery = require('Utils/jquery');
+	var Client = require('Core/Client');
+	var Preferences = require('Core/Preferences');
+	var Renderer = require('Renderer/Renderer');
+	var Mouse = require('Controls/MouseEventHandler');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var InputBox = require('UI/Components/InputBox/InputBox');
+	var ItemInfo = require('UI/Components/ItemInfo/ItemInfo');
+	var Equipment = require('UI/Components/Equipment/Equipment');
+	var htmlText = require('text!./Inventory.html');
+	var cssText = require('text!./Inventory.css');
+	var getModule = require;
 
 
 
 	/**
 	 * Create Component
 	 */
-	var Inventory = new UIComponent( 'Inventory', htmlText, cssText );
+	var Inventory = new UIComponent('Inventory', htmlText, cssText);
 
 
 	/**
@@ -44,8 +44,8 @@ define(function(require)
 	 */
 	Inventory.TAB = {
 		USABLE: 0,
-		EQUIP:  1,
-		ETC:    2
+		EQUIP: 1,
+		ETC: 2
 	};
 
 
@@ -65,13 +65,13 @@ define(function(require)
 	 * @var {Preferences} structure
 	 */
 	var _preferences = Preferences.get('Inventory', {
-		x:        200,
-		y:        200,
-		width:    7,
-		height:   4,
-		show:     false,
-		reduce:   false,
-		tab:      Inventory.TAB.USABLE
+		x: 200,
+		y: 200,
+		width: 7,
+		height: 4,
+		show: false,
+		reduce: false,
+		tab: Inventory.TAB.USABLE
 	}, 1.0);
 
 
@@ -81,7 +81,8 @@ define(function(require)
 	Inventory.init = function Init()
 	{
 		// Don't activate drag drop when clicking on buttons
-		this.ui.find('.titlebar .base').mousedown(function( event ){
+		this.ui.find('.titlebar .base').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 			return false;
 		});
@@ -90,7 +91,8 @@ define(function(require)
 		this.ui.find('.titlebar .mini').click(ToggleReduction.bind(this));
 		this.ui.find('.tabs button').mousedown(SwitchTab);
 		this.ui.find('.footer .extend').mousedown(OnResize.bind(this));
-		this.ui.find('.titlebar .close').click(function(){
+		this.ui.find('.titlebar .close').click(function ()
+		{
 			Inventory.ui.hide();
 			return false;
 		});
@@ -99,7 +101,8 @@ define(function(require)
 		// on drop item
 		this.ui
 			.on('drop', OnDrop)
-			.on('dragover', function(event){
+			.on('dragover', function (event)
+			{
 				event.stopImmediatePropagation();
 				return false;
 			});
@@ -112,8 +115,9 @@ define(function(require)
 			.on('mousewheel DOMMouseScroll', onScroll)
 
 			// Title feature
-			.on('mouseover', '.item', function(){
-				var idx  = parseInt( this.getAttribute('data-index'), 10);
+			.on('mouseover', '.item', function ()
+			{
+				var idx = parseInt(this.getAttribute('data-index'), 10);
 				var item = Inventory.getItemByIndex(idx);
 
 				if (!item) {
@@ -121,12 +125,12 @@ define(function(require)
 				}
 
 				// Get back data
-				var pos  = jQuery(this).position();
+				var pos = jQuery(this).position();
 
 				// Display box
 				overlay.show();
-				overlay.css({top: pos.top, left:pos.left+35});
-				overlay.html( DB.getItemName(item) + ' ' + ( item.count || 1 ) + ' ea'
+				overlay.css({ top: pos.top, left: pos.left + 35 });
+				overlay.html(DB.getItemName(item) + ' ' + (item.count || 1) + ' ea'
 				);
 
 				if (item.IsIdentified) {
@@ -138,36 +142,39 @@ define(function(require)
 			})
 
 			// Stop title feature
-			.on('mouseout', '.item', function(){
+			.on('mouseout', '.item', function ()
+			{
 				overlay.hide();
 			})
 
 			// Stop drag drop feature
-			.on('mousedown', '.item', function(event){
+			.on('mousedown', '.item', function (event)
+			{
 				event.stopImmediatePropagation();
 			})
 
 			// Item drag drop feature
-			.on('dragstart', '.item', function(event){
+			.on('dragstart', '.item', function (event)
+			{
 				// Set image to the drag drop element
 				var img = new Image();
 				var url = this.firstChild.style.backgroundImage.match(/\(([^\)]+)/)[1];
 				img.src = url.replace(/^\"/, '').replace(/\"$/, '');
 
-				event.originalEvent.dataTransfer.setDragImage( img, 12, 12 );
+				event.originalEvent.dataTransfer.setDragImage(img, 12, 12);
 
 				var index = parseInt(this.getAttribute('data-index'), 10);
-				var item  = Inventory.getItemByIndex(index);
+				var item = Inventory.getItemByIndex(index);
 
 				if (!item) {
 					return;
 				}
 
 				event.originalEvent.dataTransfer.setData('Text',
-					JSON.stringify( window._OBJ_DRAG_ = {
+					JSON.stringify(window._OBJ_DRAG_ = {
 						type: 'item',
 						from: 'inventory',
-						data:  item
+						data: item
 					})
 				);
 
@@ -177,14 +184,16 @@ define(function(require)
 			})
 
 			// Clean up
-			.on('dragend', '.item', function(){
+			.on('dragend', '.item', function ()
+			{
 				delete window._OBJ_DRAG_;
 			})
 
 			// Right click on item
-			.on('contextmenu', '.item', function(event) {
-				var index   = parseInt(this.getAttribute('data-index'), 10);
-				var item    = Inventory.getItemByIndex(index);
+			.on('contextmenu', '.item', function (event)
+			{
+				var index = parseInt(this.getAttribute('data-index'), 10);
+				var item = Inventory.getItemByIndex(index);
 
 				event.stopImmediatePropagation();
 
@@ -206,9 +215,10 @@ define(function(require)
 			})
 
 			// Equip/Use item
-			.on('dblclick', '.item', function(event) {
+			.on('dblclick', '.item', function (event)
+			{
 				var index = parseInt(this.getAttribute('data-index'), 10);
-				var item  = Inventory.getItemByIndex(index);
+				var item = Inventory.getItemByIndex(index);
 
 				if (item) {
 					Inventory.useItem(item);
@@ -233,15 +243,16 @@ define(function(require)
 			this.ui.hide();
 		}
 
-		Client.loadFile( DB.INTERFACE_PATH + 'basic_interface/tab_itm_0'+ (_preferences.tab+1) +'.bmp', function(data){
+		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_0' + (_preferences.tab + 1) + '.bmp', function (data)
+		{
 			Inventory.ui.find('.tabs').css('backgroundImage', 'url("' + data + '")');
 		});
 
-		this.resize( _preferences.width, _preferences.height );
+		this.resize(_preferences.width, _preferences.height);
 
 		this.ui.css({
-			top:  Math.min( Math.max( 0, _preferences.y), Renderer.height - this.ui.height()),
-			left: Math.min( Math.max( 0, _preferences.x), Renderer.width  - this.ui.width())
+			top: Math.min(Math.max(0, _preferences.y), Renderer.height - this.ui.height()),
+			left: Math.min(Math.max(0, _preferences.x), Renderer.width - this.ui.width())
 		});
 
 		_realSize = _preferences.reduce ? 0 : this.ui.height();
@@ -259,12 +270,12 @@ define(function(require)
 		jQuery('.ItemInfo').remove();
 
 		// Save preferences
-		_preferences.show   =  this.ui.is(':visible');
+		_preferences.show = this.ui.is(':visible');
 		_preferences.reduce = !!_realSize;
-		_preferences.y      =  parseInt(this.ui.css('top'), 10);
-		_preferences.x      =  parseInt(this.ui.css('left'), 10);
-		_preferences.width  =  Math.floor( (this.ui.width()  - (23 + 16 + 16 - 30)) / 32 );
-		_preferences.height =  Math.floor( (this.ui.height() - (31 + 19 - 30     )) / 32 );
+		_preferences.y = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
+		_preferences.width = Math.floor((this.ui.width() - (23 + 16 + 16 - 30)) / 32);
+		_preferences.height = Math.floor((this.ui.height() - (31 + 19 - 30)) / 32);
 		_preferences.save();
 	};
 
@@ -274,7 +285,7 @@ define(function(require)
 	 *
 	 * @param {object} key
 	 */
-	Inventory.onShortCut = function onShurtCut( key )
+	Inventory.onShortCut = function onShurtCut(key)
 	{
 		switch (key.cmd) {
 			case 'TOGGLE':
@@ -293,14 +304,14 @@ define(function(require)
 	/**
 	 * Extend inventory window size
 	 */
-	function OnResize( event )
+	function OnResize(event)
 	{
-		var ui      = this.ui;
+		var ui = this.ui;
 		var content = ui.find('.container .content');
-		var hide    = ui.find('.hide');
-		var top     = ui.position().top;
-		var left    = ui.position().left;
-		var lastWidth  = 0;
+		var hide = ui.find('.hide');
+		var top = ui.position().top;
+		var left = ui.position().left;
+		var lastWidth = 0;
 		var lastHeight = 0;
 		var _Interval;
 
@@ -309,19 +320,19 @@ define(function(require)
 			var extraX = 23 + 16 + 16 - 30;
 			var extraY = 31 + 19 - 30;
 
-			var w = Math.floor( (Mouse.screen.x - left - extraX) / 32 );
-			var h = Math.floor( (Mouse.screen.y - top  - extraY) / 32 );
+			var w = Math.floor((Mouse.screen.x - left - extraX) / 32);
+			var h = Math.floor((Mouse.screen.y - top - extraY) / 32);
 
 			// Maximum and minimum window size
-			w = Math.min( Math.max(w, 6), 9);
-			h = Math.min( Math.max(h, 2), 6);
+			w = Math.min(Math.max(w, 6), 9);
+			h = Math.min(Math.max(h, 2), 6);
 
 			if (w === lastWidth && h === lastHeight) {
 				return;
 			}
 
-			Inventory.resize( w, h );
-			lastWidth  = w;
+			Inventory.resize(w, h);
+			lastWidth = w;
 			lastHeight = h;
 
 			//Show or hide scrollbar
@@ -334,10 +345,11 @@ define(function(require)
 		}
 
 		// Start resizing
-		_Interval = setInterval( Resizing, 30);
+		_Interval = setInterval(Resizing, 30);
 
 		// Stop resizing
-		jQuery(window).one('mouseup', function(event){
+		jQuery(window).one('mouseup', function (event)
+		{
 			// Only on left click
 			if (event.which === 1) {
 				clearInterval(_Interval);
@@ -355,19 +367,19 @@ define(function(require)
 	 * @param {number} width
 	 * @param {number} height
 	 */
-	Inventory.resize = function Resize( width, height )
+	Inventory.resize = function Resize(width, height)
 	{
-		width  = Math.min( Math.max(width,  6), 9);
-		height = Math.min( Math.max(height, 2), 6);
+		width = Math.min(Math.max(width, 6), 9);
+		height = Math.min(Math.max(height, 2), 6);
 
 		this.ui.find('.container .content').css({
-			width:  width  * 32 + 13, // 13 = scrollbar
+			width: width * 32 + 13, // 13 = scrollbar
 			height: height * 32
 		});
 
 		this.ui.css({
-			width:  23 + 16 + 16 + width  * 32,
-			height: 31 + 19      + height * 32
+			width: 23 + 16 + 16 + width * 32,
+			height: 31 + 19 + height * 32
 		});
 	};
 
@@ -375,12 +387,13 @@ define(function(require)
 	/**
 	 * Modify tab, filter display entries
 	 */
-	function SwitchTab( event )
+	function SwitchTab(event)
 	{
-		var idx          = jQuery(this).index();
+		var idx = jQuery(this).index();
 		_preferences.tab = parseInt(idx, 10);
 
-		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_0'+ (idx+1) +'.bmp', function(data){
+		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_0' + (idx + 1) + '.bmp', function (data)
+		{
 			Inventory.ui.find('.tabs').css('backgroundImage', 'url(' + data + ')');
 			Filter.call(Inventory, idx);
 		});
@@ -393,7 +406,7 @@ define(function(require)
 	/**
 	 * Hide/show inventory's content
 	 */
-	function ToggleReduction( event )
+	function ToggleReduction(event)
 	{
 		// TODO: fix this part
 		if (_realSize) {
@@ -421,7 +434,7 @@ define(function(require)
 		var i, count;
 
 		for (i = 0, count = this.list.length; i < count; ++i) {
-			this.addItemSub( this.list[i] );
+			this.addItemSub(this.list[i]);
 		}
 	}
 
@@ -431,7 +444,7 @@ define(function(require)
 	 * @param {number} index
 	 * @returns {Item}
 	 */
-	Inventory.getItemByIndex = function getItemByIndex( index )
+	Inventory.getItemByIndex = function getItemByIndex(index)
 	{
 		var i, count;
 		var list = Inventory.list;
@@ -451,7 +464,7 @@ define(function(require)
 	 *
 	 * @param {event}
 	 */
-	function OnDrop( event )
+	function OnDrop(event)
 	{
 		var item, data;
 		event.stopImmediatePropagation();
@@ -460,7 +473,7 @@ define(function(require)
 			data = JSON.parse(event.originalEvent.dataTransfer.getData('Text'));
 			item = data.data;
 		}
-		catch(e) {
+		catch (e) {
 			return false;
 		}
 
@@ -473,18 +486,19 @@ define(function(require)
 		if (item.count > 1) {
 			InputBox.append();
 			InputBox.setType('number', false, item.count);
-			InputBox.onSubmitRequest = function OnSubmitRequest( count ) {
+			InputBox.onSubmitRequest = function OnSubmitRequest(count)
+			{
 				InputBox.remove();
 				getModule('UI/Components/Storage/Storage').reqRemoveItem(
 					item.index,
-					parseInt(count, 10 )
+					parseInt(count, 10)
 				);
 			};
 		}
 
-		// Only one, don't have to specify
+			// Only one, don't have to specify
 		else {
-			getModule('UI/Components/Storage/Storage').reqRemoveItem( item.index, 1 );
+			getModule('UI/Components/Storage/Storage').reqRemoveItem(item.index, 1);
 		}
 
 		return false;
@@ -494,12 +508,12 @@ define(function(require)
 	/**
 	 * Block the scroll to move 32px at each move
 	 */
-	function onScroll( event )
+	function onScroll(event)
 	{
 		var delta;
 
 		if (event.originalEvent.wheelDelta) {
-			delta = event.originalEvent.wheelDelta / 120 ;
+			delta = event.originalEvent.wheelDelta / 120;
 			if (window.opera) {
 				delta = -delta;
 			}
@@ -508,7 +522,7 @@ define(function(require)
 			delta = -event.originalEvent.detail;
 		}
 
-		this.scrollTop = Math.floor(this.scrollTop/32) * 32 - (delta * 32);
+		this.scrollTop = Math.floor(this.scrollTop / 32) * 32 - (delta * 32);
 		event.stopImmediatePropagation();
 		return false;
 	}
@@ -522,8 +536,8 @@ define(function(require)
 		var i, count;
 
 		for (i = 0, count = items.length; i < count ; ++i) {
-			if (this.addItemSub( items[i] )) {
-				this.list.push( items[i] );
+			if (this.addItemSub(items[i])) {
+				this.list.push(items[i]);
 			}
 		}
 	};
@@ -534,13 +548,13 @@ define(function(require)
 	 *
 	 * @param {object} Item
 	 */
-	Inventory.addItem = function AddItem( item )
+	Inventory.addItem = function AddItem(item)
 	{
 		var object = this.getItemByIndex(item.index);
 
 		if (object) {
 			object.count += item.count;
-			this.ui.find('.item[data-index="'+ item.index +'"] .count').text( object.count );
+			this.ui.find('.item[data-index="' + item.index + '"] .count').text(object.count);
 			this.onUpdateItem(object.ITID, object.count);
 			return;
 		}
@@ -557,7 +571,7 @@ define(function(require)
 	 *
 	 * @param {object} Item
 	 */
-	Inventory.addItemSub = function AddItemSub( item )
+	Inventory.addItemSub = function AddItemSub(item)
 	{
 		var tab;
 
@@ -591,11 +605,11 @@ define(function(require)
 		}
 
 		if (tab === _preferences.tab) {
-			var it      = DB.getItemInfo( item.ITID );
+			var it = DB.getItemInfo(item.ITID);
 			var content = this.ui.find('.container .content');
 
 			content.append(
-				'<div class="item" data-index="'+ item.index +'" draggable="true">' +
+				'<div class="item" data-index="' + item.index + '" draggable="true">' +
 					'<div class="icon"></div>' +
 					'<div class="amount"><span class="count">' + (item.count || 1) + '</span></div>' +
 				'</div>'
@@ -608,8 +622,9 @@ define(function(require)
 				this.ui.find('.hide').show();
 			}
 
-			Client.loadFile( DB.INTERFACE_PATH + 'item/' + ( item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName ) + '.bmp', function(data){
-				content.find('.item[data-index="'+ item.index +'"] .icon').css('backgroundImage', 'url('+ data +')');
+			Client.loadFile(DB.INTERFACE_PATH + 'item/' + (item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName) + '.bmp', function (data)
+			{
+				content.find('.item[data-index="' + item.index + '"] .icon').css('backgroundImage', 'url(' + data + ')');
 			});
 		}
 
@@ -623,7 +638,7 @@ define(function(require)
 	 * @param {number} index in inventory
 	 * @param {number} count
 	 */
-	Inventory.removeItem = function RemoveItem( index, count )
+	Inventory.removeItem = function RemoveItem(index, count)
 	{
 		var item = this.getItemByIndex(index);
 
@@ -637,14 +652,14 @@ define(function(require)
 			item.count -= count;
 
 			if (item.count > 0) {
-				this.ui.find('.item[data-index="'+ item.index +'"] .count').text( item.count );
+				this.ui.find('.item[data-index="' + item.index + '"] .count').text(item.count);
 				this.onUpdateItem(item.ITID, item.count);
 				return item;
 			}
 		}
 
-		this.list.splice( this.list.indexOf(item), 1 );
-		this.ui.find('.item[data-index="'+ item.index +'"]').remove();
+		this.list.splice(this.list.indexOf(item), 1);
+		this.ui.find('.item[data-index="' + item.index + '"]').remove();
 		this.onUpdateItem(item.ITID, 0);
 
 		var content = this.ui.find('.container .content');
@@ -662,7 +677,7 @@ define(function(require)
 	 * @param {number} index in inventory
 	 * @param {number} count
 	 */
-	Inventory.updateItem = function UpdateItem( index, count )
+	Inventory.updateItem = function UpdateItem(index, count)
 	{
 		var item = this.getItemByIndex(index);
 
@@ -674,14 +689,14 @@ define(function(require)
 
 		// Update quantity
 		if (item.count > 0) {
-			this.ui.find('.item[data-index="'+ item.index +'"] .count').text( item.count );
+			this.ui.find('.item[data-index="' + item.index + '"] .count').text(item.count);
 			this.onUpdateItem(item.ITID, item.count);
 			return;
 		}
 
 		// no quantity, remove
-		this.list.splice( this.list.indexOf(item), 1 );
-		this.ui.find('.item[data-index="'+ item.index +'"]').remove();
+		this.list.splice(this.list.indexOf(item), 1);
+		this.ui.find('.item[data-index="' + item.index + '"]').remove();
 		this.onUpdateItem(item.ITID, 0);
 
 		var content = this.ui.find('.container .content');
@@ -697,7 +712,7 @@ define(function(require)
 	 *
 	 * @param {Item} item
 	 */
-	Inventory.useItem = function UseItem( item )
+	Inventory.useItem = function UseItem(item)
 	{
 		switch (item.type) {
 
@@ -705,24 +720,24 @@ define(function(require)
 			case ItemType.HEALING:
 			case ItemType.USABLE:
 			case ItemType.USABLE_UNK:
-				Inventory.onUseItem( item.index );
+				Inventory.onUseItem(item.index);
 				break;
 
-			// Use card
+				// Use card
 			case ItemType.CARD:
-				Inventory.onUseCard( item.index );
+				Inventory.onUseCard(item.index);
 				break;
 
 			case ItemType.USABLE_SKILL:
 				break;
 
-			// Equip item
+				// Equip item
 			case ItemType.WEAPON:
 			case ItemType.EQUIP:
 			case ItemType.PETEQUIP:
 			case ItemType.AMMO:
 				if (item.IsIdentified && !item.IsDamaged) {
-					Inventory.onEquipItem( item.index, item.location );
+					Inventory.onEquipItem(item.index, item.location);
 				}
 				break;
 		}
@@ -737,7 +752,7 @@ define(function(require)
 	 * @param {number} id
 	 * @returns {Item}
 	 */
-	Inventory.getItemById = function GetItemById( id )
+	Inventory.getItemById = function GetItemById(id)
 	{
 		var i, count;
 		var list = Inventory.list;
@@ -755,10 +770,10 @@ define(function(require)
 	/**
 	 * functions to define
 	 */
-	Inventory.onUseItem    = function OnUseItem(/* index */){};
-	Inventory.onUseCard    = function onUseCard(/* index */){};
-	Inventory.onEquipItem  = function OnEquipItem(/* index, location */){};
-	Inventory.onUpdateItem = function OnUpdateItem(/* index, amount */){};
+	Inventory.onUseItem = function OnUseItem(/* index */) { };
+	Inventory.onUseCard = function onUseCard(/* index */) { };
+	Inventory.onEquipItem = function OnEquipItem(/* index, location */) { };
+	Inventory.onUpdateItem = function OnUpdateItem(/* index, amount */) { };
 
 
 	/**

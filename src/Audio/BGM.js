@@ -10,9 +10,9 @@
  *
  * @author Vincent Thibault
  */
- 
-define( ['require', 'Utils/jquery', 'Core/Client', 'Preferences/Audio'],
-function( require,         jQuery,        Client,         Preferences )
+
+define(['require', 'Utils/jquery', 'Core/Client', 'Preferences/Audio'],
+function (require, jQuery, Client, Preferences)
 {
 	'use strict';
 
@@ -22,14 +22,14 @@ function( require,         jQuery,        Client,         Preferences )
 	 */
 	var BGM = {};
 
-	BGM.stat        = 0;
-	BGM.position    = null;
-	BGM.filename    = null;
-	BGM.volume      = Preferences.BGM.volume;
-	BGM.isPlaying   = 'false';
+	BGM.stat = 0;
+	BGM.position = null;
+	BGM.filename = null;
+	BGM.volume = Preferences.BGM.volume;
+	BGM.isPlaying = 'false';
 
-	BGM.audio       = document.createElement('audio');
-	BGM.useHTML5    = BGM.audio.canPlayType && BGM.audio.canPlayType('audio/mpeg') !== '';
+	BGM.audio = document.createElement('audio');
+	BGM.useHTML5 = BGM.audio.canPlayType && BGM.audio.canPlayType('audio/mpeg') !== '';
 
 
 	/**
@@ -42,7 +42,7 @@ function( require,         jQuery,        Client,         Preferences )
 		window.BGM = BGM;
 
 		// Add the flash to the document
-		BGM.flash  = jQuery([
+		BGM.flash = jQuery([
 			'<object type="application/x-shockwave-flash" data="' + require.toUrl('./mp3-player/mp3-player.swf') + '" width="0" height="0">',
 				'<param name="AllowScriptAccess" value="always"/>',
 				'<param name="FlashVars" value="listener=BGM&interval=1000"/>',
@@ -50,18 +50,20 @@ function( require,         jQuery,        Client,         Preferences )
 		].join('\n')).appendTo('body')[0];
 
 		// Flash onInit()
-		BGM.onInit = function onInit() {
+		BGM.onInit = function onInit()
+		{
 			BGM.position = 0;
 			if (BGM.filename && Preferences.BGM.play) {
-				BGM.play( BGM.filename );
+				BGM.play(BGM.filename);
 			}
 		};
-	
+
 
 		// Flash onUpdate (every 2ms)
-		BGM.onUpdate = function onUpdate() {
+		BGM.onUpdate = function onUpdate()
+		{
 			if (BGM.isPlaying === 'false' && BGM.filename) {
-				BGM.play( BGM.filename );
+				BGM.play(BGM.filename);
 			}
 		};
 	};
@@ -80,7 +82,8 @@ function( require,         jQuery,        Client,         Preferences )
 		}
 
 		// Work around
-		BGM.audio.addEventListener('ended', function(){
+		BGM.audio.addEventListener('ended', function ()
+		{
 			BGM.audio.currentTime = 0;
 			BGM.audio.play();
 		}, false);
@@ -92,7 +95,7 @@ function( require,         jQuery,        Client,         Preferences )
 	 *
 	 * @param {string} filename
 	 */
-	BGM.play = function play( filename )
+	BGM.play = function play(filename)
 	{
 		// Nothing to play
 		if (!filename) {
@@ -102,8 +105,8 @@ function( require,         jQuery,        Client,         Preferences )
 		// If it's the same file, check if it's already playing
 		if (this.filename === filename) {
 			if ((!this.useHTML5 && this.isPlaying == 'true') ||
-				( this.useHTML5 && !this.audio.paused)) {
-					return;
+				(this.useHTML5 && !this.audio.paused)) {
+				return;
 			}
 		}
 
@@ -114,7 +117,8 @@ function( require,         jQuery,        Client,         Preferences )
 				filename = filename.match(/\w+\.mp3/).toString();
 			}
 
-			Client.loadFile( 'BGM/' + filename, function(url) {
+			Client.loadFile('BGM/' + filename, function (url)
+			{
 				BGM.load(url);
 			});
 		}
@@ -135,13 +139,13 @@ function( require,         jQuery,        Client,         Preferences )
 		}
 
 		if (BGM.useHTML5) {
-			BGM.audio.src    = data;
+			BGM.audio.src = data;
 			BGM.audio.volume = this.volume;
 			BGM.audio.play();
 		}
 		else if (BGM.flash.SetVariable) {
-			BGM.flash.SetVariable('method:setUrl', data );
-			BGM.flash.SetVariable('method:play', null );
+			BGM.flash.SetVariable('method:setUrl', data);
+			BGM.flash.SetVariable('method:play', null);
 			BGM.flash.SetVariable('enabled', 'true');
 		}
 	};
@@ -156,7 +160,7 @@ function( require,         jQuery,        Client,         Preferences )
 			BGM.audio.pause();
 		}
 		else if (BGM.flash.SetVariable) {
-			BGM.flash.SetVariable('method:pause', null );
+			BGM.flash.SetVariable('method:pause', null);
 		}
 	};
 
@@ -166,9 +170,9 @@ function( require,         jQuery,        Client,         Preferences )
 	 *
 	 * @param {number} volume
 	 */
-	BGM.setVolume = function( volume )
+	BGM.setVolume = function (volume)
 	{
-		BGM.volume  = volume;
+		BGM.volume = volume;
 		Preferences.BGM.volume = volume;
 		Preferences.save();
 
@@ -176,7 +180,7 @@ function( require,         jQuery,        Client,         Preferences )
 			BGM.audio.volume = volume;
 		}
 		else if (BGM.flash.SetVariable) {
-			BGM.flash.SetVariable('method:setVolume', volume*100 );
+			BGM.flash.SetVariable('method:setVolume', volume * 100);
 		}
 	};
 

@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -16,22 +16,22 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var Client           = require('Core/Client');
-	var TextEncoding     = require('Vendors/text-encoding');
-	var ClassTable       = require('./Jobs/JobNameTable');
-	var WeaponAction     = require('./Jobs/WeaponAction');
-	var WeaponJobTable   = require('./Jobs/WeaponJobTable');
-	var BabyTable        = require('./Jobs/BabyTable');
-	var HairIndexTable   = require('./Jobs/HairIndexTable');
-	var MonsterTable     = require('./Monsters/MonsterTable');
+	var Client = require('Core/Client');
+	var TextEncoding = require('Vendors/text-encoding');
+	var ClassTable = require('./Jobs/JobNameTable');
+	var WeaponAction = require('./Jobs/WeaponAction');
+	var WeaponJobTable = require('./Jobs/WeaponJobTable');
+	var BabyTable = require('./Jobs/BabyTable');
+	var HairIndexTable = require('./Jobs/HairIndexTable');
+	var MonsterTable = require('./Monsters/MonsterTable');
 	var MsgStringIDs = require('./MsgStringIds');
-	var PetIllustration  = require('./Pets/PetIllustration');
-	var PetAction        = require('./Pets/PetAction');
-	var ItemTable        = require('./Items/ItemTable');
-	var HatTable         = require('./Items/HatTable');
-	var ShieldTable      = require('./Items/ShieldTable');
-	var WeaponTable      = require('./Items/WeaponTable');
-	var WeaponType       = require('./Items/WeaponType');
+	var PetIllustration = require('./Pets/PetIllustration');
+	var PetAction = require('./Pets/PetAction');
+	var ItemTable = require('./Items/ItemTable');
+	var HatTable = require('./Items/HatTable');
+	var ShieldTable = require('./Items/ShieldTable');
+	var WeaponTable = require('./Items/WeaponTable');
+	var WeaponType = require('./Items/WeaponType');
 	var WeaponSoundTable = require('./Items/WeaponSoundTable');
 
 
@@ -57,7 +57,7 @@ define(function(require)
 	/**
 	 * @var {Array} ASCII sex
 	 */
-	var SexTable = [ '\xbf\xa9', '\xb3\xb2' ];
+	var SexTable = ['\xbf\xa9', '\xb3\xb2'];
 
 
 	/**
@@ -79,9 +79,11 @@ define(function(require)
 	{
 		// Callback
 		var index = 0, count = 0;
-		function onLoad(){
+		function onLoad()
+		{
 			count++;
-			return function OnLoadClosure(){
+			return function OnLoadClosure()
+			{
 				index++;
 
 				if (DB.onProgress) {
@@ -97,13 +99,13 @@ define(function(require)
 		console.log('Loading DB files...');
 
 		// Loading TXT Tables
-		loadTable( 'data/mp3nametable.txt',               2, function(index, key, val){   (MapTable[key] || (MapTable[key] = {})).mp3                   = val;               }, onLoad());
-		loadTable( 'data/mapnametable.txt',               2, function(index, key, val){   (MapTable[key] || (MapTable[key] = {})).name                  = val;               }, onLoad());
-		loadTable( 'data/msgstringtable.txt',             1, function(index, val){         MsgStringTable[index]                                        = val;               }, onLoad());
-		loadTable( 'data/resnametable.txt',               2, function(index, key, val){    DB.mapalias[key]                                             = val;               }, onLoad());
-		loadTable( 'data/num2cardillustnametable.txt',    2, function(index, key, val){   (ItemTable[key] || (ItemTable[key] = {})).illustResourcesName = val;               }, onLoad());
-		loadTable( 'data/cardprefixnametable.txt',        2, function(index, key, val){   (ItemTable[key] || (ItemTable[key] = {})).prefixNameTable     = val;               }, onLoad());
-		loadTable( 'data/fogparametertable.txt',          5, parseFogEntry,                                                                                                     onLoad());
+		loadTable('data/mp3nametable.txt', 2, function (index, key, val) { (MapTable[key] || (MapTable[key] = {})).mp3 = val; }, onLoad());
+		loadTable('data/mapnametable.txt', 2, function (index, key, val) { (MapTable[key] || (MapTable[key] = {})).name = val; }, onLoad());
+		loadTable('data/msgstringtable.txt', 1, function (index, val) { MsgStringTable[index] = val; }, onLoad());
+		loadTable('data/resnametable.txt', 2, function (index, key, val) { DB.mapalias[key] = val; }, onLoad());
+		loadTable('data/num2cardillustnametable.txt', 2, function (index, key, val) { (ItemTable[key] || (ItemTable[key] = {})).illustResourcesName = val; }, onLoad());
+		loadTable('data/cardprefixnametable.txt', 2, function (index, key, val) { (ItemTable[key] || (ItemTable[key] = {})).prefixNameTable = val; }, onLoad());
+		loadTable('data/fogparametertable.txt', 5, parseFogEntry, onLoad());
 	};
 
 
@@ -115,30 +117,31 @@ define(function(require)
 	 * @param {function} callback to call for each group
 	 * @param {function} onEnd to run once the file is loaded
 	 */
-	function loadTable( filename, size, callback, onEnd )
+	function loadTable(filename, size, callback, onEnd)
 	{
-		Client.loadFile( filename, function(data) {
-			console.log('Loading file "'+ filename +'"...');
+		Client.loadFile(filename, function (data)
+		{
+			console.log('Loading file "' + filename + '"...');
 
 			// Remove commented lines
-			var content  = ('\n' + data).replace(/\n(\/\/[^\n]+)/g, '');
+			var content = ('\n' + data).replace(/\n(\/\/[^\n]+)/g, '');
 			var elements = content.split('#');
 			var i, count = elements.length;
-			var args     = new Array(size+1);
+			var args = new Array(size + 1);
 
 			for (i = 0; i < count; i++) {
-				if (i%size === 0) {
+				if (i % size === 0) {
 					if (i) {
-						callback.apply( null, args );
+						callback.apply(null, args);
 					}
-					args[i%size] = i;
+					args[i % size] = i;
 				}
 
-				args[(i%size)+1] = elements[i].replace(/^\s+|\s+$/g, ''); // trim
+				args[(i % size) + 1] = elements[i].replace(/^\s+|\s+$/g, ''); // trim
 			}
 
 			onEnd();
-		}, onEnd );
+		}, onEnd);
 	}
 
 
@@ -154,16 +157,16 @@ define(function(require)
 	 */
 	function parseFogEntry(index, key, near, far, color, factor)
 	{
-		var int_color = parseInt(color,16);
-		var map       = (MapTable[key] || (MapTable[key] = {}));
+		var int_color = parseInt(color, 16);
+		var map = (MapTable[key] || (MapTable[key] = {}));
 
 		map.fog = {
-			near:   parseFloat(near),
-			far:    parseFloat(far),
-			color:  [
+			near: parseFloat(near),
+			far: parseFloat(far),
+			color: [
 				(255 & (int_color >> 16)) / 255.0,
-				(255 & (int_color >>  8)) / 255.0,
-				(255 & (int_color >>  0)) / 255.0
+				(255 & (int_color >> 8)) / 255.0,
+				(255 & (int_color >> 0)) / 255.0
 			],
 			factor: parseFloat(factor)
 		};
@@ -175,7 +178,7 @@ define(function(require)
 	 * @param {boolean} sex
 	 * @return {string}
 	 */
-	DB.getBodyPath = function getBodyPath( id, sex )
+	DB.getBodyPath = function getBodyPath(id, sex)
 	{
 		// PC
 		if (id < 45) {
@@ -194,21 +197,21 @@ define(function(require)
 
 		// NPC
 		if (id < 1000) {
-			return 'data/sprite/npc/' + ( MonsterTable[id] || MonsterTable[46] ).toLowerCase();
+			return 'data/sprite/npc/' + (MonsterTable[id] || MonsterTable[46]).toLowerCase();
 		}
 
 		// Monsters
 		if (id < 4000) {
-			return 'data/sprite/\xb8\xf3\xbd\xba\xc5\xcd/' + ( MonsterTable[id] || MonsterTable[1001] ).toLowerCase();
+			return 'data/sprite/\xb8\xf3\xbd\xba\xc5\xcd/' + (MonsterTable[id] || MonsterTable[1001]).toLowerCase();
 		}
 
 		// PC
 		if (id < 6000) {
-			return 'data/sprite/\xc0\xce\xb0\xa3\xc1\xb7/\xb8\xf6\xc5\xeb/' + SexTable[sex] + '/' + ( ClassTable[id] || ClassTable[0] ) + '_' + SexTable[sex];
+			return 'data/sprite/\xc0\xce\xb0\xa3\xc1\xb7/\xb8\xf6\xc5\xeb/' + SexTable[sex] + '/' + (ClassTable[id] || ClassTable[0]) + '_' + SexTable[sex];
 		}
 
 		// Homunculus
-		return 'data/sprite/homun/' + ( MonsterTable[id] || MonsterTable[1002] ).toLowerCase();
+		return 'data/sprite/homun/' + (MonsterTable[id] || MonsterTable[1002]).toLowerCase();
 
 		// TODO: add support for mercenary
 	};
@@ -230,7 +233,7 @@ define(function(require)
 	 * @param {number} pal
 	 * @param {boolean} sex
 	 */
-	DB.getBodyPalPath = function getBodyPalettePath( id, pal, sex )
+	DB.getBodyPalPath = function getBodyPalettePath(id, pal, sex)
 	{
 		if (id === 0 || !(id in ClassTable)) {
 			return null;
@@ -245,9 +248,9 @@ define(function(require)
 	 * @param {number} id hair style
 	 * @param {boolean} sex
 	 */
-	DB.getHeadPath = function getHeadPath( id, sex )
+	DB.getHeadPath = function getHeadPath(id, sex)
 	{
-		return 'data/sprite/\xc0\xce\xb0\xa3\xc1\xb7/\xb8\xd3\xb8\xae\xc5\xeb/' + SexTable[sex] + '/' + (HairIndexTable[sex][id] || id)+ '_' + SexTable[sex];
+		return 'data/sprite/\xc0\xce\xb0\xa3\xc1\xb7/\xb8\xd3\xb8\xae\xc5\xeb/' + SexTable[sex] + '/' + (HairIndexTable[sex][id] || id) + '_' + SexTable[sex];
 	};
 
 
@@ -257,7 +260,7 @@ define(function(require)
 	 * @param {number} pal id
 	 * @param {boolean} sex
 	 */
-	DB.getHeadPalPath = function getHeadPalPath( id, pal, sex )
+	DB.getHeadPalPath = function getHeadPalPath(id, pal, sex)
 	{
 		return 'data/palette/\xb8\xd3\xb8\xae/\xb8\xd3\xb8\xae' + (HairIndexTable[sex][id] || id) + '_' + SexTable[sex] + '_' + pal + '.pal';
 	};
@@ -268,7 +271,7 @@ define(function(require)
 	 * @param {number} id hair style
 	 * @param {boolean} sex
 	 */
-	DB.getHatPath = function getHatPath( id, sex )
+	DB.getHatPath = function getHatPath(id, sex)
 	{
 		if (id === 0 || !(id in HatTable)) {
 			return null;
@@ -282,7 +285,7 @@ define(function(require)
 	 * @return {string} Path to pets equipements
 	 * @param {number} id (pets)
 	 */
-	DB.getPetEquipPath = function getPetEquipPath( id )
+	DB.getPetEquipPath = function getPetEquipPath(id)
 	{
 		if (id === 0 || !(id in PetAction)) {
 			return null;
@@ -296,7 +299,7 @@ define(function(require)
 	 * @return {string} Path to pets equipements
 	 * @param {number} id (pets)
 	 */
-	DB.getPetIllustPath = function getPetIllustPath( id )
+	DB.getPetIllustPath = function getPetIllustPath(id)
 	{
 		return 'data/texture/' + (PetIllustration[id] || PetIllustration[1002]);
 	};
@@ -308,7 +311,7 @@ define(function(require)
 	 * @param {number} job class
 	 * @param {boolean} sex
 	 */
-	DB.getShieldPath = function getShieldPath( id, job, sex )
+	DB.getShieldPath = function getShieldPath(id, job, sex)
 	{
 		if (id === 0) {
 			return null;
@@ -316,7 +319,7 @@ define(function(require)
 
 		var baseClass = WeaponJobTable[job] || WeaponJobTable[0];
 
-		return 'data/sprite/\xb9\xe6\xc6\xd0/' + baseClass + '/' + baseClass + '_' + SexTable[sex] + '_' + ( ShieldTable[id] || ShieldTable[1] );
+		return 'data/sprite/\xb9\xe6\xc6\xd0/' + baseClass + '/' + baseClass + '_' + SexTable[sex] + '_' + (ShieldTable[id] || ShieldTable[1]);
 	};
 
 
@@ -326,7 +329,7 @@ define(function(require)
 	 * @param {number} job class
 	 * @param {boolean} sex
 	 */
-	DB.getWeaponPath = function getWeaponPath( id, job, sex )
+	DB.getWeaponPath = function getWeaponPath(id, job, sex)
 	{
 		if (id === 0) {
 			return null;
@@ -334,7 +337,7 @@ define(function(require)
 
 		var baseClass = WeaponJobTable[job] || WeaponJobTable[0];
 
-		return 'data/sprite/\xc0\xce\xb0\xa3\xc1\xb7/' + baseClass + '/' + baseClass + '_' + SexTable[sex] + ( WeaponTable[id] || ('_' + id) ) ;
+		return 'data/sprite/\xc0\xce\xb0\xa3\xc1\xb7/' + baseClass + '/' + baseClass + '_' + SexTable[sex] + (WeaponTable[id] || ('_' + id));
 	};
 
 
@@ -342,7 +345,7 @@ define(function(require)
 	 * @return {string} Path to eapon sound
 	 * @param {number} weapon id
 	 */
-	DB.getWeaponSound = function getWeaponSound( id )
+	DB.getWeaponSound = function getWeaponSound(id)
 	{
 		var type = DB.getWeaponViewID(id);
 
@@ -380,52 +383,52 @@ define(function(require)
 			}
 
 			// Weapon ID starting at 1100
-			if (id <  1100) {
+			if (id < 1100) {
 				return WeaponType.NONE;
 			}
 
 			// Specific weapon range inside other range (wtf gravity ?)
-			if (id >= 1116 && id <= 1118)    return WeaponType.TWOHANDSWORD;
-			if (id >= 1314 && id <= 1315)    return WeaponType.TWOHANDAXE;
-			if (id >= 1410 && id <= 1412)    return WeaponType.TWOHANDSPEAR;
-			if (id >= 1472 && id <= 1473)    return WeaponType.ROD;
-			if (id === 1599)                 return WeaponType.MACE;
+			if (id >= 1116 && id <= 1118) return WeaponType.TWOHANDSWORD;
+			if (id >= 1314 && id <= 1315) return WeaponType.TWOHANDAXE;
+			if (id >= 1410 && id <= 1412) return WeaponType.TWOHANDSPEAR;
+			if (id >= 1472 && id <= 1473) return WeaponType.ROD;
+			if (id === 1599) return WeaponType.MACE;
 			if (gunGatling.indexOf(id) > -1) return WeaponType.GUN_GATLING;
 			if (gunShotGun.indexOf(id) > -1) return WeaponType.GUN_SHOTGUN;
 			if (gunGranade.indexOf(id) > -1) return WeaponType.GUN_GRANADE;
 
 			// Ranges
 			return (
-				id <  1150 ? WeaponType.SWORD        :
-			    id <  1200 ? WeaponType.TWOHANDSWORD :
-			    id <  1250 ? WeaponType.SHORTSWORD   :
-			    id <  1300 ? WeaponType.CATARRH      :
-			    id <  1350 ? WeaponType.AXE          :
-			    id <  1400 ? WeaponType.TWOHANDAXE   :
-			    id <  1450 ? WeaponType.SPEAR        :
-			    id <  1500 ? WeaponType.TWOHANDSPEAR :
-			    id <  1550 ? WeaponType.MACE         :
-			    id <  1600 ? WeaponType.BOOK         :
-			    id <  1650 ? WeaponType.ROD          :
-			    id <  1700 ? WeaponType.NONE         :
-			    id <  1750 ? WeaponType.BOW          :
-			    id <  1800 ? WeaponType.NONE         :
-			    id <  1850 ? WeaponType.KNUKLE       :
-			    id <  1900 ? WeaponType.NONE         :
-			    id <  1950 ? WeaponType.INSTRUMENT   :
-			    id <  2000 ? WeaponType.WHIP         :
-			    id <  2050 ? WeaponType.TWOHANDROD   :
-			    id < 13000 ? WeaponType.NONE         :
-			    id < 13050 ? WeaponType.SHORTSWORD   :
-			    id < 13100 ? WeaponType.NONE         :
-			    id < 13150 ? WeaponType.GUN_HANDGUN  :
-			    id < 13200 ? WeaponType.GUN_RIFLE    :
-			    id < 13300 ? WeaponType.NONE         :
-			    id < 13350 ? WeaponType.SYURIKEN     :
-			    id < 13400 ? WeaponType.NONE         :
-			    id < 13450 ? WeaponType.SWORD        :
-			    id < 18100 ? WeaponType.NONE         :
-			    id < 18150 ? WeaponType.BOW          :
+				id < 1150 ? WeaponType.SWORD :
+			    id < 1200 ? WeaponType.TWOHANDSWORD :
+			    id < 1250 ? WeaponType.SHORTSWORD :
+			    id < 1300 ? WeaponType.CATARRH :
+			    id < 1350 ? WeaponType.AXE :
+			    id < 1400 ? WeaponType.TWOHANDAXE :
+			    id < 1450 ? WeaponType.SPEAR :
+			    id < 1500 ? WeaponType.TWOHANDSPEAR :
+			    id < 1550 ? WeaponType.MACE :
+			    id < 1600 ? WeaponType.BOOK :
+			    id < 1650 ? WeaponType.ROD :
+			    id < 1700 ? WeaponType.NONE :
+			    id < 1750 ? WeaponType.BOW :
+			    id < 1800 ? WeaponType.NONE :
+			    id < 1850 ? WeaponType.KNUKLE :
+			    id < 1900 ? WeaponType.NONE :
+			    id < 1950 ? WeaponType.INSTRUMENT :
+			    id < 2000 ? WeaponType.WHIP :
+			    id < 2050 ? WeaponType.TWOHANDROD :
+			    id < 13000 ? WeaponType.NONE :
+			    id < 13050 ? WeaponType.SHORTSWORD :
+			    id < 13100 ? WeaponType.NONE :
+			    id < 13150 ? WeaponType.GUN_HANDGUN :
+			    id < 13200 ? WeaponType.GUN_RIFLE :
+			    id < 13300 ? WeaponType.NONE :
+			    id < 13350 ? WeaponType.SYURIKEN :
+			    id < 13400 ? WeaponType.NONE :
+			    id < 13450 ? WeaponType.SWORD :
+			    id < 18100 ? WeaponType.NONE :
+			    id < 18150 ? WeaponType.BOW :
 			                 WeaponType.NONE
 			);
 		};
@@ -438,7 +441,7 @@ define(function(require)
 	 * @param {number} job
 	 * @param {number} sex
 	 */
-	DB.getWeaponAction = function getWeaponAction( id, job, sex )
+	DB.getWeaponAction = function getWeaponAction(id, job, sex)
 	{
 		var type = DB.getWeaponViewID(id);
 
@@ -480,17 +483,17 @@ define(function(require)
 			ClassNum: 0
 		};
 
-		return function getItemInfo( itemid )
+		return function getItemInfo(itemid)
 		{
 			var item = ItemTable[itemid] || unknownItem;
 
 			if (!item._decoded) {
-				item.identifiedDescriptionName   = item.identifiedDescriptionName   ? TextEncoding.decodeString(item.identifiedDescriptionName.join('\n'))   : '';
+				item.identifiedDescriptionName = item.identifiedDescriptionName ? TextEncoding.decodeString(item.identifiedDescriptionName.join('\n')) : '';
 				item.unidentifiedDescriptionName = item.unidentifiedDescriptionName ? TextEncoding.decodeString(item.unidentifiedDescriptionName.join('\n')) : '';
-				item.identifiedDisplayName       = TextEncoding.decodeString(item.identifiedDisplayName);
-				item.unidentifiedDisplayName     = TextEncoding.decodeString(item.unidentifiedDisplayName);
-				item.prefixNameTable             = TextEncoding.decodeString(item.prefixNameTable || '');
-				item._decoded                    = true;
+				item.identifiedDisplayName = TextEncoding.decodeString(item.identifiedDisplayName);
+				item.unidentifiedDisplayName = TextEncoding.decodeString(item.unidentifiedDisplayName);
+				item.prefixNameTable = TextEncoding.decodeString(item.prefixNameTable || '');
+				item._decoded = true;
 			}
 
 			return item;
@@ -505,10 +508,10 @@ define(function(require)
 	 * @param {boolean} is identify
 	 * @return {string} path
 	 */
-	DB.getItemPath = function getItemPath( itemid, identify )
+	DB.getItemPath = function getItemPath(itemid, identify)
 	{
-		var it = DB.getItemInfo( itemid );
-		return 'data/sprite/\xbe\xc6\xc0\xcc\xc5\xdb/' + ( identify ? it.identifiedResourceName : it.unidentifiedResourceName );
+		var it = DB.getItemInfo(itemid);
+		return 'data/sprite/\xbe\xc6\xc0\xcc\xc5\xdb/' + (identify ? it.identifiedResourceName : it.unidentifiedResourceName);
 	};
 
 
@@ -518,9 +521,9 @@ define(function(require)
 	 * @param {object} item
 	 * @return {string} item full name
 	 */
-	DB.getItemName = function getItemName( item )
+	DB.getItemName = function getItemName(item)
 	{
-		var it = DB.getItemInfo( item.ITID );
+		var it = DB.getItemInfo(item.ITID);
 		var str = '';
 
 		if (item.RefiningLevel) {
@@ -534,19 +537,19 @@ define(function(require)
 				case 0xFF00: // PET
 					break;
 
-				// Show card prefix
+					// Show card prefix
 				default:
-					var list  = ['', 'Double ', 'Triple ', 'Quadruple '];
+					var list = ['', 'Double ', 'Triple ', 'Quadruple '];
 					var count = [0, 0, 0, 0];
 					var name, prefix = [];
 					var i, j = 0, pos;
 
 					for (i = 1; i <= 4; ++i) {
-						if (!item.slot['card'+i]) {
+						if (!item.slot['card' + i]) {
 							break;
 						}
 
-						name = DB.getItemInfo(item.slot['card'+i]).prefixNameTable;
+						name = DB.getItemInfo(item.slot['card' + i]).prefixNameTable;
 						if (name) {
 							pos = prefix.indexOf(name);
 							if (pos > -1) {
@@ -560,7 +563,7 @@ define(function(require)
 					}
 
 					for (i = 0; i < j; ++i) {
-						str += list[count[i]-1] + prefix[i] + ' ';
+						str += list[count[i] - 1] + prefix[i] + ' ';
 					}
 			}
 		}
@@ -589,7 +592,7 @@ define(function(require)
 			return defaultText !== undefined ? defaultText : 'NO MSG ' + id;
 		}
 
-		return TextEncoding.decodeString( MsgStringTable[id] );
+		return TextEncoding.decodeString(MsgStringTable[id]);
 	};
 
 
@@ -597,9 +600,9 @@ define(function(require)
 	 * @param {string} filename
 	 * @return {object}
 	 */
-	DB.getMap = function getMap( mapname )
+	DB.getMap = function getMap(mapname)
 	{
-		var map = mapname.replace('.gat','.rsw');
+		var map = mapname.replace('.gat', '.rsw');
 
 		return MapTable[map] || null;
 	};
@@ -612,9 +615,9 @@ define(function(require)
 	 * @param {string} default name if not found
 	 * @return {string} map location
 	 */
-	DB.getMapName = function getMapName( mapname, defaultName )
+	DB.getMapName = function getMapName(mapname, defaultName)
 	{
-		var map = mapname.replace('.gat','.rsw');
+		var map = mapname.replace('.gat', '.rsw');
 
 		if (!(map in MapTable) || !MapTable[map].name) {
 			return (typeof defaultName === 'undefined' ? DB.getMessage(MsgStringIDs.MSI_NOWHERE) : defaultName);
@@ -630,7 +633,7 @@ define(function(require)
 	 * @param {number} job id
 	 * @return {boolean} is baby
 	 */
-	DB.isBaby = function isBaby( jobid )
+	DB.isBaby = function isBaby(jobid)
 	{
 		return BabyTable.indexOf(jobid) > -1;
 	};

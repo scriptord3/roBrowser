@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -16,23 +16,23 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var DB                   = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var SkillId              = require('DB/Skills/SkillConst');
-	var PathFinding          = require('Utils/PathFinding');
-	var Session              = require('Engine/SessionStorage');
-	var Network              = require('Network/NetworkManager');
-	var PACKET               = require('Network/PacketStructure');
-	var EntityManager        = require('Renderer/EntityManager');
-	var EffectManager        = require('Renderer/EffectManager');
-	var Altitude             = require('Renderer/Map/Altitude');
-	var ShortCut             = require('UI/Components/ShortCut/ShortCut');
-	var ChatBox              = require('UI/Components/ChatBox/ChatBox');
-	var SkillWindow          = require('UI/Components/SkillList/SkillList');
+	var SkillId = require('DB/Skills/SkillConst');
+	var PathFinding = require('Utils/PathFinding');
+	var Session = require('Engine/SessionStorage');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var EntityManager = require('Renderer/EntityManager');
+	var EffectManager = require('Renderer/EffectManager');
+	var Altitude = require('Renderer/Map/Altitude');
+	var ShortCut = require('UI/Components/ShortCut/ShortCut');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
+	var SkillWindow = require('UI/Components/SkillList/SkillList');
 	var SkillTargetSelection = require('UI/Components/SkillTargetSelection/SkillTargetSelection');
-	var ItemSelection        = require('UI/Components/ItemSelection/ItemSelection');
-	var Inventory            = require('UI/Components/Inventory/Inventory');
-	var NpcMenu              = require('UI/Components/NpcMenu/NpcMenu');
+	var ItemSelection = require('UI/Components/ItemSelection/ItemSelection');
+	var Inventory = require('UI/Components/Inventory/Inventory');
+	var NpcMenu = require('UI/Components/NpcMenu/NpcMenu');
 
 
 	/**
@@ -51,7 +51,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NOTIFY_EFFECT
 	 */
-	function onSpecialEffect( pkt )
+	function onSpecialEffect(pkt)
 	{
 		var EnumEffect = [
 			371,
@@ -78,7 +78,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NOTIFY_EFFECT2
 	 */
-	function onEffect( pkt )
+	function onEffect(pkt)
 	{
 		EffectManager.spam(pkt.effectID, pkt.AID);
 	}
@@ -89,12 +89,12 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NOTIFY_GROUNDSKILL  
 	 */
-	function onSkillToGround( pkt )
+	function onSkillToGround(pkt)
 	{
 		var position = new Array(3);
-		position[0]  = pkt.xPos;
-		position[1]  = pkt.yPos;
-		position[2]  = Altitude.getCellHeight(pkt.xPos, pkt.yPos);
+		position[0] = pkt.xPos;
+		position[1] = pkt.yPos;
+		position[2] = Altitude.getCellHeight(pkt.xPos, pkt.yPos);
 
 		EffectManager.spamSkill(pkt.SKID, pkt.AID, position);
 	}
@@ -106,7 +106,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ACK_TOUSESKILL
 	 */
-	function onSkillResult( pkt )
+	function onSkillResult(pkt)
 	{
 
 		// Yeah success !
@@ -144,21 +144,21 @@ define(function( require )
 		else {
 			switch (pkt.cause) {
 				case 1: error = MsgStringIDs.MSI_USESKILL_FAIL_SP_INSUFFICIENT; break;
-				case 2:  error = MsgStringIDs.MSI_USESKILL_FAIL_HP_INSUFFICIENT; break;
-				case 3:  error = MsgStringIDs.MSI_NOT_ENOUGH_SOURCE; break;
-				case 4:  error = MsgStringIDs.MSI_SKILLINTERVAL; break;
-				case 5:  error = MsgStringIDs.MSI_SKILL_FAIL_MONEY; break;
-				case 6:  error = MsgStringIDs.MSI_USESKILL_FAIL_NOT_SUITABLE_WEAPON; break;
-				case 7:  error = MsgStringIDs.MSI_NEED_REDJAMSTONE; break;
-				case 8:  error = MsgStringIDs.MSI_NEED_BLUEJAMSTONE; break;
-				case 9:  error = MsgStringIDs.MSI_USESKILL_FAIL_WEIGHTOVER; break;
+				case 2: error = MsgStringIDs.MSI_USESKILL_FAIL_HP_INSUFFICIENT; break;
+				case 3: error = MsgStringIDs.MSI_NOT_ENOUGH_SOURCE; break;
+				case 4: error = MsgStringIDs.MSI_SKILLINTERVAL; break;
+				case 5: error = MsgStringIDs.MSI_SKILL_FAIL_MONEY; break;
+				case 6: error = MsgStringIDs.MSI_USESKILL_FAIL_NOT_SUITABLE_WEAPON; break;
+				case 7: error = MsgStringIDs.MSI_NEED_REDJAMSTONE; break;
+				case 8: error = MsgStringIDs.MSI_NEED_BLUEJAMSTONE; break;
+				case 9: error = MsgStringIDs.MSI_USESKILL_FAIL_WEIGHTOVER; break;
 				case 10: error = MsgStringIDs.MSI_USESKILL_FAIL; break;
 				case 83: error = MsgStringIDs.MSI_CANT_MAKE_CHAT_ROOM; break;
 			}
 		}
 
 		if (error) {
-			ChatBox.addText( DB.getMessage(error), ChatBox.TYPE.ERROR );
+			ChatBox.addText(DB.getMessage(error), ChatBox.TYPE.ERROR);
 		}
 	}
 
@@ -168,9 +168,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET_ZC_SKILLINFO_LIST
 	 */
-	function onSkillList( pkt )
+	function onSkillList(pkt)
 	{
-		SkillWindow.setSkills( pkt.skillList );
+		SkillWindow.setSkills(pkt.skillList);
 	}
 
 
@@ -179,9 +179,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.SKILLINFO_UPDATE
 	 */
-	function onSkillUpdate( pkt )
+	function onSkillUpdate(pkt)
 	{
-		SkillWindow.updateSkill( pkt );
+		SkillWindow.updateSkill(pkt);
 	}
 
 
@@ -190,9 +190,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET_ZC_SHORTCUT_KEY_LIST_V2
 	 */
-	function onShortCutList( pkt )
+	function onShortCutList(pkt)
 	{
-		ShortCut.setList( pkt.ShortCutKey );
+		ShortCut.setList(pkt.ShortCutKey);
 	}
 
 
@@ -201,9 +201,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ADD_SKILL
 	 */
-	function onSkillAdded( pkt)
+	function onSkillAdded(pkt)
 	{
-		SkillWindow.addSkill( pkt );
+		SkillWindow.addSkill(pkt);
 	}
 
 
@@ -212,7 +212,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.AUTORUN_SKILL
 	 */
-	function onAutoCastSkill( pkt )
+	function onAutoCastSkill(pkt)
 	{
 		SkillWindow.useSkill(pkt.data);
 	}
@@ -223,7 +223,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ITEMIDENTIFY_LIST
 	 */
-	function onIdentifyList( pkt )
+	function onIdentifyList(pkt)
 	{
 		if (!pkt.ITIDList.length) {
 			return;
@@ -232,9 +232,10 @@ define(function( require )
 		ItemSelection.append();
 		ItemSelection.setList(pkt.ITIDList);
 		ItemSelection.setTitle(DB.getMessage(MsgStringIDs.MSI_ITEM_IDENTIFY));
-		ItemSelection.onIndexSelected = function(index) {
+		ItemSelection.onIndexSelected = function (index)
+		{
 			if (index >= 0) {
-				var pkt   = new PACKET.CZ.REQ_ITEMIDENTIFY();
+				var pkt = new PACKET.CZ.REQ_ITEMIDENTIFY();
 				pkt.index = index;
 				Network.sendPacket(pkt);
 			}
@@ -247,7 +248,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ACK_ITEMIDENTIFY
 	 */
-	function onIdentifyResult( pkt )
+	function onIdentifyResult(pkt)
 	{
 		// Self closed, no message.
 		if (pkt.index < 0) {
@@ -256,7 +257,7 @@ define(function( require )
 
 		switch (pkt.result) {
 			case 0: // success
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_ITEM_IDENTIFY_SUCCEESS), ChatBox.TYPE.BLUE);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_ITEM_IDENTIFY_SUCCEESS), ChatBox.TYPE.BLUE);
 
 				// Remove old item
 				var item = Inventory.removeItem(pkt.index, 1);
@@ -269,7 +270,7 @@ define(function( require )
 				break;
 
 			case 1: // Fail
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_ITEM_IDENTIFY_FAIL), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_ITEM_IDENTIFY_FAIL), ChatBox.TYPE.ERROR);
 				break;
 		}
 	}
@@ -280,7 +281,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.AUTOSPELLLIST
 	 */
-	function onAutoSpellList( pkt )
+	function onAutoSpellList(pkt)
 	{
 		if (!pkt.SKID.length) {
 			return;
@@ -289,10 +290,11 @@ define(function( require )
 		ItemSelection.append();
 		ItemSelection.setList(pkt.SKID, true);
 		ItemSelection.setTitle(DB.getMessage(MsgStringIDs.MSI_SPELL_LIST));
-		ItemSelection.onIndexSelected = function(index) {
+		ItemSelection.onIndexSelected = function (index)
+		{
 			if (index >= 0) {
-				var pkt   = new PACKET.CZ.SELECTAUTOSPELL();
-				pkt.SKID  = index;
+				var pkt = new PACKET.CZ.SELECTAUTOSPELL();
+				pkt.SKID = index;
 				Network.sendPacket(pkt);
 			}
 		};
@@ -304,22 +306,24 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.WARPLIST
 	 */
-	function onTeleportList( pkt )
+	function onTeleportList(pkt)
 	{
 		// Clone NPC box
 		var WarpList = NpcMenu.clone('WarpList', true);
 
 		// Once selected
-		WarpList.onSelectMenu = function(skillid, index) {
+		WarpList.onSelectMenu = function (skillid, index)
+		{
 			WarpList.remove();
 
-			var _pkt     = new PACKET.CZ.SELECT_WARPPOINT();
-			_pkt.SKID    = skillid;
-			_pkt.mapName = pkt.mapName[index-1] || 'cancel';
+			var _pkt = new PACKET.CZ.SELECT_WARPPOINT();
+			_pkt.SKID = skillid;
+			_pkt.mapName = pkt.mapName[index - 1] || 'cancel';
 			Network.sendPacket(_pkt);
 		};
 
-		WarpList.onAppend = function() {
+		WarpList.onAppend = function ()
+		{
 			var i, count;
 			var mapNames = [];
 
@@ -340,15 +344,15 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NOTIFY_MAPINFO
 	 */
-	function onTeleportResult( pkt )
+	function onTeleportResult(pkt)
 	{
 		switch (pkt.type) {
 			case 0: //Unable to Teleport in this area
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_IMPOSSIBLE_TELEPORT_AREA), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_IMPOSSIBLE_TELEPORT_AREA), ChatBox.TYPE.ERROR);
 				break;
 
 			case 1: //Saved point cannot be memorized.
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_POSSIBLE_TELEPORT_AREA), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_POSSIBLE_TELEPORT_AREA), ChatBox.TYPE.ERROR);
 				break;
 		}
 	}
@@ -359,19 +363,19 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ACK_REMEMBER_WARPPOINT
 	 */
-	function onMemoResult( pkt )
+	function onMemoResult(pkt)
 	{
 		switch (pkt.errorCode) {
 			case 0: // Saved location as a Memo Point for Warp skill.
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_WARPPOINTSTORED), ChatBox.TYPE.BLUE);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_WARPPOINTSTORED), ChatBox.TYPE.BLUE);
 				break;
 
 			case 1: // Skill Level is not high enough.
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_NOTENOUGHSKILLLEVEL), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_NOTENOUGHSKILLLEVEL), ChatBox.TYPE.ERROR);
 				break;
 
 			case 2: // You haven't learned Warp.
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_NOWARPSKILL), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_NOWARPSKILL), ChatBox.TYPE.ERROR);
 				break;
 		}
 	}
@@ -386,13 +390,13 @@ define(function( require )
 	 * @param {number} ID
 	 * @param {number} count / level
 	 */
-	ShortCut.onChange = function onChange( index, isSkill, ID, count )
+	ShortCut.onChange = function onChange(index, isSkill, ID, count)
 	{
-		var pkt                 = new PACKET.CZ.SHORTCUT_KEY_CHANGE();
-		pkt.Index               = index;
+		var pkt = new PACKET.CZ.SHORTCUT_KEY_CHANGE();
+		pkt.Index = index;
 		pkt.ShortCutKey.isSkill = isSkill ? 1 : 0;
-		pkt.ShortCutKey.ID      = ID;
-		pkt.ShortCutKey.count   = count;
+		pkt.ShortCutKey.ID = ID;
+		pkt.ShortCutKey.count = count;
 
 		Network.sendPacket(pkt);
 	};
@@ -403,9 +407,9 @@ define(function( require )
 	 *
 	 * @param {number} skill id
 	 */
-	SkillWindow.onIncreaseSkill = function onIncreaseSkill( SKID )
+	SkillWindow.onIncreaseSkill = function onIncreaseSkill(SKID)
 	{
-		var pkt  = new PACKET.CZ.UPGRADE_SKILLLEVEL();
+		var pkt = new PACKET.CZ.UPGRADE_SKILLLEVEL();
 		pkt.SKID = SKID;
 
 		Network.sendPacket(pkt);
@@ -419,15 +423,15 @@ define(function( require )
 	 * @param {number} level
 	 * @param {optional|number} target game id
 	 */
-	SkillWindow.onUseSkill = SkillTargetSelection.onUseSkillToId  = function onUseSkill( id, level, targetID)
+	SkillWindow.onUseSkill = SkillTargetSelection.onUseSkillToId = function onUseSkill(id, level, targetID)
 	{
 		var entity, skill, target, pkt, out;
 		var count, range;
 
 		entity = Session.Entity;
 		target = EntityManager.get(targetID) || entity;
-		skill  = SkillWindow.getSkillById(id);
-		out    = [];
+		skill = SkillWindow.getSkillById(id);
+		out = [];
 
 		if (skill) {
 			range = skill.attackRange + 1;
@@ -449,10 +453,10 @@ define(function( require )
 			return;
 		}
 
-		pkt               = new PACKET.CZ.USE_SKILL();
-		pkt.SKID          = id;
+		pkt = new PACKET.CZ.USE_SKILL();
+		pkt.SKID = id;
 		pkt.selectedLevel = level;
-		pkt.targetID      = targetID || Session.Entity.GID;
+		pkt.targetID = targetID || Session.Entity.GID;
 
 		// In range
 		if (count < 2 || target === entity) {
@@ -464,9 +468,9 @@ define(function( require )
 		Session.moveAction = pkt;
 
 		// Move to position
-		pkt         = new PACKET.CZ.REQUEST_MOVE();
-		pkt.dest[0] = out[ count - 1 ][0];
-		pkt.dest[1] = out[ count - 1 ][1];
+		pkt = new PACKET.CZ.REQUEST_MOVE();
+		pkt.dest[0] = out[count - 1][0];
+		pkt.dest[1] = out[count - 1][1];
 		Network.sendPacket(pkt);
 	};
 
@@ -486,9 +490,9 @@ define(function( require )
 		var count, range;
 
 		entity = Session.Entity;
-		pos    = entity.position;
-		skill  = SkillWindow.getSkillById(id);
-		out    = [];
+		pos = entity.position;
+		skill = SkillWindow.getSkillById(id);
+		out = [];
 
 		if (skill) {
 			range = skill.attackRange + 1;
@@ -499,7 +503,7 @@ define(function( require )
 
 		count = PathFinding.searchLong(
 			pos[0] | 0, pos[1] | 0,
-			x      | 0, y      | 0,
+			x | 0, y | 0,
 			range,
 			out,
 			Altitude.TYPE.WALKABLE
@@ -510,11 +514,11 @@ define(function( require )
 			return;
 		}
 
-		pkt               = new PACKET.CZ.USE_SKILL_TOGROUND();
-		pkt.SKID          = id;
+		pkt = new PACKET.CZ.USE_SKILL_TOGROUND();
+		pkt.SKID = id;
 		pkt.selectedLevel = level;
-		pkt.xPos          = x;
-		pkt.yPos          = y;
+		pkt.xPos = x;
+		pkt.yPos = y;
 
 		// In range
 		if (count < 2) {
@@ -524,9 +528,9 @@ define(function( require )
 
 		// Save the packet and move to the position
 		Session.moveAction = pkt;
-		pkt                = new PACKET.CZ.REQUEST_MOVE();
-		pkt.dest[0]        = out[ count - 1 ][0];
-		pkt.dest[1]        = out[ count - 1 ][1];
+		pkt = new PACKET.CZ.REQUEST_MOVE();
+		pkt.dest[0] = out[count - 1][0];
+		pkt.dest[1] = out[count - 1][1];
 		Network.sendPacket(pkt);
 	};
 
@@ -536,22 +540,22 @@ define(function( require )
 	 */
 	return function SkillEngine()
 	{
-		Network.hookPacket( PACKET.ZC.SKILLINFO_LIST,         onSkillList );
-		Network.hookPacket( PACKET.ZC.SKILLINFO_UPDATE,       onSkillUpdate );
-		Network.hookPacket( PACKET.ZC.ADD_SKILL,              onSkillAdded );
-		Network.hookPacket( PACKET.ZC.SHORTCUT_KEY_LIST,      onShortCutList );
-		Network.hookPacket( PACKET.ZC.SHORTCUT_KEY_LIST_V2,   onShortCutList );
-		Network.hookPacket( PACKET.ZC.ACK_TOUSESKILL,         onSkillResult );
-		Network.hookPacket( PACKET.ZC.NOTIFY_EFFECT,          onSpecialEffect );
-		Network.hookPacket( PACKET.ZC.NOTIFY_EFFECT2,         onEffect );
-		Network.hookPacket( PACKET.ZC.NOTIFY_EFFECT3,         onEffect );
-		Network.hookPacket( PACKET.ZC.NOTIFY_GROUNDSKILL,     onSkillToGround );
-		Network.hookPacket( PACKET.ZC.AUTORUN_SKILL,          onAutoCastSkill );
-		Network.hookPacket( PACKET.ZC.ITEMIDENTIFY_LIST,      onIdentifyList );
-		Network.hookPacket( PACKET.ZC.ACK_ITEMIDENTIFY,       onIdentifyResult );
-		Network.hookPacket( PACKET.ZC.AUTOSPELLLIST,          onAutoSpellList );
-		Network.hookPacket( PACKET.ZC.WARPLIST,               onTeleportList );
-		Network.hookPacket( PACKET.ZC.NOTIFY_MAPINFO,         onTeleportResult );
-		Network.hookPacket( PACKET.ZC.ACK_REMEMBER_WARPPOINT, onMemoResult );
+		Network.hookPacket(PACKET.ZC.SKILLINFO_LIST, onSkillList);
+		Network.hookPacket(PACKET.ZC.SKILLINFO_UPDATE, onSkillUpdate);
+		Network.hookPacket(PACKET.ZC.ADD_SKILL, onSkillAdded);
+		Network.hookPacket(PACKET.ZC.SHORTCUT_KEY_LIST, onShortCutList);
+		Network.hookPacket(PACKET.ZC.SHORTCUT_KEY_LIST_V2, onShortCutList);
+		Network.hookPacket(PACKET.ZC.ACK_TOUSESKILL, onSkillResult);
+		Network.hookPacket(PACKET.ZC.NOTIFY_EFFECT, onSpecialEffect);
+		Network.hookPacket(PACKET.ZC.NOTIFY_EFFECT2, onEffect);
+		Network.hookPacket(PACKET.ZC.NOTIFY_EFFECT3, onEffect);
+		Network.hookPacket(PACKET.ZC.NOTIFY_GROUNDSKILL, onSkillToGround);
+		Network.hookPacket(PACKET.ZC.AUTORUN_SKILL, onAutoCastSkill);
+		Network.hookPacket(PACKET.ZC.ITEMIDENTIFY_LIST, onIdentifyList);
+		Network.hookPacket(PACKET.ZC.ACK_ITEMIDENTIFY, onIdentifyResult);
+		Network.hookPacket(PACKET.ZC.AUTOSPELLLIST, onAutoSpellList);
+		Network.hookPacket(PACKET.ZC.WARPLIST, onTeleportList);
+		Network.hookPacket(PACKET.ZC.NOTIFY_MAPINFO, onTeleportResult);
+		Network.hookPacket(PACKET.ZC.ACK_REMEMBER_WARPPOINT, onMemoResult);
 	};
 });

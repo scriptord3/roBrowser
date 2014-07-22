@@ -6,7 +6,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -20,7 +20,7 @@ define(function()
 	/**
 	 * @var {TemporaryStorage} compatibility
 	 */
-	var temporaryStorage  = navigator.temporaryStorage || navigator.webkitTemporaryStorage;
+	var temporaryStorage = navigator.temporaryStorage || navigator.webkitTemporaryStorage;
 
 
 	/**
@@ -34,12 +34,14 @@ define(function()
 	 *
 	 * @param {function} callback
 	 */
-	function cleanUp( callback )
+	function cleanUp(callback)
 	{
-		_fs.root.createReader().readEntries(function(entries){
-			var i, count =entries.length, j = 0;
+		_fs.root.createReader().readEntries(function (entries)
+		{
+			var i, count = entries.length, j = 0;
 
-			function removed(){
+			function removed()
+			{
 				if ((++j) >= count) {
 					callback();
 				}
@@ -73,22 +75,27 @@ define(function()
 			return;
 		}
 
-		temporaryStorage.queryUsageAndQuota(function(used){
+		temporaryStorage.queryUsageAndQuota(function (used)
+		{
 			if (!used) {
 				callback(0);
 				return;
 			}
 
-			requestFileSystem( window.TEMPORARY, used, function( fs ){
+			requestFileSystem(window.TEMPORARY, used, function (fs)
+			{
 				_fs = fs;
 
 				// Remove upload folder
-				fs.root.getDirectory('/__tmp_upload/', {create:false}, function(dirEntry){
-					dirEntry.removeRecursively(function(){
+				fs.root.getDirectory('/__tmp_upload/', { create: false }, function (dirEntry)
+				{
+					dirEntry.removeRecursively(function ()
+					{
 						getSize(callback);
 					});
-				// no upload directory, end.
-				}, function noDirectory(){
+					// no upload directory, end.
+				}, function noDirectory()
+				{
 					callback(used);
 				});
 			});

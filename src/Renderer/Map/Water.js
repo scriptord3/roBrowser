@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( ['Utils/WebGL'], function( WebGL )
+define(['Utils/WebGL'], function (WebGL)
 {
 	'use strict';
 
@@ -75,7 +75,7 @@ define( ['Utils/WebGL'], function( WebGL )
 	/**
 	 * @var {string} vertex shader
 	 */
-	var _vertexShader   = [
+	var _vertexShader = [
 		'attribute vec3 aPosition;',
 		'attribute vec2 aTextureCoord;',
 
@@ -139,17 +139,17 @@ define( ['Utils/WebGL'], function( WebGL )
 	 * @param {object} gl context
 	 * @param {object} water data
 	 */
-	function init( gl, water )
+	function init(gl, water)
 	{
 		var i;
 
 		// Water informations
-		_vertCount    = water.vertCount;
-		_waveHeight   = water.waveHeight;
-		_waveSpeed    = water.waveSpeed;
-		_waterLevel   = water.level;
-		_animSpeed    = water.animSpeed;
-		_wavePitch    = water.wavePitch;
+		_vertCount = water.vertCount;
+		_waveHeight = water.waveHeight;
+		_waveSpeed = water.waveSpeed;
+		_waterLevel = water.level;
+		_animSpeed = water.animSpeed;
+		_wavePitch = water.wavePitch;
 		_waterOpacity = water.type !== 4 && water.type !== 6 ? 0.6 : 1.0;
 
 		// No water ?
@@ -159,21 +159,22 @@ define( ['Utils/WebGL'], function( WebGL )
 
 		// Link program	if not loaded
 		if (!_program) {
-			_program = WebGL.createShaderProgram( gl, _vertexShader, _fragmentShader );
+			_program = WebGL.createShaderProgram(gl, _vertexShader, _fragmentShader);
 		}
 
 		// Bind mesh
 		_buffer = gl.createBuffer();
-		gl.bindBuffer( gl.ARRAY_BUFFER, _buffer );
-		gl.bufferData( gl.ARRAY_BUFFER, water.mesh, gl.STATIC_DRAW );
+		gl.bindBuffer(gl.ARRAY_BUFFER, _buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, water.mesh, gl.STATIC_DRAW);
 
-		function onTextureLoaded( texture, i ){
+		function onTextureLoaded(texture, i)
+		{
 			_textures[i] = texture;
 		}
 
 		// Bind water textures
 		for (i = 0; i < 32; ++i) {
-			WebGL.texture( gl, water.images[i], onTextureLoaded, i );
+			WebGL.texture(gl, water.images[i], onTextureLoaded, i);
 		}
 	}
 
@@ -188,56 +189,56 @@ define( ['Utils/WebGL'], function( WebGL )
 	 * @param {object} light structure
 	 * @param {number} tick (game tick)
 	 */
-	function render( gl, modelView, projection, fog, light, tick )
+	function render(gl, modelView, projection, fog, light, tick)
 	{
 		// If no water, don't need to process.
 		if (!_vertCount) {
 			return;
 		}
 
-		var uniform   = _program.uniform;
+		var uniform = _program.uniform;
 		var attribute = _program.attribute;
-		var frame     = tick / (1000/60); // 60fps
+		var frame = tick / (1000 / 60); // 60fps
 
-		gl.useProgram( _program );
+		gl.useProgram(_program);
 
 		// Bind matrix
-		gl.uniformMatrix4fv( uniform.uModelViewMat,  false, modelView );
-		gl.uniformMatrix4fv( uniform.uProjectionMat, false, projection );
+		gl.uniformMatrix4fv(uniform.uModelViewMat, false, modelView);
+		gl.uniformMatrix4fv(uniform.uProjectionMat, false, projection);
 
 		// Fog settings
-		gl.uniform1i(  uniform.uFogUse,   fog.use && fog.exist );
-		gl.uniform1f(  uniform.uFogNear,  fog.near );
-		gl.uniform1f(  uniform.uFogFar,   fog.far  );
-		gl.uniform3fv( uniform.uFogColor, fog.color );
+		gl.uniform1i(uniform.uFogUse, fog.use && fog.exist);
+		gl.uniform1f(uniform.uFogNear, fog.near);
+		gl.uniform1f(uniform.uFogFar, fog.far);
+		gl.uniform3fv(uniform.uFogColor, fog.color);
 
 		// Enable all attributes
-		gl.enableVertexAttribArray( attribute.aPosition );
-		gl.enableVertexAttribArray( attribute.aTextureCoord );
+		gl.enableVertexAttribArray(attribute.aPosition);
+		gl.enableVertexAttribArray(attribute.aTextureCoord);
 
-		gl.bindBuffer( gl.ARRAY_BUFFER, _buffer );
+		gl.bindBuffer(gl.ARRAY_BUFFER, _buffer);
 
 		// Link attribute
-		gl.vertexAttribPointer( attribute.aPosition,     3, gl.FLOAT, false, 5*4, 0 );
-		gl.vertexAttribPointer( attribute.aTextureCoord, 2, gl.FLOAT, false, 5*4, 3*4 );
+		gl.vertexAttribPointer(attribute.aPosition, 3, gl.FLOAT, false, 5 * 4, 0);
+		gl.vertexAttribPointer(attribute.aTextureCoord, 2, gl.FLOAT, false, 5 * 4, 3 * 4);
 
 		// Textures
-		gl.activeTexture( gl.TEXTURE0 );
-		gl.uniform1i( uniform.uDiffuse, 0 );
+		gl.activeTexture(gl.TEXTURE0);
+		gl.uniform1i(uniform.uDiffuse, 0);
 
 		// Water infos
-		gl.uniform1f( uniform.uWaveHeight,  _waveHeight );
-		gl.uniform1f( uniform.uOpacity,     _waterOpacity );
-		gl.uniform1f( uniform.uWavePitch,   _wavePitch );
-		gl.uniform1f( uniform.uWaterOffset, frame * _waveSpeed % 360 - 180);
+		gl.uniform1f(uniform.uWaveHeight, _waveHeight);
+		gl.uniform1f(uniform.uOpacity, _waterOpacity);
+		gl.uniform1f(uniform.uWavePitch, _wavePitch);
+		gl.uniform1f(uniform.uWaterOffset, frame * _waveSpeed % 360 - 180);
 
 		// Send mesh
-		gl.bindTexture( gl.TEXTURE_2D, _textures[ frame / _animSpeed % 32 | 0 ] );
-		gl.drawArrays(  gl.TRIANGLES,  0, _vertCount );
-	
+		gl.bindTexture(gl.TEXTURE_2D, _textures[frame / _animSpeed % 32 | 0]);
+		gl.drawArrays(gl.TRIANGLES, 0, _vertCount);
+
 		// Is it needed ?
-		gl.disableVertexAttribArray( attribute.aPosition );
-		gl.disableVertexAttribArray( attribute.aTextureCoord );
+		gl.disableVertexAttribArray(attribute.aPosition);
+		gl.disableVertexAttribArray(attribute.aTextureCoord);
 	}
 
 
@@ -246,17 +247,17 @@ define( ['Utils/WebGL'], function( WebGL )
 	 *
 	 * @param {object} gl context
 	 */
-	function free( gl )
+	function free(gl)
 	{
 		var i;
 
 		if (_buffer) {
-			gl.deleteBuffer( _buffer );
+			gl.deleteBuffer(_buffer);
 			_buffer = null;
 		}
 
 		if (_program) {
-			gl.deleteProgram( _program );
+			gl.deleteProgram(_program);
 			_program = null;
 		}
 
@@ -273,8 +274,8 @@ define( ['Utils/WebGL'], function( WebGL )
 	 * Export
 	 */
 	return {
-		init:   init,
-		free:   free,
+		init: init,
+		free: free,
 		render: render
 	};
 });

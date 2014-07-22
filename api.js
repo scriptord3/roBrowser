@@ -9,7 +9,8 @@
  */
 
 
-(function ROAPI(){
+(function ROAPI()
+{
 
 
 	'use strict';
@@ -18,13 +19,14 @@
 	/**
 	 * @Constructor 
 	 */
-	function ROBrowser( options ){
+	function ROBrowser(options)
+	{
 		if (typeof options === 'object') {
 			var key;
 
 			for (key in options) {
-				if (ROBrowser.prototype.hasOwnProperty( key )) {
-					this[ key ] = options[key];
+				if (ROBrowser.prototype.hasOwnProperty(key)) {
+					this[key] = options[key];
 				}
 			}
 		}
@@ -35,8 +37,8 @@
 	 * @Enum Robrowser type
 	 */
 	ROBrowser.TYPE = {
-		POPUP:  1,
-		FRAME:  2
+		POPUP: 1,
+		FRAME: 2
 	};
 
 
@@ -44,11 +46,11 @@
 	 * @Enum Robrowser Applications
 	 */
 	ROBrowser.APP = {
-		ONLINE:      1,
-		MAPVIEWER:   2,
-		GRFVIEWER:   3,
+		ONLINE: 1,
+		MAPVIEWER: 2,
+		GRFVIEWER: 3,
 		MODELVIEWER: 4,
-		STRVIEWER:   5
+		STRVIEWER: 5
 	};
 
 
@@ -104,7 +106,7 @@
 	 *    b) 'auto'       (detect packetver from client and packets received from server)
 	 *    c) 'executable' (detect packetver from executable compilation date)
 	 */
-	ROBrowser.prototype.packetver    = 'auto';
+	ROBrowser.prototype.packetver = 'auto';
 
 
 	/**
@@ -213,9 +215,10 @@
 	/**
 	 * @var {string} roBrowser api window path
 	 */
-	ROBrowser.prototype.baseUrl = (function(){
+	ROBrowser.prototype.baseUrl = (function ()
+	{
 		var script = document.getElementsByTagName('script');
-		return script[ script.length -1 ].src
+		return script[script.length - 1].src
 			.replace(/\/build\/[^\/]+\.js.*/, '/api.js') // redirect compiled script
 			.replace(/\/src\/.*/, '/api.js');           // fix error with cache
 	})().replace('.js', '.html');
@@ -230,7 +233,7 @@
 
 			// Create Popup
 			case ROBrowser.TYPE.POPUP:
-				this.width  = this.width  || '800';
+				this.width = this.width || '800';
 				this.height = this.height || '600';
 
 				this._APP = window.open(
@@ -239,9 +242,9 @@
 					[
 						'directories=0',
 						'fullscreen=0',
-						'top='  + ( (window.innerHeight||document.body.clientHeight)-this.height) / 2,
-						'left=' + ( (window.innerWidth ||document.body.clientWidth) -this.width ) / 2,
-						'height='+ this.height,
+						'top=' + ((window.innerHeight || document.body.clientHeight) - this.height) / 2,
+						'left=' + ((window.innerWidth || document.body.clientWidth) - this.width) / 2,
+						'height=' + this.height,
 						'width=' + this.width,
 						'location=0',
 						'menubar=0',
@@ -253,15 +256,15 @@
 				);
 				break;
 
-			// Append ROBrowser to an element
+				// Append ROBrowser to an element
 			case ROBrowser.TYPE.FRAME:
-				this.width  = this.width  || '100%';
+				this.width = this.width || '100%';
 				this.height = this.height || '100%';
 
-				var frame          = document.createElement('iframe');
-				frame.src          = this.baseUrl + '?' + Math.random(); // fix bug on firefox
-				frame.width        = this.width;
-				frame.height       = this.height;
+				var frame = document.createElement('iframe');
+				frame.src = this.baseUrl + '?' + Math.random(); // fix bug on firefox
+				frame.width = this.width;
+				frame.height = this.height;
 				frame.style.border = 'none';
 
 				frame.setAttribute('allowfullscreen', true);
@@ -270,7 +273,7 @@
 
 				if (this.target) {
 					while (this.target.firstChild) {
-						this.target.removeChild( this.target.firstChild );
+						this.target.removeChild(this.target.firstChild);
 					}
 					this.target.appendChild(frame);
 				}
@@ -306,10 +309,11 @@
 
 		// Wait for robrowser to be ready
 		var _this = this;
-		function OnMessage( event ) {
+		function OnMessage(event)
+		{
 			if (_this.baseUrl.indexOf(event.origin) === 0) {
-				clearInterval( _this._Interval );
-				window.removeEventListener( 'message', OnMessage, false );
+				clearInterval(_this._Interval);
+				window.removeEventListener('message', OnMessage, false);
 
 				if (_this.onReady) {
 					_this.onReady();
@@ -318,8 +322,8 @@
 		}
 
 		// Start waiting for robrowser
-		this._Interval  = setInterval( WaitForInitialization.bind(this), 100 );
-		window.addEventListener( 'message', OnMessage, false );
+		this._Interval = setInterval(WaitForInitialization.bind(this), 100);
+		window.addEventListener('message', OnMessage, false);
 	};
 
 
@@ -330,20 +334,20 @@
 	function WaitForInitialization()
 	{
 		this._APP.postMessage({
-			application:    this.application,
-			servers:        this.servers,
-			grfList:        this.grfList,
-			remoteClient:   this.remoteClient,
-			packetver:      this.packetver,
-			development:    this.development,
-			api:            this.api,
-			socketProxy:    this.socketProxy,
-			packetKeys:     this.packetKeys,
+			application: this.application,
+			servers: this.servers,
+			grfList: this.grfList,
+			remoteClient: this.remoteClient,
+			packetver: this.packetver,
+			development: this.development,
+			api: this.api,
+			socketProxy: this.socketProxy,
+			packetKeys: this.packetKeys,
 			skipServerList: this.skipServerList,
-			skipIntro:      this.skipIntro,
-			autoLogin:      this.autoLogin,
-			version:        this.version,
-			clientHash:     this.clientHash,
+			skipIntro: this.skipIntro,
+			autoLogin: this.autoLogin,
+			version: this.version,
+			clientHash: this.clientHash,
 		}, '*');
 	}
 

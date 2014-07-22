@@ -9,24 +9,24 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load dependencies
-	var Configs        = require('Core/Configs');
-	var Context        = require('Core/Context');
-	var BinaryReader   = require('Utils/BinaryReader');
-	var PACKETVER      = require('./PacketVerManager');
+	var Configs = require('Core/Configs');
+	var Context = require('Core/Context');
+	var BinaryReader = require('Utils/BinaryReader');
+	var PACKETVER = require('./PacketVerManager');
 	var PacketVersions = require('./PacketVersions');
 	var PacketRegister = require('./PacketRegister');
-	var PacketGuess    = require('./PacketGuess');
-	var PacketCrypt    = require('./PacketCrypt');
-	var ChromeSocket   = require('./SocketHelpers/ChromeSocket');
-	var JavaSocket     = require('./SocketHelpers/JavaSocket');
-	var WebSocket      = require('./SocketHelpers/WebSocket');
-	var getModule      = require;
+	var PacketGuess = require('./PacketGuess');
+	var PacketCrypt = require('./PacketCrypt');
+	var ChromeSocket = require('./SocketHelpers/ChromeSocket');
+	var JavaSocket = require('./SocketHelpers/JavaSocket');
+	var WebSocket = require('./SocketHelpers/WebSocket');
+	var getModule = require;
 
 
 	/**
@@ -40,14 +40,14 @@ define(function( require )
 	 * Current Socket
 	 * @var Socket
 	 */
-	var _socket  = null;
+	var _socket = null;
 
 
 	/**
 	 * Buffer to use to read packets
 	 * @var buffer
 	 */
-	var _save_buffer         = null;
+	var _save_buffer = null;
 
 
 	/**
@@ -57,13 +57,13 @@ define(function( require )
 	 * @param {callback} struct - callback to parse the packet
 	 * @param {number} size - packet size
 	 */
-	function Packets( name, struct, size )
+	function Packets(name, struct, size)
 	{
-		this.name     = name;
-		this.struct   = struct;
-		this.size     = size;
+		this.name = name;
+		this.struct = struct;
+		this.size = size;
 		this.callback = null;
-		this.guess    = null;
+		this.guess = null;
 	}
 
 
@@ -83,7 +83,7 @@ define(function( require )
 	 * @param {function} callback once connected or not
 	 * @param {boolean} is zone server ?
 	 */
-	function connect( host, port, callback, isZone)
+	function connect(host, port, callback, isZone)
 	{
 		var socket, Socket;
 		var proxy = Configs.get('socketProxy', null);
@@ -93,26 +93,26 @@ define(function( require )
 			Socket = ChromeSocket;
 		}
 
-		// Web Socket with proxy
+			// Web Socket with proxy
 		else if (proxy) {
 			Socket = WebSocket;
 		}
-	
-		// Java socket...
+
+			// Java socket...
 		else {
 			Socket = JavaSocket;
 		}
 
-		socket            = new Socket(host, port, proxy);
-		socket.isZone     = !!isZone;
-		socket.onClose    = onClose;
+		socket = new Socket(host, port, proxy);
+		socket.isZone = !!isZone;
+		socket.onClose = onClose;
 		socket.onComplete = function onComplete(success)
 		{
-			var msg   = 'Fail';
+			var msg = 'Fail';
 			var color = 'red';
 
 			if (success) {
-				msg   = 'Success';
+				msg = 'Success';
 				color = 'green';
 
 				// If current socket has ping, remove it
@@ -129,8 +129,8 @@ define(function( require )
 				}
 			}
 
-			console.log( '%c[Network] ' + msg + ' to connect to ' + host + ':' + port, 'font-weight:bold;color:' + color);
-			callback.call( this, success);
+			console.log('%c[Network] ' + msg + ' to connect to ' + host + ':' + port, 'font-weight:bold;color:' + color);
+			callback.call(this, success);
 		};
 	}
 
@@ -140,9 +140,9 @@ define(function( require )
 	 *
 	 * @param Packet
 	 */
-	function sendPacket( Packet )
+	function sendPacket(Packet)
 	{
-		console.log( '%c[Network] Send: ', 'color:#007070', Packet );
+		console.log('%c[Network] Send: ', 'color:#007070', Packet);
 		var pkt = Packet.build();
 
 		// Encrypt packet
@@ -150,7 +150,7 @@ define(function( require )
 			PacketCrypt.process(pkt.view);
 		}
 
-		send( pkt.buffer );
+		send(pkt.buffer);
 	}
 
 
@@ -159,9 +159,10 @@ define(function( require )
 	 *
 	 * @param {ArrayBuffer} buffer
 	 */
-	function send( buffer ) {
+	function send(buffer)
+	{
 		if (_socket) {
-			_socket.send( buffer );
+			_socket.send(buffer);
 		}
 	}
 
@@ -172,7 +173,8 @@ define(function( require )
 	 * @param {number} id - packet UID
 	 * @param {function} struct - packet structure callback
 	 */
-	function registerPacket( id, struct ) {
+	function registerPacket(id, struct)
+	{
 		struct.id = id;
 		Packets.list[id] = new Packets(
 			struct.name,
@@ -188,13 +190,13 @@ define(function( require )
 	 * @param {object} packet
 	 * @param {function} callback to use packet
 	 */
-	function hookPacket( packet, callback )
+	function hookPacket(packet, callback)
 	{
 		if (!packet.id) {
-			throw new Error('NetworkManager::HookPacket() - Packet not yet register "'+ packet.name +'"');
+			throw new Error('NetworkManager::HookPacket() - Packet not yet register "' + packet.name + '"');
 		}
 
-		Packets.list[ packet.id ].callback = callback;
+		Packets.list[packet.id].callback = callback;
 	}
 
 
@@ -204,12 +206,12 @@ define(function( require )
 	 * @param {object} packet
 	 * @param {function} callback to guess PACKETVER
 	 */
-	function guessPacketVer( packet, callback)
+	function guessPacketVer(packet, callback)
 	{
 		if (!packet.id) {
-			throw new Error('NetworkManager::GuessPacketVer() - Packet not yet register "'+ packet.name +'"');
+			throw new Error('NetworkManager::GuessPacketVer() - Packet not yet register "' + packet.name + '"');
 		}
-		Packets.list[ packet.id ].guess = callback;
+		Packets.list[packet.id].guess = callback;
 	}
 
 
@@ -237,7 +239,7 @@ define(function( require )
 	 *
 	 * @param {Uint8Array} buffer
 	 */
-	function receive( buf )
+	function receive(buf)
 	{
 		var id, packet, fp;
 		var length = 0;
@@ -247,21 +249,21 @@ define(function( require )
 
 		// Waiting for data ? concat the buffer
 		if (_save_buffer) {
-			var _data = new Uint8Array( _save_buffer.length + buf.byteLength );
-			_data.set( _save_buffer, 0 );
-			_data.set( new Uint8Array(buf), _save_buffer.length );
+			var _data = new Uint8Array(_save_buffer.length + buf.byteLength);
+			_data.set(_save_buffer, 0);
+			_data.set(new Uint8Array(buf), _save_buffer.length);
 			buffer = _data.buffer;
 		}
 		else {
 			buffer = buf;
 		}
 
-		fp = new BinaryReader( buffer );
+		fp = new BinaryReader(buffer);
 
 
 		// Read hook
 		if (read.callback) {
-			read.callback( fp );
+			read.callback(fp);
 			read.callback = null;
 		}
 
@@ -273,28 +275,28 @@ define(function( require )
 
 			// Not enough bytes...
 			if (offset + 2 >= fp.length) {
-				_save_buffer = new Uint8Array( buffer, offset, fp.length - offset);
+				_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
 				return;
 			}
 
-			id     = fp.readUShort();
+			id = fp.readUShort();
 
 			// Packet not defined ?
 			if (!Packets.list[id]) {
 				console.error(
 					'[Network] Packet "%c0x%s%c" not register, skipping %d bytes.',
-					'font-weight:bold', id.toString(16), 'font-weight:normal', (fp.length-fp.tell())
+					'font-weight:bold', id.toString(16), 'font-weight:normal', (fp.length - fp.tell())
 				);
 				break;
 			}
 
 			// Find packet size
-			packet  = Packets.list[id];
+			packet = Packets.list[id];
 
 			if (packet.size < 0) {
 				// Not enough bytes...
 				if (offset + 4 >= fp.length) {
-					_save_buffer = new Uint8Array( buffer, offset, fp.length - offset );
+					_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
 					return;
 				}
 				length = fp.readUShort();
@@ -307,12 +309,12 @@ define(function( require )
 
 			// Try to guess the packet version
 			if (packet.guess && PACKETVER.min !== PACKETVER.max) {
-				packet.guess( length );
+				packet.guess(length);
 			}
 
 			// Not enough bytes, need to wait for new buffer to read more.
 			if (offset > fp.length) {
-				offset       = fp.tell() - (packet.size < 0 ? 4 : 2);
+				offset = fp.tell() - (packet.size < 0 ? 4 : 2);
 				_save_buffer = new Uint8Array(
 					buffer,
 					offset,
@@ -323,11 +325,11 @@ define(function( require )
 
 			// Parse packet
 			var data = new packet.struct(fp, offset);
-			console.log( '%c[Network] Recv:', 'color:#900090', data, packet.callback ? '' : '(no callback)'  );
+			console.log('%c[Network] Recv:', 'color:#900090', data, packet.callback ? '' : '(no callback)');
 
 			// Support for "0" type
 			if (length) {
-				fp.seek( offset, SEEK_SET );
+				fp.seek(offset, SEEK_SET);
 			}
 
 			// Call controller
@@ -383,7 +385,7 @@ define(function( require )
 				clearInterval(_socket.ping);
 			}
 
-			idx     = _sockets.indexOf(_socket);
+			idx = _sockets.indexOf(_socket);
 			_socket = null;
 
 			if (idx !== -1) {
@@ -398,18 +400,18 @@ define(function( require )
 	 *
 	 * @param callback
 	 */
-	function setPing( callback )
+	function setPing(callback)
 	{
 		if (_socket) {
 			if (_socket.ping) {
 				clearInterval(_socket.ping);
 			}
-			_socket.ping = setInterval( callback, 10000);
+			_socket.ping = setInterval(callback, 10000);
 
 			while (_sockets.length > 1) {
 				if (_socket !== _sockets[0]) {
 					_sockets[0].close();
-					_sockets.splice( 0, 1 );
+					_sockets.splice(0, 1);
 				}
 			}
 		}
@@ -422,14 +424,14 @@ define(function( require )
 	 * @param {number} long ip
 	 * @return {string} ip
 	 */
-	function utilsLongToIP( long )
+	function utilsLongToIP(long)
 	{
-		var buf    = new ArrayBuffer(4);
-		var uint8  = new Uint8Array(buf);
+		var buf = new ArrayBuffer(4);
+		var uint8 = new Uint8Array(buf);
 		var uint32 = new Uint32Array(buf);
-		uint32[0]  = long;
+		uint32[0] = long;
 
-		return Array.prototype.join.call( uint8, '.' );
+		return Array.prototype.join.call(uint8, '.');
 	}
 
 
@@ -438,32 +440,32 @@ define(function( require )
 	 */
 	return new function Network()
 	{
-		this.sendPacket     = sendPacket;
-		this.send           = send;
-		this.setPing        = setPing;
-		this.connect        = connect;
+		this.sendPacket = sendPacket;
+		this.send = send;
+		this.setPing = setPing;
+		this.connect = connect;
 		this.guessPacketVer = guessPacketVer;
-		this.hookPacket     = hookPacket;
-		this.close          = close;
-		this.read           = read;
+		this.hookPacket = hookPacket;
+		this.close = close;
+		this.read = read;
 
 		var keys;
 		var i, count;
 
 		// Add packet version
-		keys  = Object.keys(PacketVersions);
+		keys = Object.keys(PacketVersions);
 		count = keys.length;
 
 		for (i = 0; i < count; ++i) {
-			PACKETVER.addSupport( keys[i], PacketVersions[ keys[i] ] );
+			PACKETVER.addSupport(keys[i], PacketVersions[keys[i]]);
 		}
 
 		// Register packets
-		keys  = Object.keys(PacketRegister);
+		keys = Object.keys(PacketRegister);
 		count = keys.length;
 
 		for (i = 0; i < count; ++i) {
-			registerPacket( keys[i], PacketRegister[ keys[i] ] );
+			registerPacket(keys[i], PacketRegister[keys[i]]);
 		}
 
 		// Guess packetver

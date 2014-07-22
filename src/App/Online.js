@@ -9,7 +9,8 @@
  */
 
 // Errors Handler (hack)
-require.onError = function (err) {
+require.onError = function (err)
+{
 	'use strict';
 
 	if (require.defined('UI/Components/Error/Error')) {
@@ -17,26 +18,29 @@ require.onError = function (err) {
 		return;
 	}
 
-	require(['UI/Components/Error/Error'], function( Errors ){
+	require(['UI/Components/Error/Error'], function (Errors)
+	{
 		Errors.addTrace(err);
 	});
 };
 
-require( {
+require({
 	baseUrl: './src/',
 	paths: {
-		text:   'Vendors/text.require',
+		text: 'Vendors/text.require',
 		jquery: 'Vendors/jquery-1.9.1'
 	}
 },
 	['Engine/GameEngine', 'Core/Context'],
-	function( GameEngine, Context) {
+	function (GameEngine, Context)
+	{
 		'use strict';
 
 		GameEngine.init();
 
 		if (!Context.Is.APP) {
-			window.onbeforeunload = function() {
+			window.onbeforeunload = function ()
+			{
 				return 'Are you sure to exit roBrowser ?';
 			};
 		}

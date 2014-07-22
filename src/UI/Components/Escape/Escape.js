@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,20 +15,20 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var KEYS               = require('Controls/KeyEventHandler');
-	var Renderer           = require('Renderer/Renderer');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var SoundOption        = require('UI/Components/SoundOption/SoundOption');
-	var GraphicsOption     = require('UI/Components/GraphicsOption/GraphicsOption');
-	var htmlText           = require('text!./Escape.html');
-	var cssText            = require('text!./Escape.css');
+	var KEYS = require('Controls/KeyEventHandler');
+	var Renderer = require('Renderer/Renderer');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var SoundOption = require('UI/Components/SoundOption/SoundOption');
+	var GraphicsOption = require('UI/Components/GraphicsOption/GraphicsOption');
+	var htmlText = require('text!./Escape.html');
+	var cssText = require('text!./Escape.css');
 
 
 	/**
 	 * Create Escape window component
 	 */
-	var Escape = new UIComponent( 'Escape', htmlText, cssText );
+	var Escape = new UIComponent('Escape', htmlText, cssText);
 
 
 	/**
@@ -37,17 +37,18 @@ define(function(require)
 	Escape.init = function init()
 	{
 		this.ui.css({
-			top: (Renderer.height-this.ui.height()) * 0.75,
-			left:(Renderer.width -this.ui.width())  * 0.5
+			top: (Renderer.height - this.ui.height()) * 0.75,
+			left: (Renderer.width - this.ui.width()) * 0.5
 		});
 		this.draggable();
-		
+
 
 		// Only used in specific case
 		this.ui.find('button').show();
 		this.ui.find('.resurection, .savepoint').hide();
 
-		this.ui.find('.sound').click(function(){
+		this.ui.find('.sound').click(function ()
+		{
 			if (!SoundOption.ui || !SoundOption.ui[0].parentNode) {
 				SoundOption.append();
 			}
@@ -56,7 +57,8 @@ define(function(require)
 			}
 		});
 
-		this.ui.find('.graphics').click(function(){
+		this.ui.find('.graphics').click(function ()
+		{
 			if (!GraphicsOption.ui || !GraphicsOption.ui[0].parentNode) {
 				GraphicsOption.append();
 			}
@@ -69,7 +71,7 @@ define(function(require)
 		this.ui.find('.savepoint').click(this.onReturnSavePointRequest);
 		this.ui.find('.charselect').click(this.onCharSelectionRequest);
 		this.ui.find('.exit').click(this.onExitRequest);
-		this.ui.find('.cancel').click(function(){ Escape.ui.hide(); });
+		this.ui.find('.cancel').click(function () { Escape.ui.hide(); });
 	};
 
 
@@ -100,7 +102,7 @@ define(function(require)
 	 * @param {object} event
 	 * @return {boolean}
 	 */
-	Escape.onKeyDown = function onKeyDown( event )
+	Escape.onKeyDown = function onKeyDown(event)
 	{
 		if (event.which === KEYS.ESCAPE) {
 
@@ -122,25 +124,25 @@ define(function(require)
 	/**
 	 * @var {function} callback when player want to resuret using Token of Siegfried
 	 */
-	Escape.onResurectionRequest = function onResurectionRequest(){};
+	Escape.onResurectionRequest = function onResurectionRequest() { };
 
 
 	/**
 	 * @var {function} callback to define to disconnect from game
 	 */
-	Escape.onExitRequest = function onExitRequest(){};
+	Escape.onExitRequest = function onExitRequest() { };
 
 
 	/**
 	 * @var {function} callback when player want to resurect using Token of Siegfried
 	 */
-	Escape.onReturnSavePointRequest = function onReturnSavePointRequest(){};
+	Escape.onReturnSavePointRequest = function onReturnSavePointRequest() { };
 
 
 	/**
 	 * @var {function} callback when player want to return to char selection
 	 */
-	Escape.onCharSelectionRequest = function onCharSelectionRequest(){};
+	Escape.onCharSelectionRequest = function onCharSelectionRequest() { };
 
 
 	/**

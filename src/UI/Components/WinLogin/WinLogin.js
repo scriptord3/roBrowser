@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,21 +15,21 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB          = require('DB/DBManager');
-	var Client      = require('Core/Client');
+	var DB = require('DB/DBManager');
+	var Client = require('Core/Client');
 	var Preferences = require('Core/Preferences');
-	var Renderer    = require('Renderer/Renderer');
-	var KEYS        = require('Controls/KeyEventHandler');
-	var UIManager   = require('UI/UIManager');
+	var Renderer = require('Renderer/Renderer');
+	var KEYS = require('Controls/KeyEventHandler');
+	var UIManager = require('UI/UIManager');
 	var UIComponent = require('UI/UIComponent');
-	var htmlText    = require('text!./WinLogin.html');
-	var cssText     = require('text!./WinLogin.css');
+	var htmlText = require('text!./WinLogin.html');
+	var cssText = require('text!./WinLogin.css');
 
 
 	/**
 	 * Create WinLogin namespace
 	 */
-	var WinLogin = new UIComponent( 'WinLogin', htmlText, cssText );
+	var WinLogin = new UIComponent('WinLogin', htmlText, cssText);
 
 
 	/**
@@ -37,7 +37,7 @@ define(function(require)
 	 */
 	var _preferences = Preferences.get('WinLogin', {
 		saveID: true,
-		ID:     ''
+		ID: ''
 	}, 1.0);
 
 
@@ -68,16 +68,16 @@ define(function(require)
 		var ui = this.ui;
 
 		ui.css({
-			top:  (Renderer.height - 120) / 1.5,
-			left: (Renderer.width  - 280) / 2.0
+			top: (Renderer.height - 120) / 1.5,
+			left: (Renderer.width - 280) / 2.0
 		});
 
 		this.draggable();
 
 		// Save Elements
-		_inputUsername = ui.find('.user').mousedown(function(event){ this.focus(); this.value = ''; event.stopImmediatePropagation(); return false; });
-		_inputPassword = ui.find('.pass').mousedown(function(event){ this.focus(); this.value = ''; event.stopImmediatePropagation(); return false; });
-		_buttonSave    = ui.find('.save').mousedown(toggleSaveButton);
+		_inputUsername = ui.find('.user').mousedown(function (event) { this.focus(); this.value = ''; event.stopImmediatePropagation(); return false; });
+		_inputPassword = ui.find('.pass').mousedown(function (event) { this.focus(); this.value = ''; event.stopImmediatePropagation(); return false; });
+		_buttonSave = ui.find('.save').mousedown(toggleSaveButton);
 
 		// Connect / Exit
 		ui.find('.connect').click(connect);
@@ -95,7 +95,8 @@ define(function(require)
 		_inputPassword.val('');
 
 		// Display save button
-		Client.loadFile( DB.INTERFACE_PATH + 'login_interface/chk_save' + ( _preferences.saveID ? 'on' : 'off' ) + '.bmp', function(url) {
+		Client.loadFile(DB.INTERFACE_PATH + 'login_interface/chk_save' + (_preferences.saveID ? 'on' : 'off') + '.bmp', function (url)
+		{
 			_buttonSave.css('backgroundImage', 'url(' + url + ')');
 		});
 
@@ -114,10 +115,9 @@ define(function(require)
 	 * @param {object} event
 	 * @return {boolean}
 	 */
-	WinLogin.onKeyDown = function onKeyDown( event )
+	WinLogin.onKeyDown = function onKeyDown(event)
 	{
-		switch (event.which)
-		{
+		switch (event.which) {
 			case KEYS.ENTER:
 				connect();
 				event.stopImmediatePropagation();
@@ -145,11 +145,12 @@ define(function(require)
 	 * @param {object} event
 	 * @return {boolean}
 	 */
-	function toggleSaveButton( event )
+	function toggleSaveButton(event)
 	{
 		_preferences.saveID = !_preferences.saveID;
 
-		Client.loadFile( DB.INTERFACE_PATH + 'login_interface/chk_save' + ( _preferences.saveID ? 'on' : 'off' ) + '.bmp', function(url) {
+		Client.loadFile(DB.INTERFACE_PATH + 'login_interface/chk_save' + (_preferences.saveID ? 'on' : 'off') + '.bmp', function (url)
+		{
 			_buttonSave.css('backgroundImage', 'url(' + url + ')');
 		});
 
@@ -181,17 +182,17 @@ define(function(require)
 		// Store variable in localStorage
 		if (_preferences.saveID) {
 			_preferences.saveID = true;
-			_preferences.ID     = user;
+			_preferences.ID = user;
 		}
 		else {
 			_preferences.saveID = false;
-			_preferences.ID     = '';
+			_preferences.ID = '';
 		}
 
 		_preferences.save();
 
 		// Connect
-		WinLogin.onConnectionRequest( user, pass );
+		WinLogin.onConnectionRequest(user, pass);
 		return false;
 	}
 
@@ -199,13 +200,13 @@ define(function(require)
 	/**
 	 * Abstract function once user want to connect
 	 */
-	WinLogin.onConnectionRequest = function onConnectionRequest(/* user, pass */){};
+	WinLogin.onConnectionRequest = function onConnectionRequest(/* user, pass */) { };
 
 
 	/**
 	 * Abstract function when user want to exit
 	 */
-	WinLogin.onExitRequest = function onExitRequest(){};
+	WinLogin.onExitRequest = function onExitRequest() { };
 
 
 	/**

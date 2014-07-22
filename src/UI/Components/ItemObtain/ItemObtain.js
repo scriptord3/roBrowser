@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,21 +15,21 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                 = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Client             = require('Core/Client');
-	var Events             = require('Core/Events');
-	var Renderer           = require('Renderer/Renderer');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var htmlText           = require('text!./ItemObtain.html');
-	var cssText            = require('text!./ItemObtain.css');
+	var Client = require('Core/Client');
+	var Events = require('Core/Events');
+	var Renderer = require('Renderer/Renderer');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./ItemObtain.html');
+	var cssText = require('text!./ItemObtain.css');
 
 
 	/**
 	 * Create component
 	 */
-	var ItemObtain = new UIComponent( 'ItemObtain', htmlText, cssText );
+	var ItemObtain = new UIComponent('ItemObtain', htmlText, cssText);
 
 
 	/**
@@ -58,7 +58,7 @@ define(function(require)
 	 */
 	ItemObtain.onAppend = function onAppend()
 	{
-		this.ui.css('left', ( Renderer.width - (this.ui.width()) ) >> 1 );
+		this.ui.css('left', (Renderer.width - (this.ui.width())) >> 1);
 	};
 
 
@@ -88,20 +88,21 @@ define(function(require)
 	 *
 	 * @param {object} item
 	 */
-	ItemObtain.set = function set( item )
+	ItemObtain.set = function set(item)
 	{
-		var it       = DB.getItemInfo(item.ITID);
-		var display  = DB.getItemName(item);
+		var it = DB.getItemInfo(item.ITID);
+		var display = DB.getItemName(item);
 		var resource = item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName;
 
 		this.ui.find('.content').html(
-			'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="'+ item.ITID +'" width="24" height="24" /> ' +
+			'<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="' + item.ITID + '" width="24" height="24" /> ' +
 			display + ' ' + DB.getMessage(MsgStringIDs.MSI_EA_OBTAIN).replace('%d', item.count || 1)
 		);
 
-		this.ui.css('left', ( Renderer.width - (this.ui.width()) ) >> 1 );
+		this.ui.css('left', (Renderer.width - (this.ui.width())) >> 1);
 
-		Client.loadFile( DB.INTERFACE_PATH + 'item/' + resource + '.bmp', (function(url){
+		Client.loadFile(DB.INTERFACE_PATH + 'item/' + resource + '.bmp', (function (url)
+		{
 			this.ui.find('img.' + item.ITID).attr('src', url);
 		}).bind(this));
 
@@ -110,7 +111,7 @@ define(function(require)
 			Events.clearTimeout(_timer);
 		}
 
-		_timer = Events.setTimeout( this.timeEnd.bind(this), _life );
+		_timer = Events.setTimeout(this.timeEnd.bind(this), _life);
 	};
 
 

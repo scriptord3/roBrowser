@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,16 +15,16 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var htmlText           = require('text!./EntityRoom.html');
-	var cssText            = require('text!./EntityRoom.css');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./EntityRoom.html');
+	var cssText = require('text!./EntityRoom.css');
 
 
 	/**
 	 * Createcomponent
 	 */
-	var EntityRoom = new UIComponent( 'EntityRoom', htmlText, cssText );
+	var EntityRoom = new UIComponent('EntityRoom', htmlText, cssText);
 
 
 	/**
@@ -32,14 +32,16 @@ define(function(require)
 	 */
 	EntityRoom.onAppend = function onAppend()
 	{
-		this.ui.find('button').dblclick(function(){
+		this.ui.find('button').dblclick(function ()
+		{
 			if (this.onEnter) {
 				this.onEnter();
 			}
 		}.bind(this));
 
 		// Avoid player to move to the cell
-		this.ui.mousedown(function(){
+		this.ui.mousedown(function ()
+		{
 			return false;
 		});
 
@@ -62,9 +64,9 @@ define(function(require)
 	 * @param {string} title
 	 * @param {string} url - icon url
 	 */
-	EntityRoom.setTitle = function setTitle( title, url )
+	EntityRoom.setTitle = function setTitle(title, url)
 	{
-		this.ui.find('button').css('backgroundImage', 'url('+ url +')');
+		this.ui.find('button').css('backgroundImage', 'url(' + url + ')');
 		this.ui.find('.title, .overlay').text(title);
 	};
 
@@ -72,7 +74,7 @@ define(function(require)
 	/**
 	 * function to define
 	 */
-	EntityRoom.onEnter = function onEnter(){};
+	EntityRoom.onEnter = function onEnter() { };
 
 
 	/**

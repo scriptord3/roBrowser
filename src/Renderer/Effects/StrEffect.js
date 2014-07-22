@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMatrix, Client )
+define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function (WebGL, glMatrix, Client)
 {
 	'use strict';
 
@@ -141,14 +141,15 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 *
 	 * @param {string} str effect file
 	 */
-	function StrEffect( filename, position, tick )
+	function StrEffect(filename, position, tick)
 	{
-		this.filename   = filename;
-		this.startTick  = tick;
-		this.position   = position;
+		this.filename = filename;
+		this.startTick = tick;
+		this.position = position;
 
 		// If can't render it, just remove it.
-		Client.loadFile( this.filename, null, function(){
+		Client.loadFile(this.filename, null, function ()
+		{
 			this.needCleanUp = true;
 		}.bind(this));
 	}
@@ -159,7 +160,7 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 *
 	 * @param {object} webgl context
 	 */
-	StrEffect.prototype.init = function init( gl )
+	StrEffect.prototype.init = function init(gl)
 	{
 		this.ready = true;
 	};
@@ -170,7 +171,7 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 *
 	 * @param {object} webgl context
 	 */
-	StrEffect.prototype.free = function free( gl )
+	StrEffect.prototype.free = function free(gl)
 	{
 		this.ready = false;
 	};
@@ -185,27 +186,27 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	StrEffect.prototype.render = function renderClosure()
 	{
 		var anim = {
-			frame     : 0,
-			type      : 0,
-			aniframe  : 0,
-			anitype   : 0,
-			srcalpha  : 1,
-			destalpha : 1,
-			mtpreset  : 0,
-			delay     : 0.0,
-			angle     : 0.0,
-			color     : new Float32Array(4),
-			pos       : new Float32Array(2),
-			uv        : new Float32Array(8),
-			xy        : new Float32Array(8)
+			frame: 0,
+			type: 0,
+			aniframe: 0,
+			anitype: 0,
+			srcalpha: 1,
+			destalpha: 1,
+			mtpreset: 0,
+			delay: 0.0,
+			angle: 0.0,
+			color: new Float32Array(4),
+			pos: new Float32Array(2),
+			uv: new Float32Array(8),
+			xy: new Float32Array(8)
 		};
 
-		return function render( gl, tick )
+		return function render(gl, tick)
 		{
 			var strFile, layer;
 			var i, keyIndex;
 
-			strFile = Client.loadFile( this.filename );
+			strFile = Client.loadFile(this.filename);
 
 			// Not loaded yet
 			if (strFile === null) {
@@ -218,9 +219,9 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 				layer = strFile.layers[i];
 
 				if (layer.materials.length) {
-					if (calculateAnimation( layer, keyIndex, anim)) {
+					if (calculateAnimation(layer, keyIndex, anim)) {
 						if (layer.materials[anim.aniframe | 0]) {
-							this.renderAnimation( gl, layer.materials[anim.aniframe | 0], anim);
+							this.renderAnimation(gl, layer.materials[anim.aniframe | 0], anim);
 						}
 					}
 				}
@@ -241,24 +242,24 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 * @param {glTexture} webgl texture
 	 * @param {StrAnimation} animation object
 	 */
-	StrEffect.prototype.renderAnimation = function renderAnimation( gl, material, anim )
+	StrEffect.prototype.renderAnimation = function renderAnimation(gl, material, anim)
 	{
-		var uniform   = _program.uniform;
+		var uniform = _program.uniform;
 		var attribute = _program.attribute;
 
 		// Update geometries
-		_bufferData[0]  = anim.xy[0];
-		_bufferData[1]  = anim.xy[4];
-		_bufferData[2]  = 0; //anim.uv[0];
-		_bufferData[3]  = 0; //anim.uv[1];
+		_bufferData[0] = anim.xy[0];
+		_bufferData[1] = anim.xy[4];
+		_bufferData[2] = 0; //anim.uv[0];
+		_bufferData[3] = 0; //anim.uv[1];
 
-		_bufferData[4]  = anim.xy[1];
-		_bufferData[5]  = anim.xy[5];
-		_bufferData[6]  = 1; //anim.uv[2];
-		_bufferData[7]  = 0; //anim.uv[3];
+		_bufferData[4] = anim.xy[1];
+		_bufferData[5] = anim.xy[5];
+		_bufferData[6] = 1; //anim.uv[2];
+		_bufferData[7] = 0; //anim.uv[3];
 
-		_bufferData[8]  = anim.xy[3];
-		_bufferData[9]  = anim.xy[7];
+		_bufferData[8] = anim.xy[3];
+		_bufferData[9] = anim.xy[7];
 		_bufferData[10] = 0; //anim.uv[4];
 		_bufferData[11] = 1; //anim.uv[5];
 
@@ -269,7 +270,7 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 
 		if (anim.angle !== _lastAngle) {
 			mat4.identity(_matrix);
-			mat4.rotateZ( _matrix, _matrix, - anim.angle / 180 * Math.PI );
+			mat4.rotateZ(_matrix, _matrix, -anim.angle / 180 * Math.PI);
 			_lastAngle = anim.angle;
 		}
 
@@ -277,25 +278,25 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 		anim.pos[1] -= 320;
 
 		// Send effect parameters
-		gl.uniform4fv( uniform.uSpriteColor,    anim.color );
-		gl.uniform2fv( uniform.uSpriteOffset,   anim.pos );
-		gl.uniform3fv( uniform.uSpritePosition, this.position );
+		gl.uniform4fv(uniform.uSpriteColor, anim.color);
+		gl.uniform2fv(uniform.uSpriteOffset, anim.pos);
+		gl.uniform3fv(uniform.uSpritePosition, this.position);
 
-		gl.uniformMatrix4fv( uniform.uSpriteAngle, false, _matrix );
+		gl.uniformMatrix4fv(uniform.uSpriteAngle, false, _matrix);
 
 		// Send new buffer
-		gl.bindBuffer( gl.ARRAY_BUFFER, _buffer );
+		gl.bindBuffer(gl.ARRAY_BUFFER, _buffer);
 
 		// Link attribute
-		gl.vertexAttribPointer( attribute.aPosition,     2, gl.FLOAT, false,  4*4, 0*4 );
-		gl.vertexAttribPointer( attribute.aTextureCoord, 2, gl.FLOAT, false,  4*4, 2*4 );
+		gl.vertexAttribPointer(attribute.aPosition, 2, gl.FLOAT, false, 4 * 4, 0 * 4);
+		gl.vertexAttribPointer(attribute.aTextureCoord, 2, gl.FLOAT, false, 4 * 4, 2 * 4);
 
-		gl.bufferData( gl.ARRAY_BUFFER, _bufferData, gl.STREAM_DRAW );
+		gl.bufferData(gl.ARRAY_BUFFER, _bufferData, gl.STREAM_DRAW);
 
 		// Send texture and data
-		gl.blendFunc( D3DBLEND[anim.srcalpha], D3DBLEND[anim.destalpha] );
-		gl.bindTexture( gl.TEXTURE_2D, material );
-		gl.drawArrays( gl.TRIANGLE_STRIP, 0, 4 );
+		gl.blendFunc(D3DBLEND[anim.srcalpha], D3DBLEND[anim.destalpha]);
+		gl.bindTexture(gl.TEXTURE_2D, material);
+		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 	};
 
 
@@ -306,11 +307,11 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 * @param {number} key index
 	 * @param {object} animation structure
 	 */
-	function calculateAnimation( layer, keyIndex, result )
+	function calculateAnimation(layer, keyIndex, result)
 	{
 		var i, delta;
 		var animations, from, to;
-		var lastFrame  = 0;
+		var lastFrame = 0;
 		var lastSource = 0;
 		var fromId = -1, toId = -1;
 
@@ -320,7 +321,7 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 		for (i = 0; i < layer.anikeynum; ++i) {
 			if (animations[i].frame <= keyIndex) {
 				if (animations[i].type === 0) fromId = i;
-				if (animations[i].type === 1) toId   = i;
+				if (animations[i].type === 1) toId = i;
 			}
 			lastFrame = Math.max(lastFrame, animations[i].frame);
 
@@ -334,10 +335,10 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 			return false;
 		}
 
-		from             = animations[fromId];
-		to               = animations[toId];
-		delta            = keyIndex - from.frame;
-		result.srcalpha  = from.srcalpha;
+		from = animations[fromId];
+		to = animations[toId];
+		delta = keyIndex - from.frame;
+		result.srcalpha = from.srcalpha;
 		result.destalpha = from.destalpha;
 
 		// Static frame (or frame that can't be updated)
@@ -348,8 +349,8 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 				return false;
 			}
 
-			result.angle     = from.angle;
-			result.aniframe  = from.aniframe;
+			result.angle = from.angle;
+			result.aniframe = from.aniframe;
 
 			result.color.set(from.color);
 			result.pos.set(from.pos);
@@ -383,7 +384,7 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 		result.xy[6] = from.xy[6] + to.xy[6] * delta;
 		result.xy[7] = from.xy[7] + to.xy[7] * delta;
 
-		result.angle  = from.angle  + to.angle  * delta;
+		result.angle = from.angle + to.angle * delta;
 		result.pos[0] = from.pos[0] + to.pos[0] * delta;
 		result.pos[1] = from.pos[1] + to.pos[1] * delta;
 
@@ -419,25 +420,25 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 *
 	 * @param {object} gl context
 	 */
-	StrEffect.init = function init( gl )
+	StrEffect.init = function init(gl)
 	{
 		if (!_buffer) {
 			_buffer = gl.createBuffer();
 		}
 
 		if (!_program) {
-			_program = WebGL.createShaderProgram( gl, _vertexShader, _fragmentShader );
+			_program = WebGL.createShaderProgram(gl, _vertexShader, _fragmentShader);
 		}
 
-		D3DBLEND[1]  = gl.ZERO;
-		D3DBLEND[2]  = gl.ONE;
-		D3DBLEND[3]  = gl.SRC_COLOR;
-		D3DBLEND[4]  = gl.ONE_MINUS_SRC_COLOR;
-		D3DBLEND[5]  = gl.SRC_ALPHA;
-		D3DBLEND[6]  = gl.ONE_MINUS_SRC_ALPHA;
-		D3DBLEND[7]  = gl.DST_ALPHA;
-		D3DBLEND[8]  = gl.ONE_MINUS_DST_ALPHA;
-		D3DBLEND[9]  = gl.DST_COLOR;
+		D3DBLEND[1] = gl.ZERO;
+		D3DBLEND[2] = gl.ONE;
+		D3DBLEND[3] = gl.SRC_COLOR;
+		D3DBLEND[4] = gl.ONE_MINUS_SRC_COLOR;
+		D3DBLEND[5] = gl.SRC_ALPHA;
+		D3DBLEND[6] = gl.ONE_MINUS_SRC_ALPHA;
+		D3DBLEND[7] = gl.DST_ALPHA;
+		D3DBLEND[8] = gl.ONE_MINUS_DST_ALPHA;
+		D3DBLEND[9] = gl.DST_COLOR;
 		D3DBLEND[10] = gl.ONE_MINUS_DST_COLOR;
 		D3DBLEND[11] = gl.SRC_ALPHA_SATURATE;
 		D3DBLEND[14] = gl.CONSTANT_COLOR;
@@ -452,7 +453,7 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 *
 	 * @param {object} webgl context
 	 */
-	StrEffect.free = function free( gl )
+	StrEffect.free = function free(gl)
 	{
 		if (_program) {
 			gl.deleteProgram(_program);
@@ -477,29 +478,29 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 * @param {object} fog structure
 	 * @param {number} tick
 	 */
-	StrEffect.beforeRender = function beforeRender( gl, modelView, projection, fog, tick )
+	StrEffect.beforeRender = function beforeRender(gl, modelView, projection, fog, tick)
 	{
-		var uniform   = _program.uniform;
+		var uniform = _program.uniform;
 		var attribute = _program.attribute;
 
 		gl.depthMask(false);
-		gl.useProgram( _program );
-		gl.uniformMatrix4fv( uniform.uModelViewMat,  false,  modelView );
-		gl.uniformMatrix4fv( uniform.uProjectionMat, false,  projection );
+		gl.useProgram(_program);
+		gl.uniformMatrix4fv(uniform.uModelViewMat, false, modelView);
+		gl.uniformMatrix4fv(uniform.uProjectionMat, false, projection);
 
 		// Fog settings
-		gl.uniform1f(  uniform.uFogNear,  fog.near * 100 );
-		gl.uniform1f(  uniform.uFogFar,   fog.far  * 150 );
-		gl.uniform3fv( uniform.uFogColor, fog.color );
+		gl.uniform1f(uniform.uFogNear, fog.near * 100);
+		gl.uniform1f(uniform.uFogFar, fog.far * 150);
+		gl.uniform3fv(uniform.uFogColor, fog.color);
 
 		// Textures
-		gl.uniform1i( uniform.uDiffuse, 0 );
+		gl.uniform1i(uniform.uDiffuse, 0);
 
 		// Enable all attributes
-		gl.enableVertexAttribArray( attribute.aPosition );
-		gl.enableVertexAttribArray( attribute.aTextureCoord );
+		gl.enableVertexAttribArray(attribute.aPosition);
+		gl.enableVertexAttribArray(attribute.aTextureCoord);
 
-		gl.activeTexture( gl.TEXTURE0 );
+		gl.activeTexture(gl.TEXTURE0);
 	};
 
 
@@ -508,14 +509,14 @@ define(['Utils/WebGL', 'Utils/gl-matrix', 'Core/Client'], function( WebGL, glMat
 	 *
 	 * @param {object} gl context
 	 */
-	StrEffect.afterRender = function afterRender( gl )
+	StrEffect.afterRender = function afterRender(gl)
 	{
 		gl.depthMask(true);
 
-		gl.disableVertexAttribArray( _program.attribute.aPosition );
-		gl.disableVertexAttribArray( _program.attribute.aTextureCoord );
+		gl.disableVertexAttribArray(_program.attribute.aPosition);
+		gl.disableVertexAttribArray(_program.attribute.aTextureCoord);
 
-		gl.blendFunc( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA );
+		gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 	};
 
 

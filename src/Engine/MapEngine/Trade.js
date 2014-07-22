@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,12 +15,12 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var DB        = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Network   = require('Network/NetworkManager');
-	var PACKET    = require('Network/PacketStructure');
-	var Trade     = require('UI/Components/Trade/Trade');
-	var ChatBox   = require('UI/Components/ChatBox/ChatBox');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var Trade = require('UI/Components/Trade/Trade');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
 	var UIManager = require('UI/UIManager');
 
 
@@ -41,7 +41,7 @@ define(function( require )
 		out = '';
 
 		for (i = 0, count = str.length; i < count; ++i) {
-			out += table[ str[i] ];
+			out += table[str[i]];
 		}
 
 		return out;
@@ -52,24 +52,26 @@ define(function( require )
 	 * Someone ask to start a trade
 	 * @param {object} pkt - PACKET.ZC.REQ_EXCHANGE_ITEM
 	 */
-	function onTradeRequest( pkt )
+	function onTradeRequest(pkt)
 	{
-		function answer(value) {
-			return function() {
-				var pkt    = new PACKET.CZ.ACK_EXCHANGE_ITEM();
+		function answer(value)
+		{
+			return function ()
+			{
+				var pkt = new PACKET.CZ.ACK_EXCHANGE_ITEM();
 				pkt.result = value;
 				Network.sendPacket(pkt);
 			};
 		}
 
-		var text    = '(' + pkt.name + ') ' + DB.getMessage(MsgStringIDs.MSI_SUGGEST_DEAL);
+		var text = '(' + pkt.name + ') ' + DB.getMessage(MsgStringIDs.MSI_SUGGEST_DEAL);
 		Trade.title = pkt.name;
 
 		if ('level' in pkt && 'GID' in pkt) {
-			text        += '\nPN: ' + tradeGIDEncoding(pkt.GID)+ '\xa0\xa0\xa0\xa0\xa0Lv.' + pkt.level;
+			text += '\nPN: ' + tradeGIDEncoding(pkt.GID) + '\xa0\xa0\xa0\xa0\xa0Lv.' + pkt.level;
 		}
 
-		UIManager.showPromptBox( text, 'ok', 'cancel', answer(3), answer(4));
+		UIManager.showPromptBox(text, 'ok', 'cancel', answer(3), answer(4));
 	}
 
 
@@ -77,31 +79,31 @@ define(function( require )
 	 * Result about trade ask
 	 * @param {object} pkt - PACKET.ZC.ACK_EXCHANGE_ITEM
 	 */
-	function onTradeRequestAnswer( pkt )
+	function onTradeRequestAnswer(pkt)
 	{
 		switch (pkt.result) {
 			case 0: // Char is too far
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_TOO_FAR_TO_DEAL), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_TOO_FAR_TO_DEAL), ChatBox.TYPE.ERROR);
 				break;
 
 
 			case 1: // Character does not exist
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CHARACTER_IS_NOT_EXIST), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CHARACTER_IS_NOT_EXIST), ChatBox.TYPE.ERROR);
 				break;
 
 			case 2: // In another deal
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CHARACTER_IS_DEALING), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CHARACTER_IS_DEALING), ChatBox.TYPE.ERROR);
 				break;
 
 			case 3:
 				if ('level' in pkt && 'GID' in pkt) {
-					Trade.title +='  Lv' + pkt.level + ' (' + tradeGIDEncoding(pkt.GID) +')';
+					Trade.title += '  Lv' + pkt.level + ' (' + tradeGIDEncoding(pkt.GID) + ')';
 				}
 				Trade.append();
 				break;
 
 			case 4: // Cancel
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_DEAL_IS_CANCELED), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_DEAL_IS_CANCELED), ChatBox.TYPE.ERROR);
 				break;
 
 			case 5: // AFK ?
@@ -116,9 +118,9 @@ define(function( require )
 	 * @param {number} item index in inventory
 	 * @param {number} count
 	 */
-	Trade.reqAddItem = function reqAddItem( index, count )
+	Trade.reqAddItem = function reqAddItem(index, count)
 	{
-		var pkt   = new PACKET.CZ.ADD_EXCHANGE_ITEM();
+		var pkt = new PACKET.CZ.ADD_EXCHANGE_ITEM();
 		pkt.index = index;
 		pkt.count = count;
 
@@ -131,15 +133,15 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ACK_ADD_EXCHANGE_ITEM
 	 */
-	function onAddItemResult( pkt )
+	function onAddItemResult(pkt)
 	{
 		switch (pkt.result) {
 			case 1: // overweight
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CHARACTER_IS_OVER_WEIGHT), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CHARACTER_IS_OVER_WEIGHT), ChatBox.TYPE.ERROR);
 				break;
 
 			case 2: // trade canceled
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_DEAL_IS_CANCELED), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_DEAL_IS_CANCELED), ChatBox.TYPE.ERROR);
 				break;
 		}
 
@@ -152,7 +154,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ADD_EXCHANGE_ITEM
 	 */
-	function onItemAdded( pkt )
+	function onItemAdded(pkt)
 	{
 		Trade.addItem(pkt);
 	}
@@ -173,9 +175,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.CANCEL_EXCHANGE_ITEM
 	 */
-	function onTradeCancel( pkt )
+	function onTradeCancel(pkt)
 	{
-		ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_DEAL_IS_CANCELED), ChatBox.TYPE.ERROR);
+		ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_DEAL_IS_CANCELED), ChatBox.TYPE.ERROR);
 		Trade.remove();
 	}
 
@@ -195,9 +197,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.CONCLUDE_EXCHANGE_ITEM
 	 */
-	function onTradeConclude( pkt )
+	function onTradeConclude(pkt)
 	{
-		Trade.conclude( pkt.who ? 'recv' : 'send' );
+		Trade.conclude(pkt.who ? 'recv' : 'send');
 	}
 
 
@@ -216,17 +218,17 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.EXEC_EXCHANGE_ITEM
 	 */
-	function onTradeSubmitAnswer( pkt )
+	function onTradeSubmitAnswer(pkt)
 	{
 		// Fail
 		if (pkt.result === 1) {
-			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_DEAL_FAILED), ChatBox.TYPE.ERROR);
+			ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_DEAL_FAILED), ChatBox.TYPE.ERROR);
 			Trade.remove();
 			return;
 		}
 
 		//TODO: Give items...
-		ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_DEAL_SUCCESS), ChatBox.TYPE.BLUE);
+		ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_DEAL_SUCCESS), ChatBox.TYPE.BLUE);
 		Trade.remove();
 	}
 
@@ -236,7 +238,8 @@ define(function( require )
 	 *
 	 * @param {number} GID
 	 */
-	Trade.reqExchange = function requestExhange( GID, name ) {
+	Trade.reqExchange = function requestExhange(GID, name)
+	{
 		var pkt = new PACKET.CZ.REQ_EXCHANGE_ITEM();
 		pkt.AID = GID;
 		Network.sendPacket(pkt);
@@ -250,15 +253,15 @@ define(function( require )
 	 */
 	return function MainEngine()
 	{
-		Network.hookPacket(PACKET.ZC.REQ_EXCHANGE_ITEM,      onTradeRequest);
-		Network.hookPacket(PACKET.ZC.REQ_EXCHANGE_ITEM2,     onTradeRequest);
-		Network.hookPacket(PACKET.ZC.ACK_EXCHANGE_ITEM,      onTradeRequestAnswer);
-		Network.hookPacket(PACKET.ZC.ACK_EXCHANGE_ITEM2,     onTradeRequestAnswer);
-		Network.hookPacket(PACKET.ZC.ACK_ADD_EXCHANGE_ITEM,  onAddItemResult);
-		Network.hookPacket(PACKET.ZC.ADD_EXCHANGE_ITEM,      onItemAdded);
-		Network.hookPacket(PACKET.ZC.ADD_EXCHANGE_ITEM2,     onItemAdded);
-		Network.hookPacket(PACKET.ZC.CANCEL_EXCHANGE_ITEM,   onTradeCancel);
+		Network.hookPacket(PACKET.ZC.REQ_EXCHANGE_ITEM, onTradeRequest);
+		Network.hookPacket(PACKET.ZC.REQ_EXCHANGE_ITEM2, onTradeRequest);
+		Network.hookPacket(PACKET.ZC.ACK_EXCHANGE_ITEM, onTradeRequestAnswer);
+		Network.hookPacket(PACKET.ZC.ACK_EXCHANGE_ITEM2, onTradeRequestAnswer);
+		Network.hookPacket(PACKET.ZC.ACK_ADD_EXCHANGE_ITEM, onAddItemResult);
+		Network.hookPacket(PACKET.ZC.ADD_EXCHANGE_ITEM, onItemAdded);
+		Network.hookPacket(PACKET.ZC.ADD_EXCHANGE_ITEM2, onItemAdded);
+		Network.hookPacket(PACKET.ZC.CANCEL_EXCHANGE_ITEM, onTradeCancel);
 		Network.hookPacket(PACKET.ZC.CONCLUDE_EXCHANGE_ITEM, onTradeConclude);
-		Network.hookPacket(PACKET.ZC.EXEC_EXCHANGE_ITEM,     onTradeSubmitAnswer);
+		Network.hookPacket(PACKET.ZC.EXEC_EXCHANGE_ITEM, onTradeSubmitAnswer);
 	};
 });

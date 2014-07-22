@@ -7,25 +7,25 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load dependencies
-	var jQuery        = require('Utils/jquery');
-	var DB            = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Cursor        = require('UI/CursorManager');
-	var InputBox      = require('UI/Components/InputBox/InputBox');
-	var ChatBox       = require('UI/Components/ChatBox/ChatBox');
-	var Equipment     = require('UI/Components/Equipment/Equipment');
-	var Mouse         = require('Controls/MouseEventHandler');
-	var Renderer      = require('Renderer/Renderer');
-	var Camera        = require('Renderer/Camera');
+	var Cursor = require('UI/CursorManager');
+	var InputBox = require('UI/Components/InputBox/InputBox');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
+	var Equipment = require('UI/Components/Equipment/Equipment');
+	var Mouse = require('Controls/MouseEventHandler');
+	var Renderer = require('Renderer/Renderer');
+	var Camera = require('Renderer/Camera');
 	var EntityManager = require('Renderer/EntityManager');
-	var Session       = require('Engine/SessionStorage');
-	var Preferences   = require('Preferences/Controls');
+	var Session = require('Engine/SessionStorage');
+	var Preferences = require('Preferences/Controls');
 
 	require('Controls/ScreenShot');
 
@@ -39,7 +39,7 @@ define(function( require )
 	/**
 	 * Moving the mouse on the scene
 	 */
-	function OnMouseMove( event )
+	function OnMouseMove(event)
 	{
 		Mouse.screen.x = event.pageX;
 		Mouse.screen.y = event.pageY;
@@ -49,7 +49,7 @@ define(function( require )
 	/**
 	 * What to do when clicking on the map ?
 	 */
-	function OnMouseDown( event )
+	function OnMouseDown(event)
 	{
 		Session.moveAction = null;
 
@@ -62,8 +62,8 @@ define(function( require )
 			// Left click
 			case 1:
 				var entityFocus = EntityManager.getFocusEntity();
-				var entityOver  = EntityManager.getOverEntity();
-				var stop        = false;
+				var entityOver = EntityManager.getOverEntity();
+				var stop = false;
 
 				if (entityFocus && entityFocus != entityOver) {
 					entityFocus.onFocusEnd();
@@ -86,13 +86,13 @@ define(function( require )
 				this.onMouseDown();
 				break;
 
-			// Right Click
+				// Right Click
 			case 3:
 				_rightClickPosition[0] = Mouse.screen.x;
 				_rightClickPosition[1] = Mouse.screen.y;
 
-				Cursor.setType( Cursor.ACTION.ROTATE );
-				Camera.rotate( true );
+				Cursor.setType(Cursor.ACTION.ROTATE);
+				Camera.rotate(true);
 				break;
 		}
 	}
@@ -101,7 +101,7 @@ define(function( require )
 	/**
 	 * What to do when stop clicking on the map ?
 	 */
-	function OnMouseUp( event )
+	function OnMouseUp(event)
 	{
 		var entity;
 
@@ -131,10 +131,10 @@ define(function( require )
 				this.onMouseUp();
 				break;
 
-			// Right Click
+				// Right Click
 			case 3:
-				Cursor.setType( Cursor.ACTION.DEFAULT );
-				Camera.rotate( false );
+				Cursor.setType(Cursor.ACTION.DEFAULT);
+				Camera.rotate(false);
 
 				// Seems like it's how the official client handle the contextmenu
 				// Just check for the same position on mousedown and mouseup
@@ -153,13 +153,13 @@ define(function( require )
 	/**
 	 * Zoom feature
 	 */
-	function OnMouseWheel( event )
+	function OnMouseWheel(event)
 	{
 		// Zooming on the scene
 		// Cross browser delta
 		var delta;
 		if (event.originalEvent.wheelDelta) {
-			delta = event.originalEvent.wheelDelta / 120 ;
+			delta = event.originalEvent.wheelDelta / 120;
 			if (window.opera) {
 				delta = -delta;
 			}
@@ -181,13 +181,13 @@ define(function( require )
 		event.stopImmediatePropagation();
 		return false;
 	}
-	
+
 
 
 	/**
 	 * Drop items to the map
 	 */
-	function OnDrop( event )
+	function OnDrop(event)
 	{
 		var item, data;
 		var MapEngine = this;
@@ -197,7 +197,7 @@ define(function( require )
 				event.originalEvent.dataTransfer.getData('Text')
 			);
 		}
-		catch(e) {}
+		catch (e) { }
 
 		// Just support items for now ?
 		if (data && data.type === 'item' && data.from === 'inventory') {
@@ -217,18 +217,19 @@ define(function( require )
 			if (item.count > 1) {
 				InputBox.append();
 				InputBox.setType('number', false, item.count);
-				InputBox.onSubmitRequest = function OnSubmitRequest( count ) {
+				InputBox.onSubmitRequest = function OnSubmitRequest(count)
+				{
 					InputBox.remove();
 					MapEngine.onDropItem(
 						item.index,
-						parseInt(count, 10 )
+						parseInt(count, 10)
 					);
 				};
 			}
 
-			// Only one, don't have to specify
+				// Only one, don't have to specify
 			else {
-				MapEngine.onDropItem( item.index, 1 );
+				MapEngine.onDropItem(item.index, 1);
 			}
 		}
 
@@ -245,15 +246,15 @@ define(function( require )
 	return function Initialize()
 	{
 		// Attach events
-		jQuery( Renderer.canvas )
+		jQuery(Renderer.canvas)
 			.on('mousewheel DOMMouseScroll', OnMouseWheel)
-			.on('dragover', OnDragOver )
+			.on('dragover', OnDragOver)
 			.on('drop', OnDrop.bind(this));
 
 		jQuery(window)
-			.on('contextmenu', function(){ return false; })
-			.mousemove( OnMouseMove )
-			.mousedown( OnMouseDown.bind(this) )
-			.mouseup( OnMouseUp.bind(this) );
+			.on('contextmenu', function () { return false; })
+			.mousemove(OnMouseMove)
+			.mousedown(OnMouseDown.bind(this))
+			.mouseup(OnMouseUp.bind(this));
 	};
 });

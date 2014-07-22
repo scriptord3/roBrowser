@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	"use strict";
 
@@ -19,12 +19,12 @@ define(function()
 	 * @param {string} host
 	 * @param {number} port
 	 */
-	function Socket( host, port )
+	function Socket(host, port)
 	{
 		this.connected = false;
-		this.socketID  = 0;
-		this.host      = host;
-		this.port      = port;
+		this.socketID = 0;
+		this.host = host;
+		this.port = port;
 
 		chrome.socket.create("tcp", {}, this.__onReady.bind(this));
 	}
@@ -36,7 +36,7 @@ define(function()
 	 */
 	Socket.prototype.connect = function SocketConnect()
 	{
-		chrome.socket.connect( this.socketID, this.host, parseInt(this.port, 10), this.__onComplete.bind(this));
+		chrome.socket.connect(this.socketID, this.host, parseInt(this.port, 10), this.__onComplete.bind(this));
 	};
 
 
@@ -45,10 +45,10 @@ define(function()
 	 *
 	 * @param {ArrayBuffer} buffer
 	 */
-	Socket.prototype.send = function Send( buffer )
+	Socket.prototype.send = function Send(buffer)
 	{
 		if (this.connected) {
-			chrome.socket.write( this.socketID, buffer, this.__onWrite.bind(this));
+			chrome.socket.write(this.socketID, buffer, this.__onWrite.bind(this));
 		}
 	};
 
@@ -59,10 +59,10 @@ define(function()
 	Socket.prototype.close = function Close()
 	{
 		if (this.connected) {
-			chrome.socket.disconnect( this.socketID );
-			chrome.socket.destroy( this.socketID );
+			chrome.socket.disconnect(this.socketID);
+			chrome.socket.destroy(this.socketID);
 			this.connected = false;
-			this.socketID  = 0;
+			this.socketID = 0;
 		}
 	};
 
@@ -84,7 +84,7 @@ define(function()
 	 *
 	 * @param {boolean} success
 	 */
-	Socket.prototype.__onComplete = function onComplete( success )
+	Socket.prototype.__onComplete = function onComplete(success)
 	{
 		this.connected = success >= 0;
 
@@ -127,7 +127,7 @@ define(function()
 	 *
 	 * @param {object} readInfo object
 	 */
-	Socket.prototype.__onReceive = function onReceive( readInfo )
+	Socket.prototype.__onReceive = function onReceive(readInfo)
 	{
 		if (readInfo) {
 			// resultCode value: http://src.chromium.org/svn/trunk/src/net/base/net_error_list.h
@@ -137,11 +137,11 @@ define(function()
 			}
 
 			if (this.onMessage) {
-				this.onMessage( readInfo.data );
+				this.onMessage(readInfo.data);
 			}
 		}
 
-		chrome.socket.read( this.socketID, null, this.__onReceive.bind(this));
+		chrome.socket.read(this.socketID, null, this.__onReceive.bind(this));
 	};
 
 

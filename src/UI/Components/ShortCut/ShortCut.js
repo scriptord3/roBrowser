@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,29 +15,29 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                   = require('DB/DBManager');
-	var ItemType             = require('DB/Items/ItemType');
-	var SkillInfo            = require('DB/Skills/SkillInfo');
-	var jQuery               = require('Utils/jquery');
-	var Client               = require('Core/Client');
-	var Preferences          = require('Core/Preferences');
-	var Renderer             = require('Renderer/Renderer');
-	var Mouse                = require('Controls/MouseEventHandler');
-	var UIManager            = require('UI/UIManager');
-	var UIComponent          = require('UI/UIComponent');
-	var ItemInfo             = require('UI/Components/ItemInfo/ItemInfo');
-	var Inventory            = require('UI/Components/Inventory/Inventory');
-	var SkillWindow          = require('UI/Components/SkillList/SkillList');
-	var SkillDescription     = require('UI/Components/SkillDescription/SkillDescription');
+	var DB = require('DB/DBManager');
+	var ItemType = require('DB/Items/ItemType');
+	var SkillInfo = require('DB/Skills/SkillInfo');
+	var jQuery = require('Utils/jquery');
+	var Client = require('Core/Client');
+	var Preferences = require('Core/Preferences');
+	var Renderer = require('Renderer/Renderer');
+	var Mouse = require('Controls/MouseEventHandler');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var ItemInfo = require('UI/Components/ItemInfo/ItemInfo');
+	var Inventory = require('UI/Components/Inventory/Inventory');
+	var SkillWindow = require('UI/Components/SkillList/SkillList');
+	var SkillDescription = require('UI/Components/SkillDescription/SkillDescription');
 	var SkillTargetSelection = require('UI/Components/SkillTargetSelection/SkillTargetSelection');
-	var htmlText             = require('text!./ShortCut.html');
-	var cssText              = require('text!./ShortCut.css');
+	var htmlText = require('text!./ShortCut.html');
+	var cssText = require('text!./ShortCut.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var ShortCut = new UIComponent( 'ShortCut', htmlText, cssText );
+	var ShortCut = new UIComponent('ShortCut', htmlText, cssText);
 
 
 	/**
@@ -56,9 +56,9 @@ define(function(require)
 	 * @var {Preference} structure to save informations about shortcut
 	 */
 	var _preferences = Preferences.get('ShortCut', {
-		x:        480,
-		y:        0,
-		size:     1,
+		x: 480,
+		y: 0,
+		size: 1,
 	}, 1.0);
 
 
@@ -69,7 +69,8 @@ define(function(require)
 	{
 		this.ui.find('.resize').mousedown(onResize);
 
-		this.ui.find('.close').click(function(event){
+		this.ui.find('.close').click(function (event)
+		{
 			ShortCut.ui.css('height', 0);
 			_preferences.size = 0;
 			_preferences.save();
@@ -80,19 +81,22 @@ define(function(require)
 
 		// Dropping to the shortcut
 		this.ui.on('drop', '.container', onDrop);
-		this.ui.on('dragover', '.container', function(event){
+		this.ui.on('dragover', '.container', function (event)
+		{
 			event.stopImmediatePropagation();
 			return false;
 		});
 
 		// Drag from the shortcut from somewhere else
 		this.ui.on('dragstart', '.icon', onDrag);
-		this.ui.on('dragend', '.icon', function(){
+		this.ui.on('dragend', '.icon', function ()
+		{
 			delete window._OBJ_DRAG_;
 		});
 
 		// Click.
-		this.ui.on('dblclick', '.icon', function(event){
+		this.ui.on('dblclick', '.icon', function (event)
+		{
 			var index = parseInt(this.parentNode.getAttribute('data-index'), 10);
 			clickElement(index);
 			event.stopImmediatePropagation();
@@ -102,7 +106,8 @@ define(function(require)
 		this.ui.on('contextmenu', '.icon', onElementInfo);
 
 		// Stop drag drop feature
-		this.ui.on('mousedown', '.icon', function(event){
+		this.ui.on('mousedown', '.icon', function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
@@ -117,8 +122,8 @@ define(function(require)
 	{
 		// Apply preferences
 		this.ui.css({
-			top:  Math.min( Math.max( 0, _preferences.y), Renderer.height - this.ui.height()),
-			left: Math.min( Math.max( 0, _preferences.x), Renderer.width  - this.ui.width()),
+			top: Math.min(Math.max(0, _preferences.y), Renderer.height - this.ui.height()),
+			left: Math.min(Math.max(0, _preferences.x), Renderer.width - this.ui.width()),
 			height: 34 * _preferences.size
 		});
 	};
@@ -130,9 +135,9 @@ define(function(require)
 	ShortCut.onRemove = function onRemove()
 	{
 		// Save preferences
-		_preferences.y      = parseInt(this.ui.css('top'), 10);
-		_preferences.x      = parseInt(this.ui.css('left'), 10);
-		_preferences.size   = Math.floor( parseInt(this.ui.css('height'),10) / 34 );
+		_preferences.y = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
+		_preferences.size = Math.floor(parseInt(this.ui.css('height'), 10) / 34);
 		_preferences.save();
 	};
 
@@ -153,17 +158,17 @@ define(function(require)
 	 *
 	 * @param {object} key
 	 */
-	ShortCut.onShortCut = function onShurtCut( key )
+	ShortCut.onShortCut = function onShurtCut(key)
 	{
 		switch (key.cmd.replace(/\d+$/, '')) {
 			case 'EXECUTE':
-				clickElement( parseInt( key.cmd.match(/\d+$/).toString(), 10) );
+				clickElement(parseInt(key.cmd.match(/\d+$/).toString(), 10));
 				break;
 
 			case 'EXTEND':
 				_preferences.size = (_preferences.size + 1) % (_rowCount + 1);
 				_preferences.save();
-				this.ui.css('height', _preferences.size * 34 );
+				this.ui.css('height', _preferences.size * 34);
 				break;
 		}
 	};
@@ -174,20 +179,20 @@ define(function(require)
 	 *
 	 * @param {Array} shortcut list
 	 */
-	ShortCut.setList = function setList( list )
+	ShortCut.setList = function setList(list)
 	{
 		var i, count;
 		var skill;
 
 		this.ui.find('.container').empty();
 		_list.length = list.length;
-		_rowCount    = Math.min( 4, Math.floor(list.length / 9) );
+		_rowCount = Math.min(4, Math.floor(list.length / 9));
 
 		for (i = 0, count = list.length; i < count; ++i) {
 			if (list[i].isSkill) {
 				skill = SkillWindow.getSkillById(list[i].ID);
 				if (skill && skill.level) {
-					addElement( i, true, list[i].ID, list[i].count || skill.level );
+					addElement(i, true, list[i].ID, list[i].count || skill.level);
 				}
 				else {
 					if (!_list[i]) {
@@ -195,12 +200,12 @@ define(function(require)
 					}
 
 					_list[i].isSkill = true;
-					_list[i].ID      = list[i].ID;
-					_list[i].count   = list[i].count;
+					_list[i].ID = list[i].ID;
+					_list[i].count = list[i].count;
 				}
 			}
 			else {
-				addElement( i, list[i].isSkill, list[i].ID, list[i].count );
+				addElement(i, list[i].isSkill, list[i].ID, list[i].count);
 			}
 		}
 	};
@@ -209,19 +214,19 @@ define(function(require)
 	/**
 	 * Resizing hotkey window
 	 */
-	function onResize( event )
+	function onResize(event)
 	{
-		var ui      = ShortCut.ui;
-		var top     = ui.position().top;
+		var ui = ShortCut.ui;
+		var top = ui.position().top;
 		var lastHeight = 0;
 		var _Interval;
 
 		function resizing()
 		{
-			var h = Math.floor( (Mouse.screen.y - top ) / 34 + 1 );
+			var h = Math.floor((Mouse.screen.y - top) / 34 + 1);
 
 			// Maximum and minimum window size
-			h = Math.min( Math.max(h, 1), _rowCount);
+			h = Math.min(Math.max(h, 1), _rowCount);
 
 			if (h === lastHeight) {
 				return;
@@ -234,10 +239,11 @@ define(function(require)
 		}
 
 		// Start resizing
-		_Interval = setInterval( resizing, 30);
+		_Interval = setInterval(resizing, 30);
 
 		// Stop resizing
-		jQuery(window).one('mouseup', function(event){
+		jQuery(window).one('mouseup', function (event)
+		{
 			// Only on left click
 			if (event.which === 1) {
 				clearInterval(_Interval);
@@ -257,7 +263,7 @@ define(function(require)
 	 * @param {number} ID
 	 * @param {number} count or level
 	 */
-	function addElement( index, isSkill, ID, count )
+	function addElement(index, isSkill, ID, count)
 	{
 		var file, name;
 		var ui = ShortCut.ui.find('.container:eq(' + index + ')').empty();
@@ -267,8 +273,8 @@ define(function(require)
 		}
 
 		_list[index].isSkill = isSkill;
-		_list[index].ID      = ID;
-		_list[index].count   = count;
+		_list[index].ID = ID;
+		_list[index].count = count;
 
 		if (isSkill) {
 			// Do not display if no level.
@@ -288,15 +294,15 @@ define(function(require)
 			}
 
 			var it = DB.getItemInfo(ID);
-			file   = item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName;
-			name   = DB.getItemName(item);
+			file = item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName;
+			name = DB.getItemName(item);
 
 			// If equipment, do not display count
 			if (item.type === ItemType.WEAPON || item.type === ItemType.EQUIP) {
 				count = 1;
 			}
 
-			// Get item count
+				// Get item count
 			else {
 				count = item.count;
 			}
@@ -307,11 +313,12 @@ define(function(require)
 			}
 		}
 
-		Client.loadFile( DB.INTERFACE_PATH + 'item/' + file + '.bmp', function(data){
+		Client.loadFile(DB.INTERFACE_PATH + 'item/' + file + '.bmp', function (data)
+		{
 			ui.html(
 				'<div draggable="true" class="icon">' +
 					'<div class="img" style="background-image:url(' + data + ')"></div>' +
-					'<div class="amount">'+ count + '</div>' +
+					'<div class="amount">' + count + '</div>' +
 					'<span class="name">' + name + '</span>' +
 				'</div>'
 			);
@@ -326,7 +333,7 @@ define(function(require)
 	 * @param {number} ID of the element to remove
 	 * @param {number} row id
 	 */
-	function removeElement( isSkill, ID, row )
+	function removeElement(isSkill, ID, row)
 	{
 		var i, count;
 
@@ -335,14 +342,14 @@ define(function(require)
 			return;
 		}
 
-		for (i = row * 9, count = Math.min(_list.length, row * 9 + 9); i < count; ++i) {
+		for (i = row * 9, count = Math.min(_list.length, row * 9 + 9) ; i < count; ++i) {
 			if (_list[i] && _list[i].isSkill == isSkill && _list[i].ID === ID) {
 				ShortCut.ui.find('.container:eq(' + i + ')').empty();
 				_list[i].isSkill = 0;
-				_list[i].ID      = 0;
-				_list[i].count   = 0;
+				_list[i].ID = 0;
+				_list[i].count = 0;
 
-				ShortCut.onChange( i, 0, 0, 0);
+				ShortCut.onChange(i, 0, 0, 0);
 			}
 		}
 	}
@@ -355,13 +362,13 @@ define(function(require)
 	 * @param {number} id
 	 * @param {number} count
 	 */
-	ShortCut.setElement = function setElement( isSkill, ID, count )
+	ShortCut.setElement = function setElement(isSkill, ID, count)
 	{
 		var i, size;
 
 		for (i = 0, size = _list.length; i < size; ++i) {
 			if (_list[i] && _list[i].isSkill == isSkill && _list[i].ID === ID) {
-				addElement( i, isSkill, ID, count);
+				addElement(i, isSkill, ID, count);
 			}
 		}
 	};
@@ -372,19 +379,19 @@ define(function(require)
 	 * Does the client allow other source than shortcut, inventory
 	 * and skill window to save to shortcut ?
 	 */
-	function onDrop( event )
+	function onDrop(event)
 	{
 		var data, element;
 		var index = parseInt(this.getAttribute('data-index'), 10);
-		var row   = Math.floor( index / 9 );
+		var row = Math.floor(index / 9);
 
 		event.stopImmediatePropagation();
 
 		try {
-			data    = JSON.parse(event.originalEvent.dataTransfer.getData('Text'));
+			data = JSON.parse(event.originalEvent.dataTransfer.getData('Text'));
 			element = data.data;
 		}
-		catch(e) {
+		catch (e) {
 			return false;
 		}
 
@@ -395,21 +402,21 @@ define(function(require)
 
 		switch (data.from) {
 			case 'skilllist':
-				ShortCut.onChange( index, true, element.SKID, element.level);
-				removeElement( true, element.SKID, row);
-				addElement( index, true, element.SKID, element.level);
+				ShortCut.onChange(index, true, element.SKID, element.level);
+				removeElement(true, element.SKID, row);
+				addElement(index, true, element.SKID, element.level);
 				break;
 
 			case 'inventory':
-				ShortCut.onChange( index, false, element.ITID, 0);
-				removeElement( false, element.ITID, row);
-				addElement( index, false, element.ITID, 0);
+				ShortCut.onChange(index, false, element.ITID, 0);
+				removeElement(false, element.ITID, row);
+				addElement(index, false, element.ITID, 0);
 				break;
 
 			case 'shortcut':
-				ShortCut.onChange( index, element.isSkill, element.ID, element.count);
-				removeElement( element.isSkill, element.ID, row);
-				addElement( index, element.isSkill, element.ID, element.count);
+				ShortCut.onChange(index, element.isSkill, element.ID, element.count);
+				removeElement(element.isSkill, element.ID, row);
+				addElement(index, element.isSkill, element.ID, element.count);
 				break;
 		}
 
@@ -421,22 +428,22 @@ define(function(require)
 	 * Prepare data to be store in the dragged element
 	 * to change prosition in the shortcut.
 	 */
-	function onDrag( event )
+	function onDrag(event)
 	{
 		var img, index;
 
-		index  = parseInt(this.parentNode.getAttribute('data-index'), 10);
+		index = parseInt(this.parentNode.getAttribute('data-index'), 10);
 
 		// Extract image from css to get it when dragging the element
-		img     = new Image();
+		img = new Image();
 		img.src = this.firstChild.style.backgroundImage.match(/\(([^\)]+)/)[1];
-		event.originalEvent.dataTransfer.setDragImage( img, 12, 12 );
+		event.originalEvent.dataTransfer.setDragImage(img, 12, 12);
 
 		event.originalEvent.dataTransfer.setData('Text',
-			JSON.stringify( window._OBJ_DRAG_ = {
+			JSON.stringify(window._OBJ_DRAG_ = {
 				type: _list[index].isSkill ? 'skill' : 'item',
 				from: 'shortcut',
-				data:  _list[index]
+				data: _list[index]
 			})
 		);
 
@@ -449,9 +456,9 @@ define(function(require)
 	 * Get informations from a skill/item when
 	 * using right click on it.
 	 */
-	function onElementInfo( event )
+	function onElementInfo(event)
 	{
-		var index   = parseInt(this.parentNode.getAttribute('data-index'), 10);
+		var index = parseInt(this.parentNode.getAttribute('data-index'), 10);
 		var element = _list[index];
 
 		event.stopImmediatePropagation();
@@ -459,10 +466,10 @@ define(function(require)
 		// Display skill informations
 		if (element.isSkill) {
 			SkillDescription.append();
-			SkillDescription.setSkill( _list[index].ID );
+			SkillDescription.setSkill(_list[index].ID);
 		}
 
-		// Display item informations
+			// Display item informations
 		else {
 
 			if (ItemInfo.uid === _list[index].ID) {
@@ -472,7 +479,7 @@ define(function(require)
 
 			ItemInfo.append();
 			ItemInfo.uid = _list[index].ID;
-			ItemInfo.setItem(Inventory.getItemById(_list[index].ID ));
+			ItemInfo.setItem(Inventory.getItemById(_list[index].ID));
 		}
 
 		return false;
@@ -484,7 +491,7 @@ define(function(require)
 	 *
 	 * @param {number} shortcut index
 	 */
-	function clickElement( index )
+	function clickElement(index)
 	{
 		var shortcut = _list[index];
 
@@ -500,11 +507,11 @@ define(function(require)
 			SkillWindow.useSkillID(shortcut.ID);
 		}
 
-		// Use the item
+			// Use the item
 		else {
-			var item = Inventory.getItemById( _list[index].ID );
+			var item = Inventory.getItemById(_list[index].ID);
 			if (item) {
-				Inventory.useItem( item );
+				Inventory.useItem(item);
 			}
 		}
 	}
@@ -517,9 +524,9 @@ define(function(require)
 	 * @param {number} index
 	 * @param {number} count
 	 */
-	Inventory.onUpdateItem = function( index, count)
+	Inventory.onUpdateItem = function (index, count)
 	{
-		ShortCut.setElement( false, index, count);
+		ShortCut.setElement(false, index, count);
 	};
 
 
@@ -530,9 +537,9 @@ define(function(require)
 	 * @param {number} skill id
 	 * @param {number} level
 	 */
-	SkillWindow.onUpdateSkill = function( id, level)
+	SkillWindow.onUpdateSkill = function (id, level)
 	{
-		ShortCut.setElement( true, id, level);
+		ShortCut.setElement(true, id, level);
 	};
 
 
@@ -544,7 +551,7 @@ define(function(require)
 	 * @param {number} id
 	 * @param {number} count
 	 */
-	ShortCut.onChange = function OnConfigUpdate(/*index, isSkill, ID, count*/){};
+	ShortCut.onChange = function OnConfigUpdate(/*index, isSkill, ID, count*/) { };
 
 
 	/**

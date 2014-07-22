@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,17 +15,17 @@ define( function( require )
 	 *  Load dependencies
 	 */
 	var PathFinding = require('Utils/PathFinding');
-	var Renderer    = require('Renderer/Renderer');
-	var Altitude    = require('Renderer/Map/Altitude');
+	var Renderer = require('Renderer/Renderer');
+	var Altitude = require('Renderer/Map/Altitude');
 
 
 	/**
 	 * Direction look up table
 	 */
 	var DIRECTION = [
-		[1,2,3],
-		[0,0,4],
-		[7,6,5]
+		[1, 2, 3],
+		[0, 0, 4],
+		[7, 6, 5]
 	];
 
 
@@ -34,10 +34,10 @@ define( function( require )
 	 */
 	function WalkStructure()
 	{
-		this.speed =  150;
-		this.tick  =  0;
-		this.path  =  [];
-		this.pos   =  new Float32Array(3);
+		this.speed = 150;
+		this.tick = 0;
+		this.path = [];
+		this.pos = new Float32Array(3);
 		this.onEnd = null;
 	}
 
@@ -51,16 +51,16 @@ define( function( require )
 	 * @param {number} to_y
 	 * @param {number} range optional
 	 */
-	function WalkTo( from_x, from_y, to_x, to_y, range )
+	function WalkTo(from_x, from_y, to_x, to_y, range)
 	{
-		var path  = [];
-		var count = PathFinding.search( from_x | 0, from_y | 0, to_x | 0, to_y | 0, range || 0, path );
+		var path = [];
+		var count = PathFinding.search(from_x | 0, from_y | 0, to_x | 0, to_y | 0, range || 0, path);
 
 		if (count) {
 			path.length = count;
 			path.shift();
 
-			if (count === 2 && path[0][0] === from_x && path[0][1] === from_y){
+			if (count === 2 && path[0][0] === from_x && path[0][1] === from_y) {
 				return;
 			}
 
@@ -68,14 +68,14 @@ define( function( require )
 			this.walk.path = path;
 			this.walk.tick = Renderer.tick;
 
-			this.headDir   = 0;
+			this.headDir = 0;
 
 			if (this.action !== this.ACTION.WALK) {
 				this.setAction({
 					action: this.ACTION.WALK,
-					frame:  0,
+					frame: 0,
 					repeat: true,
-					play:   true
+					play: true
 				});
 			}
 		}
@@ -87,7 +87,7 @@ define( function( require )
 	 */
 	function WalkProcess()
 	{
-		var pos  = this.position;
+		var pos = this.position;
 		var walk = this.walk;
 		var path = walk.path;
 
@@ -103,7 +103,7 @@ define( function( require )
 				y = path[0][1] - (walk.pos[1]);
 
 				// Seems like walking on diagonal is slower ?
-				speed = ( x && y ) ? walk.speed / 0.6 : walk.speed;
+				speed = (x && y) ? walk.speed / 0.6 : walk.speed;
 
 				// New position :)
 				if (TICK - walk.tick <= speed) {
@@ -117,7 +117,7 @@ define( function( require )
 			// Calculate and store new position
 			// TODO: check the min() part.
 
-			delay  = Math.min(speed, TICK-walk.tick);
+			delay = Math.min(speed, TICK - walk.tick);
 
 			// Should not happened, avoid division by 0
 			if (!delay) {
@@ -126,11 +126,11 @@ define( function( require )
 
 			pos[0] = walk.pos[0] + x / (speed / delay);
 			pos[1] = walk.pos[1] + y / (speed / delay);
-			pos[2] = Altitude.getCellHeight( pos[0], pos[1] );
+			pos[2] = Altitude.getCellHeight(pos[0], pos[1]);
 
 			// Update player direction while walking
 			if (path.length) {
-				this.direction = DIRECTION[(x>0?1:x<0?-1:0)+1][(y>0?1:y<0?-1:0)+1];
+				this.direction = DIRECTION[(x > 0 ? 1 : x < 0 ? -1 : 0) + 1][(y > 0 ? 1 : y < 0 ? -1 : 0) + 1];
 				return;
 			}
 		}
@@ -138,8 +138,8 @@ define( function( require )
 		// Stop walking
 		this.setAction({
 			action: this.ACTION.IDLE,
-			frame:  0,
-			play:   true,
+			frame: 0,
+			play: true,
 			repeat: true
 		});
 
@@ -154,7 +154,7 @@ define( function( require )
 
 		pos[0] = Math.round(pos[0]);
 		pos[1] = Math.round(pos[1]);
-		pos[2] = Altitude.getCellHeight( pos[0], pos[1] );
+		pos[2] = Altitude.getCellHeight(pos[0], pos[1]);
 	}
 
 
@@ -163,9 +163,9 @@ define( function( require )
 	 */
 	return function Init()
 	{
-		this.onWalkEnd   = function onWalkEnd(){};
-		this.walk        = new WalkStructure();
-		this.walkTo      = WalkTo;
+		this.onWalkEnd = function onWalkEnd() { };
+		this.walk = new WalkStructure();
+		this.walkTo = WalkTo;
 		this.walkProcess = WalkProcess;
 	};
 });

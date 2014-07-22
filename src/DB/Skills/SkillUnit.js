@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(['./SkillConst'], function( SK )
+define(['./SkillConst'], function (SK)
 {
 	'use strict';
 

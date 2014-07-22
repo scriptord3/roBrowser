@@ -11,8 +11,8 @@
  * @author Vincent Thibault
  */
 
-define( ['Core/Client', 'Preferences/Audio', 'Core/MemoryManager'],
-function(      Client,          Preferences,              Memory )
+define(['Core/Client', 'Preferences/Audio', 'Core/MemoryManager'],
+function (Client, Preferences, Memory)
 {
 	'use strict';
 
@@ -43,7 +43,8 @@ function(      Client,          Preferences,              Memory )
 	 * @param {optional|number} vol (volume)
 	 * @param {optional|boolean} auto-repeat
 	 */
-	Sound.play = function play( filename, vol, repeat ) {
+	Sound.play = function play(filename, vol, repeat)
+	{
 		var volume;
 
 		// Sound volume * Global volume
@@ -60,18 +61,20 @@ function(      Client,          Preferences,              Memory )
 		}
 
 		// Get the sound from client.
-		Client.loadFile( 'data/wav/' + filename, function( url ) {
+		Client.loadFile('data/wav/' + filename, function (url)
+		{
 			var sound = document.createElement('audio');
 
 			// Initialiaze the sound and play it
-			sound.filename    = filename;
-			sound.src         = url;
-			sound.volume      = Math.min(volume,1.0);
-			sound._volume     = volume;
+			sound.filename = filename;
+			sound.src = url;
+			sound.volume = Math.min(volume, 1.0);
+			sound._volume = volume;
 			sound.play();
 
 			// Once the sound finish, remove it from memory
-			sound.addEventListener('ended', function Remove(){
+			sound.addEventListener('ended', function Remove()
+			{
 				var pos = _sounds.indexOf(this);
 				if (pos !== -1) {
 					if (repeat) {
@@ -79,7 +82,7 @@ function(      Client,          Preferences,              Memory )
 						sound.play();
 					}
 					else {
-						_sounds.splice( pos, 1 );
+						_sounds.splice(pos, 1);
 					}
 				}
 			}, false);
@@ -95,7 +98,7 @@ function(      Client,          Preferences,              Memory )
 	 *
 	 * @param {optional|string} filename to stop
 	 */
-	Sound.stop = function stop( filename )
+	Sound.stop = function stop(filename)
 	{
 		var i, count, list;
 
@@ -120,7 +123,7 @@ function(      Client,          Preferences,              Memory )
 		// Remove from cache
 		list = Memory.search(/\.wav$/);
 		for (i = 0, count = list.length; i < count; ++i) {
-			Memory.remove( list[i] );
+			Memory.remove(list[i]);
 		}
 	};
 
@@ -130,16 +133,16 @@ function(      Client,          Preferences,              Memory )
 	 *
 	 * @param {number} volume
 	 */
-	Sound.setVolume = function setVolume( volume )
+	Sound.setVolume = function setVolume(volume)
 	{
 		var i, count = _sounds.length;
-		this.volume  = Math.min( volume, 1.0);
+		this.volume = Math.min(volume, 1.0);
 
 		Preferences.Sound.volume = this.volume;
 		Preferences.save();
 
 		for (i = 0; i < count; i++) {
-			_sounds[i].volume = Math.min( _sounds[i]._volume * this.volume, 1.0);
+			_sounds[i].volume = Math.min(_sounds[i]._volume * this.volume, 1.0);
 		}
 	};
 

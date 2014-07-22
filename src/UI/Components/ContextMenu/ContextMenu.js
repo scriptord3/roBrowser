@@ -5,7 +5,7 @@
  *
  * This file is part of ROBrowser, Ragnarok Online in the Web Browser (http://www.robrowser.com/).
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -13,18 +13,18 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var jQuery       = require('Utils/jquery');
-	var Renderer     = require('Renderer/Renderer');
-	var Mouse        = require('Controls/MouseEventHandler');
-	var UIManager    = require('UI/UIManager');
-	var UIComponent  = require('UI/UIComponent');
-	var cssText      = require('text!./ContextMenu.css');
+	var jQuery = require('Utils/jquery');
+	var Renderer = require('Renderer/Renderer');
+	var Mouse = require('Controls/MouseEventHandler');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var cssText = require('text!./ContextMenu.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var ContextMenu = new UIComponent( 'ContextMenu', '<div id="ContextMenu"/>', cssText);
+	var ContextMenu = new UIComponent('ContextMenu', '<div id="ContextMenu"/>', cssText);
 
 
 	/**
@@ -32,11 +32,11 @@ define(function(require)
 	 */
 	var _overlay = jQuery('<div/>').css({
 		position: 'fixed',
-		top:    0,
-		left:   0,
+		top: 0,
+		left: 0,
 		zIndex: 999,
 		width: '100%',
-		height:'100%'
+		height: '100%'
 	});
 
 
@@ -45,11 +45,13 @@ define(function(require)
 	 */
 	ContextMenu.init = function init()
 	{
-		_overlay.mousedown(function(){
+		_overlay.mousedown(function ()
+		{
 			ContextMenu.remove();
 		});
 
-		this.ui.on('mousedown', 'div', function(event){
+		this.ui.on('mousedown', 'div', function (event)
+		{
 			event.stopImmediatePropagation();
 			return false;
 		});
@@ -64,10 +66,10 @@ define(function(require)
 		this.ui.css('zIndex', 1000);
 		_overlay.appendTo('body');
 
-		var width  = this.ui.width();
+		var width = this.ui.width();
 		var height = this.ui.height();
-		var x      = Mouse.screen.x;
-		var y      = Mouse.screen.y;
+		var x = Mouse.screen.x;
+		var y = Mouse.screen.y;
 
 		if (Mouse.screen.x + width > Renderer.width) {
 			x = Mouse.screen.x - width;
@@ -77,7 +79,7 @@ define(function(require)
 			y = Mouse.screen.y - height;
 		}
 
-		this.ui.css({ top:  y, left: x });
+		this.ui.css({ top: y, left: x });
 	};
 
 
@@ -99,7 +101,8 @@ define(function(require)
 	 */
 	ContextMenu.addElement = function addElement(text, callback)
 	{
-		this.ui.append(jQuery('<div/>').text(text).click(function(){
+		this.ui.append(jQuery('<div/>').text(text).click(function ()
+		{
 			ContextMenu.remove();
 			callback();
 		}));

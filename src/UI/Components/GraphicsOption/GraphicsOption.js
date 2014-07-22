@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,29 +15,29 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var Configs          = require('Core/Configs');
-	var Context          = require('Core/Context');
-	var Preferences      = require('Core/Preferences');
+	var Configs = require('Core/Configs');
+	var Context = require('Core/Context');
+	var Preferences = require('Core/Preferences');
 	var GraphicsSettings = require('Preferences/Graphics');
-	var Renderer         = require('Renderer/Renderer');
-	var UIManager        = require('UI/UIManager');
-	var UIComponent      = require('UI/UIComponent');
-	var htmlText         = require('text!./GraphicsOption.html');
-	var cssText          = require('text!./GraphicsOption.css');
+	var Renderer = require('Renderer/Renderer');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./GraphicsOption.html');
+	var cssText = require('text!./GraphicsOption.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var GraphicsOption = new UIComponent( 'GraphicsOption', htmlText, cssText );
+	var GraphicsOption = new UIComponent('GraphicsOption', htmlText, cssText);
 
 
 	/**
 	 * @var {Preferences} Graphics
 	 */
-	var _preferences =  Preferences.get('GraphicsOption', {
-		x:    300,
-		y:    300
+	var _preferences = Preferences.get('GraphicsOption', {
+		x: 300,
+		y: 300
 	}, 1.1);
 
 
@@ -49,11 +49,13 @@ define(function(require)
 		this.ui.find('.close').click(this.remove.bind(this));
 
 		//Avoid drag and drop in input elements
-		this.ui.find('input, select').mousedown(function(event){
+		this.ui.find('input, select').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
-		this.ui.find('.details').change(function(){
+		this.ui.find('.details').change(function ()
+		{
 			GraphicsSettings.quality = parseInt(this.value, 10);
 			GraphicsSettings.save();
 
@@ -61,7 +63,8 @@ define(function(require)
 			Renderer.resize();
 		});
 
-		this.ui.find('.cursor').change(function(){
+		this.ui.find('.cursor').change(function ()
+		{
 			GraphicsSettings.cursor = !!this.checked;
 			GraphicsSettings.save();
 
@@ -71,7 +74,8 @@ define(function(require)
 			}
 		});
 
-		this.ui.find('.screensize').change(function(){
+		this.ui.find('.screensize').change(function ()
+		{
 			var isFullScreen = Context.isFullScreen();
 
 			GraphicsSettings.screensize = this.value;
@@ -93,8 +97,8 @@ define(function(require)
 
 					// Only resize/move if needed
 					if (size[0] != window.innerWidth && size[1] != window.innerHeight) {
-						window.resizeTo( size[0], size[1] );
-						window.moveTo( (screen.availWidth - size[0]) / 2, (screen.availHeight - size[1]) / 2 );
+						window.resizeTo(size[0], size[1]);
+						window.moveTo((screen.availWidth - size[0]) / 2, (screen.availHeight - size[1]) / 2);
 					}
 				}
 			}
@@ -111,8 +115,8 @@ define(function(require)
 	GraphicsOption.onAppend = function OnAppend()
 	{
 		this.ui.css({
-			top:     _preferences.y,
-			left:    _preferences.x,
+			top: _preferences.y,
+			left: _preferences.x,
 		});
 
 		this.ui.find('.details').val(GraphicsSettings.quality);
@@ -126,8 +130,8 @@ define(function(require)
 	 */
 	GraphicsOption.onRemove = function OnRemove()
 	{
-		_preferences.x    = parseInt(this.ui.css('left'), 10);
-		_preferences.y    = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
+		_preferences.y = parseInt(this.ui.css('top'), 10);
 		_preferences.save();
 	};
 

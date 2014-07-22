@@ -9,31 +9,31 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load dependencies
-	var jQuery      = require('Utils/jquery');
-	var Queue       = require('Utils/Queue');
-	var Sound       = require('Audio/SoundManager');
-	var BGM         = require('Audio/BGM');
-	var DB          = require('DB/DBManager');
-	var Configs     = require('Core/Configs');
-	var Client      = require('Core/Client');
-	var Thread      = require('Core/Thread');
-	var Context     = require('Core/Context');
+	var jQuery = require('Utils/jquery');
+	var Queue = require('Utils/Queue');
+	var Sound = require('Audio/SoundManager');
+	var BGM = require('Audio/BGM');
+	var DB = require('DB/DBManager');
+	var Configs = require('Core/Configs');
+	var Client = require('Core/Client');
+	var Thread = require('Core/Thread');
+	var Context = require('Core/Context');
 	var LoginEngine = require('Engine/LoginEngine');
-	var Network     = require('Network/NetworkManager');
-	var Renderer    = require('Renderer/Renderer');
+	var Network = require('Network/NetworkManager');
+	var Renderer = require('Renderer/Renderer');
 	var MapRenderer = require('Renderer/MapRenderer');
-	var UIManager   = require('UI/UIManager');
-	var Cursor      = require('UI/CursorManager');
-	var Scrollbar   = require('UI/Scrollbar');
-	var Background  = require('UI/Background');
-	var Intro       = require('UI/Components/Intro/Intro');
-	var WinList     = require('UI/Components/WinList/WinList');
+	var UIManager = require('UI/UIManager');
+	var Cursor = require('UI/CursorManager');
+	var Scrollbar = require('UI/Scrollbar');
+	var Background = require('UI/Background');
+	var Intro = require('UI/Components/Intro/Intro');
+	var WinList = require('UI/Components/WinList/WinList');
 
 
 	/**
@@ -56,11 +56,13 @@ define(function( require )
 		var q = new Queue();
 
 		// Waiting for the Thread to be ready
-		q.add(function(){
+		q.add(function ()
+		{
 			if (!_thread_ready) {
-				Thread.hook('THREAD_ERROR', onThreadError );
-				Thread.hook('THREAD_LOG',   onThreadLog );
-				Thread.hook('THREAD_READY', function(){
+				Thread.hook('THREAD_ERROR', onThreadError);
+				Thread.hook('THREAD_LOG', onThreadLog);
+				Thread.hook('THREAD_READY', function ()
+				{
 					_thread_ready = true;
 					q._next();
 				});
@@ -72,17 +74,20 @@ define(function( require )
 		});
 
 		// Initialize renderer
-		q.add(function(){
+		q.add(function ()
+		{
 			Renderer.init();
 			q._next();
 		});
 
 		// Start Intro, wait the user to add files
-		q.add(function(){
-			Client.onFilesLoaded = function(count){
+		q.add(function ()
+		{
+			Client.onFilesLoaded = function (count)
+			{
 				if (!Configs.get('remoteClient') && !count) {
 					if (!Context.Is.APP) {
-						alert( 'No client to initialize roBrowser');
+						alert('No client to initialize roBrowser');
 					}
 					else {
 						// FIXME: no window.alert() in chrome app.
@@ -104,32 +109,38 @@ define(function( require )
 		});
 
 		// Loading Game file (txt, lua, lub)
-		q.add(function(){
+		q.add(function ()
+		{
 			DB.onReady = q.next;
-			DB.onProgress = function(i, count) {
-				Background.setPercent( Math.floor(i/count * 100) );
+			DB.onProgress = function (i, count)
+			{
+				Background.setPercent(Math.floor(i / count * 100));
 			};
 			UIManager.removeComponents();
 			Background.init();
-			Background.resize( Renderer.width, Renderer.height );
-			Background.setImage( 'bgi_temp.bmp', function(){
+			Background.resize(Renderer.width, Renderer.height);
+			Background.setImage('bgi_temp.bmp', function ()
+			{
 				DB.init();
 			});
 		});
 
-		q.add(function(){
-			Thread.send('CLIENT_FILES_ALIAS', DB.mapalias );
+		q.add(function ()
+		{
+			Thread.send('CLIENT_FILES_ALIAS', DB.mapalias);
 			loadClientInfo(q.next);
 		});
 
 		// Initialize cursor
-		q.add(function(){
+		q.add(function ()
+		{
 			Scrollbar.init();
 			Cursor.init(q.next);
 		});
 
 		// Initialize Login
-		q.add(function(){
+		q.add(function ()
+		{
 			reload();
 		});
 
@@ -152,22 +163,23 @@ define(function( require )
 
 		// Setup background
 		Background.init();
-		Background.resize( Renderer.width, Renderer.height );
-		Background.setImage( 'bgi_temp.bmp', function(){
+		Background.resize(Renderer.width, Renderer.height);
+		Background.setImage('bgi_temp.bmp', function ()
+		{
 
 			// Display server list
-			var list = new Array( _servers.length );
+			var list = new Array(_servers.length);
 			var i, count = list.length;
 
 			// WTF no servers ?
 			if (count === 0) {
-				UIManager.showMessageBox( 'Sorry, no server found.', 'ok', init);
+				UIManager.showMessageBox('Sorry, no server found.', 'ok', init);
 			}
 
-			// Just 1 server, skip the WinList
+				// Just 1 server, skip the WinList
 			else if (count === 1 && Configs.get('skipServerList')) {
 				LoginEngine.onExitRequest = reload;
-				LoginEngine.init( _servers[0] );
+				LoginEngine.init(_servers[0]);
 			}
 			else {
 				for (i = 0; i < count; ++i) {
@@ -175,7 +187,7 @@ define(function( require )
 				}
 
 				WinList.append();
-				WinList.setList( list );
+				WinList.setList(list);
 			}
 
 			Renderer.stop();
@@ -184,7 +196,7 @@ define(function( require )
 
 		// Hooking WinList
 		WinList.onIndexSelected = onLoginServerSelected;
-		WinList.onExitRequest   = onExit;
+		WinList.onExitRequest = onExit;
 	}
 
 
@@ -193,14 +205,14 @@ define(function( require )
 	 *
 	 * @param {number} index in server list
 	 */
-	function onLoginServerSelected( index )
+	function onLoginServerSelected(index)
 	{
 		// Play "¹öÆ°¼Ò¸®.wav" (possible problem with charset)
 		Sound.play('\xB9\xF6\xC6\xB0\xBC\xD2\xB8\xAE.wav');
 
 		WinList.remove();
 		LoginEngine.onExitRequest = reload;
-		LoginEngine.init( _servers[index] );
+		LoginEngine.init(_servers[index]);
 	}
 
 
@@ -221,9 +233,9 @@ define(function( require )
 	 *
 	 * @param {function} callback
 	 */
-	function loadClientInfo( callback )
+	function loadClientInfo(callback)
 	{
-		var servers     = Configs.get('servers', 'data/clientinfo.xml');
+		var servers = Configs.get('servers', 'data/clientinfo.xml');
 		_servers.length = 0;
 
 		if (servers instanceof Array) {
@@ -232,37 +244,40 @@ define(function( require )
 			return;
 		}
 
-		Client.loadFile( servers, function(xml)
+		Client.loadFile(servers, function (xml)
 		{
 			// $.parseXML() don't parse buggy xml (and a lot of clientinfo.xml are not properly write)...
 			xml = xml.replace(/^.*<\?xml/, '<?xml');
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(xml, 'application/xml');
 
-			var connections      = jQuery(doc).find('clientinfo connection');
-			var stop             = connections.length - 1;
-			var list             = [];
+			var connections = jQuery(doc).find('clientinfo connection');
+			var stop = connections.length - 1;
+			var list = [];
 
 			if (!connections.length) {
 				callback();
 			}
 
-			connections.each(function(index, element){
+			connections.each(function (index, element)
+			{
 				var connection = jQuery(element);
 
-				list.push( connection.find('display:first').text() );
+				list.push(connection.find('display:first').text());
 				_servers.push({
-					display:    connection.find('display:first').text(),
-					desc:       connection.find('desc:first').text(),
-					address:    connection.find('address:first').text(),
-					port:       connection.find('port:first').text(),
-					version:    connection.find('version:first').text(),
-					langtype:   connection.find('langtype:first').text(),
-					packetver:  connection.find('packetver:first').text(),
-					adminList:  (function(){
-						var list   = [];
-						connection.find('yellow admin, aid admin').each(function(){
-							list.push(parseInt(this.textContent,10));
+					display: connection.find('display:first').text(),
+					desc: connection.find('desc:first').text(),
+					address: connection.find('address:first').text(),
+					port: connection.find('port:first').text(),
+					version: connection.find('version:first').text(),
+					langtype: connection.find('langtype:first').text(),
+					packetver: connection.find('packetver:first').text(),
+					adminList: (function ()
+					{
+						var list = [];
+						connection.find('yellow admin, aid admin').each(function ()
+						{
+							list.push(parseInt(this.textContent, 10));
 						});
 						return list;
 					})()
@@ -272,7 +287,7 @@ define(function( require )
 					callback();
 				}
 			});
-		}, callback );
+		}, callback);
 	}
 
 
@@ -281,9 +296,9 @@ define(function( require )
 	 *
 	 * @param {Array} data
 	 */
-	function onThreadError( data )
+	function onThreadError(data)
 	{
-		console.warn.apply( console, data );
+		console.warn.apply(console, data);
 	}
 
 
@@ -292,9 +307,9 @@ define(function( require )
 	 *
 	 * @param {Array} data
 	 */
-	function onThreadLog( data )
+	function onThreadLog(data)
 	{
-		console.log.apply( console, data );
+		console.log.apply(console, data);
 	}
 
 
@@ -302,7 +317,7 @@ define(function( require )
 	 * Export
 	 */
 	return {
-		init:           init,
-		reload:         reload
+		init: init,
+		reload: reload
 	};
 });

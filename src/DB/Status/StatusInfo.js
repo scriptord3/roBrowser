@@ -8,17 +8,17 @@
  * @author Vincent Thibault
  */
 
-define(['./StatusConst'], function( SC )
+define(['./StatusConst'], function (SC)
 {
 	"use strict";
 
 
 	// Hardcoded color
-	var COLOR_TITLE_BUFF   = 'rgb(155, 202, 155)';
+	var COLOR_TITLE_BUFF = 'rgb(155, 202, 155)';
 	var COLOR_TITLE_DEBUFF = 'rgb(250, 100, 100)';
 	var COLOR_TITLE_TOGGLE = 'rgb(190, 190, 250)';
-	var COLOR_SYSTEM       = 'rgb(255, 255,   0)';
-	var COLOR_TIME         = 'rgb(255, 176,  98)';
+	var COLOR_SYSTEM = 'rgb(255, 255,   0)';
+	var COLOR_TIME = 'rgb(255, 176,  98)';
 
 	// TODO: find icon status: 40-49 | 60 | 63-64 | 66-67 | 70-86 | 88-89 | 64-621 | ???
 
@@ -28,7 +28,7 @@ define(['./StatusConst'], function( SC )
 
 
 	StatusInfo[SC.OVERTHRUSTMAX] = {
-		haveTimeLimit:   1,
+		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
 			["Maximum Over Thrust", COLOR_TITLE_BUFF],
@@ -40,7 +40,7 @@ define(['./StatusConst'], function( SC )
 
 	StatusInfo[SC.SUFFRAGIUM] = {
 		icon: "\xbc\xf6\xc1\xdd\xc0\xba\xc7\xcf\xb7\xe7\xc0\xc7\xbf\xec\xbf\xef.tga",
-		haveTimeLimit:   1,
+		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
 			["Suffragium", COLOR_TITLE_BUFF],
@@ -73,7 +73,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Warcry of Beyond", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases physical attack power"],
 			["Decreases magic attack power"]
 		]
@@ -178,8 +178,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Kaupe", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Kaupe", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Chance to evade an enemy attack."]
 		]
 	};
@@ -188,8 +188,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shield Spell (DEF)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Shield Spell (DEF)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Invokes a magical spell based on DEF"]
 		]
 	};
@@ -198,10 +198,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Warmer", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Removes Frozen/Freezing status"], 
-			["Immunity to Frozen/Freezing status"], 
+			["Warmer", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Removes Frozen/Freezing status"],
+			["Immunity to Frozen/Freezing status"],
 			["Recovers HP every 3 seconds"]
 		]
 	};
@@ -210,8 +210,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Magic Armor Potions", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Magic Armor Potions", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases resistance to magical attacks"]
 		]
 	};
@@ -221,7 +221,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Comfort of the Stars", COLOR_TITLE_BUFF], 
+			["Comfort of the Stars", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["Increases ASPD"]
 		]
@@ -231,7 +231,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Improves CRIT"]
 		]
 	};
@@ -240,7 +240,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Ghost Property"]
 		]
 	};
@@ -249,9 +249,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Gloomy Day", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases the damage of specific skills"], 
+			["Gloomy Day", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases the damage of specific skills"],
 			["Reduces FLEE, ASPD"]
 		]
 	};
@@ -261,7 +261,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Circle of Nature's Sound", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Consumes SP and recovers HP"]
 		]
 	};
@@ -270,8 +270,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Deadly Infect", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Deadly Infect", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["When attacking"],
 			["or being attacked"],
 			["your status effects are applies to them"]
@@ -282,8 +282,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Symphony of Love", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Symphony of Love", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases MDEF"]
 		]
 	};
@@ -292,7 +292,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Banding", COLOR_TITLE_BUFF], 
+			["Banding", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["Banding status"]
 		]
@@ -303,9 +303,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Illusionary Shadow", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Avoids a certain number of physical attacks"], 
+			["Illusionary Shadow", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Avoids a certain number of physical attacks"],
 			["Magical attacks cannot be avoided"]
 		]
 	};
@@ -314,9 +314,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Warg Rider", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Bows are Disabled"], 
+			["Warg Rider", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Bows are Disabled"],
 			["Warg Skills are only allowed"]
 		]
 	};
@@ -325,8 +325,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["SP Consumption Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["SP Consumption Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Skills using SP have their consumption increased"]
 		]
 	};
@@ -335,10 +335,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Body Painting", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Reveals hidden enemies"], 
-			["Chance to inflict Blind to enemies"], 
+			["Body Painting", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Reveals hidden enemies"],
+			["Chance to inflict Blind to enemies"],
 			["Reduces Enemy ASPD"]
 		]
 	};
@@ -347,9 +347,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Cicada Skin Shedding", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Avoids a certain number of physical attacks"], 
+			["Cicada Skin Shedding", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Avoids a certain number of physical attacks"],
 			["When avoiding, move in the opposite direction of the attacker"]
 		]
 	};
@@ -358,7 +358,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Poisoning Weapon", COLOR_TITLE_BUFF], 
+			["Poisoning Weapon", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["Applies the poison coated on your weapon to the target"]
 		]
@@ -368,7 +368,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["No EXP loss upon death"]
 		]
 	};
@@ -378,9 +378,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Adjustment", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Reduces HIT"], 
+			["Adjustment", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Reduces HIT"],
 			["Increases FLEE"],
 			["Reduces damage of incoming ranged physical attacks"]
 		]
@@ -392,9 +392,9 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Auto Spell", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["When physically attacking"],
-			["the selected skill will automatically cast without casting time."], 
+			["the selected skill will automatically cast without casting time."],
 			["SP consumed is 2/3 the regular amount"],
 			["Skill will not cast without sufficient SP"]
 		]
@@ -405,9 +405,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Decrease Agility", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
-			["Reduces Movement Speed"], 
+			["Decrease Agility", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
+			["Reduces Movement Speed"],
 			["Reduces ASPD"]
 		]
 	};
@@ -417,8 +417,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Off Status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Weapon Off Status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Weapons cannot be worn"]
 		]
 	};
@@ -427,8 +427,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shield Spell (MDEF)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Shield Spell (MDEF)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Invokes a magical spell based on MDEF"]
 		]
 	};
@@ -438,8 +438,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Auto Guard", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Auto Guard", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Has a chance to block physical attacks"]
 		]
 	};
@@ -448,8 +448,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Tarot Card of Fate", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Tarot Card of Fate", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Applies one of 14 cards and their effects"]
 		]
 	};
@@ -458,9 +458,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Fear Breeze", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When attacking with a bow"], 
+			["Fear Breeze", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When attacking with a bow"],
 			["there is a chance to cause additional attacks"]
 		]
 	};
@@ -469,8 +469,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Cart Boost", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Cart Boost", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Movement Speed"]
 		]
 	};
@@ -479,8 +479,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shield Spell (Refine)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Shield Spell (Refine)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Invokes a magical effect based on refine"]
 		]
 	};
@@ -489,7 +489,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases INT"]
 		]
 	};
@@ -499,8 +499,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shield Off Status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Shield Off Status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Shields cannot be worn"]
 		]
 	};
@@ -509,11 +509,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Meltdown", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When attacking a player"], 
-			["there is a chance to destroy his/her weapon/armor"], 
-			["When attacking a monster"], 
+			["Meltdown", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When attacking a player"],
+			["there is a chance to destroy his/her weapon/armor"],
+			["When attacking a monster"],
 			["the monster's attack and defense are reduced"]
 		]
 	};
@@ -523,9 +523,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Quagmire", COLOR_TITLE_DEBUFF], 
+			["Quagmire", COLOR_TITLE_DEBUFF],
 			["%s", COLOR_TIME],
-			["Reduces Movement Speed"], 
+			["Reduces Movement Speed"],
 			["Reduces AGI/DEX"]
 		]
 	};
@@ -536,8 +536,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Kaizel", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Cast time not affected by DEX"], 
+			["%s", COLOR_TIME],
+			["Cast time not affected by DEX"],
 			["Upon death, you will revive with Kyrie Eleison for 2 seconds"]
 		]
 	};
@@ -547,9 +547,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shrink", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When Autoguarding attacks"], 
+			["Shrink", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When Autoguarding attacks"],
 			["there is a chance to push the attack back"]
 		]
 	};
@@ -558,7 +558,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases VIT"]
 		]
 	};
@@ -567,8 +567,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Parrying", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Parrying", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Blocks physical attacks by chance"]
 		]
 	};
@@ -578,8 +578,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Chemical Protection (Weapon)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Chemical Protection (Weapon)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Prevents weapon from being stripped/broken"]
 		]
 	};
@@ -588,7 +588,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases AGI"]
 		]
 	};
@@ -598,9 +598,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Increase agility", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases Movement Speed"], 
+			["Increase agility", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases Movement Speed"],
 			["Increases Attack Speed"]
 		]
 	};
@@ -610,8 +610,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Loud Exclamation (Crazy Uproar)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Loud Exclamation (Crazy Uproar)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases STR"]
 		]
 	};
@@ -620,8 +620,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
-			["When killing monsters"], 
+			["%s", COLOR_TIME],
+			["When killing monsters"],
 			["the drop chance is doubled"]
 		]
 	};
@@ -630,9 +630,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["·ç½Ã¿Ã¶óÀÇ ²ÜÂ´", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["½ºÇÃ¶ûµðµå ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô ¹Þ´Â"], 
+			["·ç½Ã¿Ã¶óÀÇ ²ÜÂ´", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["½ºÇÃ¶ûµðµå ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô ¹Þ´Â"],
 			["Reduces DEF, MDEF"]
 		]
 	};
@@ -642,8 +642,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Illusion", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Illusion", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Screen distortion"],
 			["Shows more damage"],
 			["Randomly interrupts casting"]
@@ -654,8 +654,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Hovering", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Hovering", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Traps and some ground skills do not have any effect"]
 		]
 	};
@@ -665,7 +665,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Enchants Armor with Holy Property"]
 		]
 	};
@@ -674,9 +674,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Blocking", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When hit by close range physical attacks"], 
+			["Weapon Blocking", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When hit by close range physical attacks"],
 			["there is a chance to nullify the damage"]
 		]
 	};
@@ -686,8 +686,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Angelus", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Angelus", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases VIT DEF"]
 		]
 	};
@@ -696,8 +696,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Marsh of Abyss", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Marsh of Abyss", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Slows Movement"],
 			["Reduces DEF, Flee"]
 		]
@@ -707,10 +707,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Stealth Field", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Cloaks everyone in a radius around caster"], 
-			["Consumes SP while active"], 
+			["Stealth Field", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Cloaks everyone in a radius around caster"],
+			["Consumes SP while active"],
 			["Reduces Movement Speed"]
 		]
 	};
@@ -719,8 +719,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Full Adrenaline Rush", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Full Adrenaline Rush", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Weapon ASPD except Bows"]
 		]
 	};
@@ -729,9 +729,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["¸¶´©Å©ÀÇ ½Å³ä", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["¸¶´©Å© ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"], 
+			["¸¶´©Å©ÀÇ ½Å³ä", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["¸¶´©Å© ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"],
 			["¸¶¹ý°ø°Ý µ¥¹ÌÁö »ó½Â"]
 		]
 	};
@@ -741,8 +741,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Armor Off Status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Armor Off Status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Armor cannot be worn"]
 		]
 	};
@@ -751,10 +751,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Renovatio", COLOR_TITLE_BUFF], 
+			["Renovatio", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Recovers HP every 5 seconds"], 
-			["When used on Undead monsters"], 
+			["Recovers HP every 5 seconds"],
+			["When used on Undead monsters"],
 			["it deals high damage according to skill level"]
 		]
 	};
@@ -764,9 +764,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Hiding", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Avoids enemy attacks by hiding in the ground"], 
+			["Hiding", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Avoids enemy attacks by hiding in the ground"],
 			["Can be discovered with detection skills"]
 		]
 	};
@@ -774,7 +774,7 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.WEIGHTOVER50] = {
 		icon: "\xb9\xab\xb0\xd4\x35\x30\xc0\xcc\xbb\xf3.tga",
 		descript: [
-			["Overweight 50%", COLOR_TITLE_DEBUFF], 
+			["Overweight 50%", COLOR_TITLE_DEBUFF],
 			["HP/SP will not be restored"]
 		]
 	};
@@ -783,10 +783,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Spurt", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases STR"], 
-			["if the user is unequipped"], 
+			["Spurt", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases STR"],
+			["if the user is unequipped"],
 			["and the skill level is high enough"]
 		]
 	};
@@ -796,8 +796,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Headgear Off Status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Headgear Off Status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Headgear cannot be worn"]
 		]
 	};
@@ -807,8 +807,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["Berserk Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Berserk Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases ASPD"]
 		]
 	};
@@ -819,8 +819,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Endure", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Enables attacking and movement"], 
+			["%s", COLOR_TIME],
+			["Enables attacking and movement"],
 			["while receiving damage"]
 		]
 	};
@@ -828,8 +828,8 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.TURNKICK_ON] = {
 		icon: "i_turnkick.tga",
 		descript: [
-			["Ready Turn Kick", COLOR_TITLE_BUFF], 
-			["When attacking,"], 
+			["Ready Turn Kick", COLOR_TITLE_BUFF],
+			["When attacking,"],
 			["there's a chance to prepare a Turn Kick"]
 		]
 	};
@@ -839,8 +839,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Enchant Poison", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Enchant Poison", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Poison Property"]
 		]
 	};
@@ -849,9 +849,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["ÇÉ±ÍÅ§¶óÀÇ ¿­¸ÅÀýÀÓ", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["½ºÇÃ¶ûµðµå ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"], 
+			["ÇÉ±ÍÅ§¶óÀÇ ¿­¸ÅÀýÀÓ", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["½ºÇÃ¶ûµðµå ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"],
 			["¹°¸®°ø°Ý µ¥¹ÌÁö »ó½Â"]
 		]
 	};
@@ -862,8 +862,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Blessing", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases DEX, INT and STR"], 
+			["%s", COLOR_TIME],
+			["Increases DEX, INT and STR"],
 			["Recovers from a few status effects"]
 		]
 	};
@@ -873,8 +873,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["One-hand Quicken", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["One-hand Quicken", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Using One-handed Weapon"],
 			["Increases ASPD"]
 		]
@@ -885,11 +885,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Spear Quicken", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Ã¢ »ç¿ë ½Ã"], 
-			["Increases ASPD"], 
-			["Increases CRIT"], 
+			["Spear Quicken", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Ã¢ »ç¿ë ½Ã"],
+			["Increases ASPD"],
+			["Increases CRIT"],
 			["Increases Flee"]
 		]
 	};
@@ -905,8 +905,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Assumptio", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Assumptio", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Reduces damage taken"]
 		]
 	};
@@ -916,9 +916,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Maximize Power", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases damage to the maximum"], 
+			["Maximize Power", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases damage to the maximum"],
 			["Drains SP over time"]
 		]
 	};
@@ -928,8 +928,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Chemical Protection (Shield)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Chemical Protection (Shield)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Prevents shield from being stripped/broken"]
 		]
 	};
@@ -939,8 +939,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Magnificat", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Magnificat", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases natural SP Recovery Speed"]
 		]
 	};
@@ -950,8 +950,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Concentration Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Concentration Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases ASPD"]
 		]
 	};
@@ -961,7 +961,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Poison React", COLOR_TITLE_BUFF], 
+			["Poison React", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["Counters a Poison attack with a one-time attack"],
 			["When hit by a physical non-poison attack,"],
@@ -973,7 +973,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases Movement Speed"]
 		]
 	};
@@ -982,10 +982,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Crescent Elbow", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Attempts to counter opponent's attack"], 
-			["Knocks back opponent and deals damage"], 
+			["Crescent Elbow", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Attempts to counter opponent's attack"],
+			["Knocks back opponent and deals damage"],
 			["You still take some of the damage"],
 			["Does not affect boss monsters", COLOR_SYSTEM]
 		]
@@ -995,8 +995,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Song of Mana", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Song of Mana", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Recovers SP every 5 seconds"]
 		]
 	};
@@ -1017,8 +1017,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Echo Song", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Echo Song", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases DEF"]
 		]
 	};
@@ -1027,8 +1027,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Preserve", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Preserve", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Allows you to keep copied skill"]
 		]
 	};
@@ -1061,7 +1061,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases Movement Speed"]
 		]
 	};
@@ -1070,10 +1070,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Enchant Deadly Poison", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Applies a deadly poison to weapon"], 
-			["Damage increase does not apply to boss monsters",COLOR_SYSTEM]
+			["Enchant Deadly Poison", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Applies a deadly poison to weapon"],
+			["Damage increase does not apply to boss monsters", COLOR_SYSTEM]
 		]
 	};
 
@@ -1081,9 +1081,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Joint Beat", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Applies various status effects"], 
+			["Joint Beat", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Applies various status effects"],
 			["due to joint damage."]
 		]
 	};
@@ -1093,9 +1093,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Providence", COLOR_TITLE_BUFF], 
+			["Providence", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increased resistance"], 
+			["Increased resistance"],
 			["to undead and demon monsters"]
 		]
 	};
@@ -1115,7 +1115,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases VIT"]
 		]
 	};
@@ -1124,10 +1124,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["Wild", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
-			["Decreases HP/SP per 3 seconds"], 
-			["Damage increased, Defense and Evasion dropped"], 
+			["Wild", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
+			["Decreases HP/SP per 3 seconds"],
+			["Damage increased, Defense and Evasion dropped"],
 			["Skills and items cannot be used."]
 		]
 	};
@@ -1156,8 +1156,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Armor Property", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Armor Property", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Changes your Elemental Property"]
 		]
 	};
@@ -1166,8 +1166,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Tension Relax", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Tension Relax", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases natural HP recovery"]
 		]
 	};
@@ -1187,8 +1187,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Impositio Manus", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Impositio Manus", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Weapon damage"]
 		]
 	};
@@ -1198,7 +1198,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Leech End", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Drains HP every second"]
 		]
 	};
@@ -1206,7 +1206,7 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.REPRODUCE] = {
 		descript: [
 			["Reproduce", COLOR_TITLE_BUFF],
-			["Activates when targetted by a skill"], 
+			["Activates when targetted by a skill"],
 			["Only one skill can be learnt"]
 		]
 	};
@@ -1215,8 +1215,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Acceleration", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Acceleration", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases movement speed of the Magic Gear"]
 		]
 	};
@@ -1226,8 +1226,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Soul", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Soul", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases INT, STR"]
 		]
 	};
@@ -1236,9 +1236,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Force of Vanguard", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Max HP, Defense increased"], 
+			["Force of Vanguard", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Max HP, Defense increased"],
 			["When physicalled attacked there is a chance to earn a rage counter"],
 			["SP consumed while active"]
 		]
@@ -1249,10 +1249,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Close Confine", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Both Players cannot Move"], 
-			["Increases FLEE"], 
+			["Close Confine", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Both Players cannot Move"],
+			["Increases FLEE"],
 			["Does not affect boss monsters", COLOR_SYSTEM]
 		]
 	};
@@ -1260,7 +1260,7 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.TRICKDEAD] = {
 		icon: "\xc1\xd7\xc0\xba\xc3\xb4\xc7\xcf\xb1\xe2.tga",
 		descript: [
-			["Trick Dead (Play Dead)", COLOR_TITLE_TOGGLE], 
+			["Trick Dead (Play Dead)", COLOR_TITLE_TOGGLE],
 			["Pretend Dead Status"]
 		]
 	};
@@ -1270,8 +1270,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Frost Weapon (Endow Tsunami)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Frost Weapon (Endow Tsunami)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Water Property"]
 		]
 	};
@@ -1281,7 +1281,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Adoramus", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Blinds and reduces Movement Speed"]
 		]
 	};
@@ -1290,9 +1290,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Gentle Touch - Energy Gain", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When attacked or when attacking, there is a chance to"], 
+			["Gentle Touch - Energy Gain", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When attacked or when attacking, there is a chance to"],
 			["earn a Spirit Sphere"]
 		]
 	};
@@ -1301,21 +1301,21 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Neutral Barrier", COLOR_TITLE_BUFF], 
+			["Neutral Barrier", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["DEF/MDEF up"],
 			["Neutralizes ranged attacks"]
-			]
+		]
 	};
 
 	StatusInfo[SC.EARTHSCROLL] = {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Happy Break (Enjoyable Rest)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When sitting with another Taekwon"], 
-			["A certain amount of SP is regained"], 
+			["Happy Break (Enjoyable Rest)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When sitting with another Taekwon"],
+			["A certain amount of SP is regained"],
 			["Chance for Earth Spike scrolls to not be destroyed when used"]
 		]
 	};
@@ -1323,7 +1323,7 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.FALCON] = {
 		icon: "\xc6\xc8\xc4\xdc.tga",
 		descript: [
-			["Falconry Mastery", COLOR_TITLE_TOGGLE], 
+			["Falconry Mastery", COLOR_TITLE_TOGGLE],
 			["Falcon Rental"]
 		]
 	};
@@ -1333,9 +1333,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Two Hand Quicken", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When using two handed weapons,"], 
+			["Two Hand Quicken", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When using two handed weapons,"],
 			["increases ASPD"]
 		]
 	};
@@ -1345,8 +1345,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Comfort of the Sun", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Comfort of the Sun", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Improves VIT DEF"]
 		]
 	};
@@ -1356,8 +1356,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Kyrie Eleison", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Kyrie Eleison", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["A defensive barrier that blocks a certain number of attacks"]
 		]
 	};
@@ -1367,8 +1367,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Chemical Protection (Armor)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Chemical Protection (Armor)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Prevents body Armor from being stripped/broken"]
 		]
 	};
@@ -1377,11 +1377,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Rune Stone: Giant Growth", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases STR"], 
-			["There is a chance to vastly increase damage"], 
-			["of close range physical attacks"], 
+			["Rune Stone: Giant Growth", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases STR"],
+			["There is a chance to vastly increase damage"],
+			["of close range physical attacks"],
 			["Chance to destroy weapon with each hit"]
 		]
 	};
@@ -1390,7 +1390,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases STR"]
 		]
 	};
@@ -1399,8 +1399,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Sacrament", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Sacrament", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Reduces fixed casting time"]
 		]
 	};
@@ -1410,8 +1410,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Paralyze", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Reduces Attack Speed"], 
+			["%s", COLOR_TIME],
+			["Reduces Attack Speed"],
 			["Reduces FLEE"],
 			["Reduces Movement Speed"]
 		]
@@ -1422,8 +1422,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Seismic Weapon", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Seismic Weapon", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Earth Property"]
 		]
 	};
@@ -1432,8 +1432,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Double Casting", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Double Casting", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["When casting a Bolt Skill"],
 			["there is a chance to cast another automatically"]
 		]
@@ -1444,10 +1444,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Close Confine", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Both Players cannot Move"], 
-			["Increases FLEE"], 
+			["Close Confine", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Both Players cannot Move"],
+			["Increases FLEE"],
 			["Does not affect Boss"]
 		]
 	};
@@ -1456,8 +1456,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["Over Heat", COLOR_TITLE_BUFF], 
-			["Heating caused by skill use"], 
+			["Over Heat", COLOR_TITLE_BUFF],
+			["Heating caused by skill use"],
 			["Drains HP every second"]
 		]
 	};
@@ -1466,9 +1466,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Cornelia Anubis' Tears", COLOR_TITLE_BUFF], 
+			["Cornelia Anubis' Tears", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["½ºÇÃ¶ûµðµå ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"], 
+			["½ºÇÃ¶ûµðµå ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"],
 			["Magical attack damage increased"]
 		]
 	};
@@ -1478,8 +1478,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Deep Sleep Status", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases Damage Received by 1.5 times"], 
+			["%s", COLOR_TIME],
+			["Increases Damage Received by 1.5 times"],
 			["Recovers HP/SP every 2 seconds"]
 		]
 	};
@@ -1488,9 +1488,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Recognized Spell", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Magic Skills deals Max Damage"], 
+			["Recognized Spell", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Magic Skills deals Max Damage"],
 			["All skills consumes more SP"]
 		]
 	};
@@ -1499,7 +1499,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Max SP increased, SP consumption reduced"]
 		]
 	};
@@ -1518,9 +1518,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Defender (Defending Aura)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Reduce Damage from Ranged Physical Attack"], 
+			["Defender (Defending Aura)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Reduce Damage from Ranged Physical Attack"],
 			["Reduces Movement Speed and Attack Speed"]
 		]
 	};
@@ -1536,9 +1536,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Small Life Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Recoverys HP every 5 seconds"], 
+			["Small Life Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Recoverys HP every 5 seconds"],
 			["No effect if Berserk State is active"]
 		]
 	};
@@ -1547,7 +1547,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases LUK"]
 		]
 	};
@@ -1556,7 +1556,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Bleeding", COLOR_TITLE_BUFF], 
+			["Bleeding", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["HP, SP recovery disabled"],
 			["HP lost every 10 seconds"]
@@ -1567,10 +1567,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Rune Stone: Refresh", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Removes all debuffs when cast"], 
-			["Grants immunity to debuffs"], 
+			["Rune Stone: Refresh", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Removes all debuffs when cast"],
+			["Grants immunity to debuffs"],
 			["Recovers a certain amount of HP"]
 		]
 	};
@@ -1594,11 +1594,11 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.DODGE_ON] = {
 		icon: "i_dodge.tga",
 		descript: [
-			["Dodge", COLOR_TITLE_BUFF], 
-			["Allows Flying Kick to be used as a counter"], 
-			["When receiving enemy magic attack"], 
-			["there is a chance of completely avoiding it"], 
-			["If Spurt is also active"], 
+			["Dodge", COLOR_TITLE_BUFF],
+			["Allows Flying Kick to be used as a counter"],
+			["When receiving enemy magic attack"],
+			["there is a chance of completely avoiding it"],
+			["If Spurt is also active"],
 			["chance of avoiding physical attacks as well"]
 		]
 	};
@@ -1607,9 +1607,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resistance Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases resistance to"], 
+			["Resistance Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases resistance to"],
 			["Stun, Frozen, Stone, Sleep, Silence"],
 			["Blind, Curse, Poison, Bleeding, Confusion"]
 		]
@@ -1619,9 +1619,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Melody of Sink", COLOR_TITLE_BUFF], 
+			["Melody of Sink", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases Magical Damage"], 
+			["Increases Magical Damage"],
 			["Decreases Physical Damage"]
 		]
 	};
@@ -1641,8 +1641,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Slow Cast", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Slow Cast", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Increases Casting Time"]
 		]
 	};
@@ -1652,8 +1652,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Lightning Loader", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Lightning Loader", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Wind Property"]
 		]
 	};
@@ -1662,8 +1662,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Enchant Blade", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Enchant Blade", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Adds magic damage to physical attacks"]
 		]
 	};
@@ -1673,9 +1673,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Adrenaline Rush", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases Attack Speed of"], 
+			["Adrenaline Rush", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases Attack Speed of"],
 			["Axes and Mace weapons"]
 		]
 	};
@@ -1684,10 +1684,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Magic Mushroom (Laughing Poison Mushroom)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Uses Smile Emoticon"], 
-			["Casts random spells every 4 seconds"], 
+			["Magic Mushroom (Laughing Poison Mushroom)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Uses Smile Emoticon"],
+			["Casts random spells every 4 seconds"],
 			["Drains HP every 4 seconds"]
 		]
 	};
@@ -1696,7 +1696,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases acquired EXP"]
 		]
 	};
@@ -1706,8 +1706,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Awakening Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Awakening Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases ASPD"]
 		]
 	};
@@ -1717,20 +1717,20 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Toxin", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Interferes with skills every 10 seconds"],
-			["Phen card is ignored"], 
+			["Phen card is ignored"],
 			["Every 10 seconds, SP is consumed"]
 		]
 	};
 
 	StatusInfo[SC.RAISINGDRAGON] = {
 		descript: [
-			["Rising Dragon", COLOR_TITLE_BUFF], 
-			["Maximum Spheres Increased"], 
-			["Increases Maximum HP/SP"], 
-			["Increases Attack Speed"], 
-			["Maintains Fury State"], 
+			["Rising Dragon", COLOR_TITLE_BUFF],
+			["Maximum Spheres Increased"],
+			["Increases Maximum HP/SP"],
+			["Increases Attack Speed"],
+			["Maintains Fury State"],
 			["Slowly Drains HP per seconds"]
 		]
 	};
@@ -1749,7 +1749,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases STR"]
 		]
 	};
@@ -1776,8 +1776,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Assumptio", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Assumptio", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Defense"]
 		]
 	};
@@ -1818,7 +1818,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases Flee Rate"]
 		]
 	};
@@ -1827,8 +1827,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Varnish", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Varnish", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Critical"]
 		]
 	};
@@ -1837,9 +1837,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Inspiration", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Hit rate, Stats, Damage, Max HP increased"], 
+			["Inspiration", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Hit rate, Stats, Damage, Max HP increased"],
 			["All buffs and status effects removed"],
 			["Drains HP, SP over time"],
 			["Cannot receive status effects"],
@@ -1862,7 +1862,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases DEX"]
 		]
 	};
@@ -1871,8 +1871,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Analyze", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Analyze", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Reduces Physical and Magical Defense"]
 		]
 	};
@@ -1881,11 +1881,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Gentle Touch - Revitalize", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases VIT, Max HP"], 
-			["Increases DEF"], 
-			["Increases natural HP Recovery"], 
+			["Gentle Touch - Revitalize", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases VIT, Max HP"],
+			["Increases DEF"],
+			["Increases natural HP Recovery"],
 			["Movement speed increased"]
 		]
 	};
@@ -1893,8 +1893,8 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.COUNTER_ON] = {
 		icon: "i_counter.tga",
 		descript: [
-			["Prepare Counter Kick", COLOR_TITLE_BUFF], 
-			["Hit an enemy"], 
+			["Prepare Counter Kick", COLOR_TITLE_BUFF],
+			["Hit an enemy"],
 			["to be ready for a counter kick"]
 		]
 	};
@@ -1904,8 +1904,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Gloria", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Gloria", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases LUK"]
 		]
 	};
@@ -1914,8 +1914,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Rush Windmill Attack", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Rush Windmill Attack", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Damage"]
 		]
 	};
@@ -1924,8 +1924,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Pyrexia", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Pyrexia", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Dark and Hallucinating state"]
 		]
 	};
@@ -1934,9 +1934,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Dance With Warg", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases ASPD"], 
+			["Dance With Warg", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases ASPD"],
 			["Reduces Fixed casting time"]
 		]
 	};
@@ -1945,9 +1945,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Swing Dance", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases Movement Speed"], 
+			["Swing Dance", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases Movement Speed"],
 			["Increases ASPD"]
 		]
 	};
@@ -1957,8 +1957,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Comfort of the Moon", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Comfort of the Moon", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Improves FLEE"]
 		]
 	};
@@ -1967,8 +1967,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Moonlit Serenade", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Moonlit Serenade", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases damage of magic skills"]
 		]
 	};
@@ -1977,9 +1977,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Gentle Touch - Change", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Reduces DEF and MDEF"], 
+			["Gentle Touch - Change", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Reduces DEF and MDEF"],
 			["Increases Damage and ASPD"]
 		]
 	};
@@ -1988,8 +1988,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Accessory Off Status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Accessory Off Status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Cannot Equip Accessories"]
 		]
 	};
@@ -2005,11 +2005,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Invisibility", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Conceals yourself from view"], 
-			["All attacks become Ghost Lvl 1 property"], 
-			["Drains SP"], 
+			["Invisibility", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Conceals yourself from view"],
+			["All attacks become Ghost Lvl 1 property"],
+			["Drains SP"],
 			["Skills and items cannot be used"]
 		]
 	};
@@ -2018,8 +2018,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Rune Stone: Abundance", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Rune Stone: Abundance", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Recovers SP every 10 seconds"]
 		]
 	};
@@ -2028,7 +2028,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Improves HIT"]
 		]
 	};
@@ -2037,7 +2037,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases AGI"]
 		]
 	};
@@ -2046,9 +2046,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shadow Form", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["For a certain number of hits"], 
+			["Shadow Form", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["For a certain number of hits"],
 			["have a target take the damage instead"]
 		]
 	};
@@ -2057,9 +2057,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Auto Shadow Spell", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Automatically casts"], 
+			["Auto Shadow Spell", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Automatically casts"],
 			["an available magic spell"]
 		]
 	};
@@ -2068,8 +2068,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shape Shift", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Shape Shift", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Changes your Mado Gear elemental property"]
 		]
 	};
@@ -2078,9 +2078,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["¸¶´©Å©ÀÇ È£±â", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["¸¶´©Å© ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"], 
+			["¸¶´©Å©ÀÇ È£±â", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["¸¶´©Å© ÇÊµåÁö¿ª ¸ó½ºÅÍ¿¡°Ô"],
 			["¹°¸®°ø°Ý µ¥¹ÌÁö »ó½Â"]
 		]
 	};
@@ -2089,9 +2089,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Marionette Control (caster)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Passes the stats"], 
+			["Marionette Control (caster)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Passes the stats"],
 			["to a Player"]
 		]
 	};
@@ -2100,9 +2100,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Marionette Control (target)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Target Player"], 
+			["Marionette Control (target)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Target Player"],
 			["who receives the stats"]
 		]
 	};
@@ -2112,9 +2112,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Sight Blaster", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Attacks an enemy with a single attack"], 
+			["Sight Blaster", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Attacks an enemy with a single attack"],
 			["that ventures too close"]
 		]
 	};
@@ -2124,8 +2124,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Lex Aeterna", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Lex Aeterna", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Doubles damage of the next attack"]
 		]
 	};
@@ -2134,9 +2134,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Infrared Scan", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Discovers targets in hiding"], 
+			["Infrared Scan", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Discovers targets in hiding"],
 			["Chance to Reduce FLEE of nearby enemy"]
 		]
 	};
@@ -2145,7 +2145,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases INT"]
 		]
 	};
@@ -2155,8 +2155,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Aspersio", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Aspersio", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Holy Property"]
 		]
 	};
@@ -2171,8 +2171,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Lerad's Dew", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Lerad's Dew", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Max HP"]
 		]
 	};
@@ -2181,7 +2181,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases INT"]
 		]
 	};
@@ -2190,8 +2190,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Venom Bleed", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Venom Bleed", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Reduces Max HP"]
 		]
 	};
@@ -2201,9 +2201,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Gatling Fever", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases Damage and ASPD"], 
+			["Gatling Fever", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases Damage and ASPD"],
 			["Reduces Movement Speed"]
 		]
 	};
@@ -2212,11 +2212,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Rune Stone: Vitality Activation", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["To the caster,"], 
-			["Increases Healing skills and Item effects"], 
-			["Stops SP regeneration"], 
+			["Rune Stone: Vitality Activation", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["To the caster,"],
+			["Increases Healing skills and Item effects"],
+			["Stops SP regeneration"],
 			["Reduces SP recovery item effects"]
 		]
 	};
@@ -2225,11 +2225,11 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Rune Stone: Stone Hard Skin", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Resists damage equal to the HP consumed when casting"], 
-			["Players that attack you with weapons"], 
-			["will break them by chance."], 
+			["Rune Stone: Stone Hard Skin", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Resists damage equal to the HP consumed when casting"],
+			["Players that attack you with weapons"],
+			["will break them by chance."],
 			["On monsters, they will have reduced ATK for 10 seconds"]
 		]
 	};
@@ -2237,8 +2237,8 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.WEIGHTOVER90] = {
 		icon: "\xb9\xab\xb0\xd4\x39\x30\xc0\xcc\xbb\xf3.tga",
 		descript: [
-			["Overweight 90%", COLOR_TITLE_DEBUFF], 
-			["HP/SP will not be restored"], 
+			["Overweight 90%", COLOR_TITLE_DEBUFF],
+			["HP/SP will not be restored"],
 			["Attacks/Skills are disabled"]
 		]
 	};
@@ -2248,8 +2248,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Chemical Protection Helm (Biochemical Helm)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Chemical Protection Helm (Biochemical Helm)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Protect helm from being destroyed"]
 		]
 	};
@@ -2258,8 +2258,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["È¯¿µÀÇ ¼úÀÜ", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["È¯¿µÀÇ ¼úÀÜ", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["¿ÏÀü È¸ÇÇ Áõ°¡"]
 		]
 	};
@@ -2268,8 +2268,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Oblivion Curse", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Oblivion Curse", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Oblivion status"]
 		]
 	};
@@ -2278,9 +2278,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Enhanced Healing Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When healing via recovery items"], 
+			["Enhanced Healing Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When healing via recovery items"],
 			["the healing effect is increased"]
 		]
 	};
@@ -2289,8 +2289,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Defense Protection", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Defense Protection", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases physical DEF"]
 		]
 	};
@@ -2300,8 +2300,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Critical Wounds", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Critical Wounds", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Reduces effects of healing skills"]
 		]
 	};
@@ -2310,9 +2310,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Prestige", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Chance to evade Magical Attacks"], 
+			["Prestige", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Chance to evade Magical Attacks"],
 			["Defense Up"]
 		]
 	};
@@ -2321,7 +2321,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases DEX"]
 		]
 	};
@@ -2330,8 +2330,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Cart Boost", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Cart Boost", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Movement Speed"]
 		]
 	};
@@ -2340,9 +2340,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Medium Life Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Recovers HP every 4 seconds"], 
+			["Medium Life Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Recovers HP every 4 seconds"],
 			["No effect if Berserk State is active"]
 		]
 	};
@@ -2351,8 +2351,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Wind Walk", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Wind Walk", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Movement Speed/Evasion"]
 		]
 	};
@@ -2362,8 +2362,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Flame Launcher", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Flame Launcher", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchants Weapon with Fire Property"]
 		]
 	};
@@ -2372,8 +2372,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Striking", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Striking", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases Weapon damage and chance of critical"]
 		]
 	};
@@ -2381,8 +2381,8 @@ define(['./StatusConst'], function( SC )
 	StatusInfo[SC.DOWNKICK_ON] = {
 		icon: "i_downkick.tga",
 		descript: [
-			["Prepare Down Kick", COLOR_TITLE_BUFF], 
-			["Hit an enemy"], 
+			["Prepare Down Kick", COLOR_TITLE_BUFF],
+			["Hit an enemy"],
 			["for a chance to preform a kick"]
 		]
 	};
@@ -2391,7 +2391,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Enchants Armor with Shadow Property"]
 		]
 	};
@@ -2401,9 +2401,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Reflect Shield", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When attacked with physical short range attacks"], 
+			["Reflect Shield", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When attacked with physical short range attacks"],
 			["reflect a portion of the damage"]
 		]
 	};
@@ -2419,10 +2419,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Lightning Walk", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["When targetted by a magic attack,"], 
-			["after a chance to avoid"], 
+			["Lightning Walk", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["When targetted by a magic attack,"],
+			["after a chance to avoid"],
 			["move straight to the caster"]
 		]
 	};
@@ -2432,9 +2432,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Freezing Status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
-			["Decreases Defense, ASPD and Movement speed"], 
+			["Freezing Status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
+			["Decreases Defense, ASPD and Movement speed"],
 			["Increases Fixed Cast time."]
 		]
 	};
@@ -2443,9 +2443,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Frozen", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
-			["Movement, Attack, Skill and Items are not available"], 
+			["Frozen", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
+			["Movement, Attack, Skill and Items are not available"],
 			["Drains SP and HP continuously"],
 			["Increases the damage taken caused by Maces, Axes and 2H Axes"],
 			["Increases the damage taken caused by Wind Property spells"],
@@ -2457,7 +2457,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Ground skill effect"]
 		]
 	};
@@ -2466,10 +2466,10 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Hell Power", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Can not be revived"], 
-			["Sacrifice is Disabled"], 
+			["Hell Power", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Can not be revived"],
+			["Sacrifice is Disabled"],
 			["Token of Siegfried disabled"]
 		]
 	};
@@ -2478,8 +2478,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Savage Roast", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Savage Roast", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases STR"]
 		]
 	};
@@ -2489,8 +2489,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Wolf Blood Cocktail", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Wolf Blood Cocktail", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases INT"]
 		]
 	};
@@ -2499,8 +2499,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Minorous Beef Stew", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Minorous Beef Stew", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases VIT"]
 		]
 	};
@@ -2509,8 +2509,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Siroma Iced Tea", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Siroma Iced Tea", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases DEX"]
 		]
 	};
@@ -2520,7 +2520,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Drosera Herb Salad", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases AGI"]
 		]
 	};
@@ -2540,8 +2540,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Stomachache", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Reduces All Stats"], 
+			["%s", COLOR_TIME],
+			["Reduces All Stats"],
 			["Reduces Movement Speed"],
 			["10ÃÊ ´ç ÇÑ ¹ø¾¿ /¾É±â ¹ß»ý"],
 			["Drains SP every 10 seconds"]
@@ -2552,8 +2552,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Mom and Dad I Love You", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Mom and Dad I Love You", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["No EXP loss upon death"]
 		]
 	};
@@ -2562,7 +2562,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Guardian Angel", COLOR_TITLE_BUFF], 
+			["Guardian Angel", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["No EXP loss upon death"]
 		]
@@ -2573,7 +2573,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Mora Berry", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases Resistance to every monsters"],
 			["in the fields near the town of Mora."]
 		]
@@ -2583,9 +2583,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Pope Cookie", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases ATK and MATK"], 
+			["Pope Cookie", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases ATK and MATK"],
 			["Increases Resistance to all property."]
 		]
 	};
@@ -2595,8 +2595,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Vitalize Potion", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases ATK and MATK"], 
+			["%s", COLOR_TIME],
+			["Increases ATK and MATK"],
 			["Increase effects of heal and healing items"]
 		]
 	};
@@ -2606,8 +2606,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Rapid Life-giving Water", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Recovers HP every 3 seconds"], 
+			["%s", COLOR_TIME],
+			["Recovers HP every 3 seconds"],
 			["No effect if Berserk State is active"]
 		]
 	};
@@ -2618,8 +2618,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Odin's Power", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases ATK and MATK"], 
+			["%s", COLOR_TIME],
+			["Increases ATK and MATK"],
 			["Decreases DEF and MDEF"]
 		]
 	};
@@ -2629,8 +2629,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Magic Candy", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases MATK"], 
+			["%s", COLOR_TIME],
+			["Increases MATK"],
 			["Reduced fixed casting time."],
 			["Casting cannot be interrupted."],
 			["Drains SP every 10 seconds"]
@@ -2643,8 +2643,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Energy Coat", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Reduces damage in proportion"], 
+			["%s", COLOR_TIME],
+			["Reduces damage in proportion"],
 			["to the amount of SP remaining"]
 		]
 	};
@@ -2654,8 +2654,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Pain Killer", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["No movement delay in receiving damage"], 
+			["%s", COLOR_TIME],
+			["No movement delay in receiving damage"],
 			["Reduced damage taken"]
 		]
 	};
@@ -2665,8 +2665,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Light Of Regeneration", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["When the summoner died"], 
+			["%s", COLOR_TIME],
+			["When the summoner died"],
 			["Homunculus will sacrifice to revive the summoner"]
 		]
 	};
@@ -2676,8 +2676,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Overed Boost", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases ASPD and Evasion"], 
+			["%s", COLOR_TIME],
+			["Increases ASPD and Evasion"],
 			["to a fixed amount"]
 		]
 	};
@@ -2695,8 +2695,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Magma Flow", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["When receiving damage"], 
+			["%s", COLOR_TIME],
+			["When receiving damage"],
 			["there is a chance to eject magma around it"]
 		]
 	};
@@ -2706,8 +2706,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Granitic Armor", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Reduced damage taken"], 
+			["%s", COLOR_TIME],
+			["Reduced damage taken"],
 			["Lose some HP when the status ends."]
 		]
 	};
@@ -2717,8 +2717,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Pyroclastic", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Weapon of Deeter and Owner"], 
+			["%s", COLOR_TIME],
+			["Weapon of Deeter and Owner"],
 			["Change to Fire Property"],
 			["Increased weapon damage"]
 		]
@@ -2729,8 +2729,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Volcanic Ash", COLOR_TITLE_DEBUFF],
-			["%s", COLOR_TIME], 
-			["Reduced hit rate"], 
+			["%s", COLOR_TIME],
+			["Reduced hit rate"],
 			["Skill has a chance of failing"],
 			["Increases fire damage taken"]
 		]
@@ -2741,8 +2741,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["´ëÈ¯´Ü", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases Max HP"], 
+			["%s", COLOR_TIME],
+			["Increases Max HP"],
 			["Increases HP recovery"]
 		]
 	};
@@ -2752,8 +2752,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["ÅÂÃ»´Ü", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["Increases Max SP"], 
+			["%s", COLOR_TIME],
+			["Increases Max SP"],
 			["Increases SP recovery"]
 		]
 	};
@@ -2763,8 +2763,8 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Maldango Canned Cat", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
-			["When killing monsters in Maldango"], 
+			["%s", COLOR_TIME],
+			["When killing monsters in Maldango"],
 			["Increases Base and Job EXP"],
 			["Increases Item drop rate"]
 		]
@@ -2774,7 +2774,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases ATK"]
 		]
 	};
@@ -2783,7 +2783,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases MATK"]
 		]
 	};
@@ -2793,7 +2793,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Using Macros", COLOR_SYSTEM],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Macro is activated"]
 		]
 	};
@@ -2803,7 +2803,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Macros Disabled", COLOR_SYSTEM],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Macro is deactivated."]
 		]
 	};
@@ -2813,7 +2813,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Monster Transformation", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Transformed into monster."]
 		]
 	};
@@ -2835,7 +2835,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases MATK"],
 		]
 	};
@@ -2844,7 +2844,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases ATK"],
 		]
 	};
@@ -2853,7 +2853,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases ASPD"],
 		]
 	};
@@ -2862,7 +2862,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Reduces casting time"],
 		]
 	};
@@ -2871,7 +2871,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Increases gained Job experience"],
 		]
 	};
@@ -2892,7 +2892,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Masquerade: Gloomy", COLOR_TITLE_DEBUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Decreases ASPD and HIT"],
 			["Forced to release mounts and any related animals."],
 			["Mounts and any related animals are disabled."],
@@ -2904,7 +2904,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Masquerade: Ignorance", COLOR_TITLE_DEBUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Lost a certain amount of SP"],
 			["Skills and Magics are disabled"],
 		]
@@ -2915,7 +2915,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Masquerade: Laziness", COLOR_TITLE_DEBUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Reduces Movement Speed and FLEE"],
 			["Increases casting time"],
 			["Adds a certain amount of SP when using a skill"],
@@ -2927,7 +2927,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Masquerade: Unlucky", COLOR_TITLE_DEBUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Reduces critical rate"],
 			["Reduces perfect dodge"],
 			["Using skills costs zeny"],
@@ -2940,7 +2940,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Masquerade: Weakness", COLOR_TITLE_DEBUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Reduces Max HP"],
 			["When evaded, weapon, shield is taken off."],
 			["Cannot equip weapons and shield"],
@@ -2953,7 +2953,7 @@ define(['./StatusConst'], function( SC )
 		posTimeLimitStr: 2,
 		descript: [
 			["Steel Body", COLOR_TITLE_BUFF],
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["Sets DEF and MDEF to a fixed amount."],
 			["Reduces Movement Speed and ASPD"],
 			["Skills are disabled"],
@@ -2964,9 +2964,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Reflect Damage", COLOR_TITLE_TOGGLE], 
-			["%s", COLOR_TIME], 
-			["Reflects some of the damages received to all enemies in an area"], 
+			["Reflect Damage", COLOR_TITLE_TOGGLE],
+			["%s", COLOR_TIME],
+			["Reflects some of the damages received to all enemies in an area"],
 			["Consumes SP every second"]
 		]
 	};
@@ -2975,9 +2975,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Tao Gunka Scroll", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Increases Max HP"], 
+			["Tao Gunka Scroll", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Increases Max HP"],
 			["Reduces DEF/MDEF"]
 		]
 	};
@@ -2986,9 +2986,9 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Mistress Scroll", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
-			["Nullify the Gemstone requirement of certain spells"], 
+			["Mistress Scroll", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["Nullify the Gemstone requirement of certain spells"],
 			["Increases SP consumption"]
 		]
 	};
@@ -2997,8 +2997,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Orc Hero Scroll", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Orc Hero Scroll", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Immunity to stun status"]
 		]
 	};
@@ -3007,8 +3007,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Orc Lord Scroll", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Orc Lord Scroll", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Reflects a part of physical damage taken"]
 		]
 	};
@@ -3017,8 +3017,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Recovery disabled status", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Recovery disabled status", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["HP and SP recovery are disabled"]
 		]
 	};
@@ -3027,7 +3027,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["DEF amount is set."]
 		]
 	};
@@ -3036,7 +3036,7 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 1,
 		descript: [
-			["%s", COLOR_TIME], 
+			["%s", COLOR_TIME],
 			["MDEF amount is set."]
 		]
 	};
@@ -3057,8 +3057,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Asura Strike (Guillotine Fist)", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Asura Strike (Guillotine Fist)", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["SP recovery is disabled"]
 		]
 	};
@@ -3067,8 +3067,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["ASPD Reinforce Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["ASPD Reinforce Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increase Attack Speed"]
 		]
 	};
@@ -3077,8 +3077,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Firecracker", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Firecracker", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases all stats"],
 			["Increases ATK, MATK"]
 		]
@@ -3088,8 +3088,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Godfather's Ancient Spirit", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Godfather's Ancient Spirit", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Gives Demon type monster"],
 			["Increases Physical and Magic damage"]
 		]
@@ -3099,8 +3099,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["ÀüÅõ¾à", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["ÀüÅõ¾à", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases ATK and MATK"],
 			["Reduced MHP and MSP"]
 		]
@@ -3110,8 +3110,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["°í±ÞÀüÅõ¾à", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["°í±ÞÀüÅõ¾à", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases ATK and MATK"],
 			["Reduces MHP and MSP"]
 		]
@@ -3121,8 +3121,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Red Booster", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Red Booster", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases ATK and MATK"],
 			["Increases ASPD"],
 			["Reduced variable casting time"],
@@ -3135,8 +3135,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["¸í°æÁö¼ö (Ù¥Ìðò­â©)", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["¸í°æÁö¼ö (Ù¥Ìðò­â©)", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Recovers a certain amount of HP"],
 			["Recovers a certain amount of SP"],
 			["Unable to move"],
@@ -3149,8 +3149,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["16th Night", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["16th Night", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Removes Fixed casting time"],
 			["Reduced variable casting time"],
 			["Increases MATK"],
@@ -3162,8 +3162,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shadow Step", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Shadow Step", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Unable to move"],
 			["Cannot use certain skills or item"],
 			["Stealth or teleport skills and items are disabled."],
@@ -3175,8 +3175,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Kyomu", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Kyomu", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["Reflects wont take effect when hit by Physical or Magical Attacks"],
 			["Chance the skill will fail when casting"]
 		]
@@ -3186,8 +3186,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shadow Warrior", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Shadow Warrior", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Enchanted with Double Attack effect"],
 			["Drains SP per second"],
 			["Status ends when received a certain number of hits."]
@@ -3198,8 +3198,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Distorted Crescent Moon", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Distorted Crescent Moon", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["º£ÀÌ½º ·¹º§¿¡ µû¸¥ È¿°ú ºÎ¿©"]
 		]
 	};
@@ -3209,8 +3209,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Oboro Gensou", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Oboro Gensou", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Randomly increase/decrease HP and SP"],
 			["When hit by Magical Attacks half of the damage"],
 			["will be distributed around the area"]
@@ -3222,8 +3222,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Ominous Crimson Moonlight", COLOR_TITLE_DEBUFF], 
-			["%s", COLOR_TIME], 
+			["Ominous Crimson Moonlight", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
 			["When receiving recovery skills"],
 			["healed amount will be converted to damage."]
 		]
@@ -3233,8 +3233,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Mystic Powder", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Mystic Powder", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases FLEE and LUK"]
 		]
 	};
@@ -3243,8 +3243,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Acaraje", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Acaraje", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases HIT and ASPD"]
 		]
 	};
@@ -3253,8 +3253,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Mysterious Life Potion", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Mysterious Life Potion", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Recovers a certain amount of HP every 3 seconds"],
 			["No effect on Berserk status."]
 		]
@@ -3264,8 +3264,8 @@ define(['./StatusConst'], function( SC )
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Ç³¼ºÇÑ ²É°¡Áö", COLOR_TITLE_BUFF], 
-			["%s", COLOR_TIME], 
+			["Ç³¼ºÇÑ ²É°¡Áö", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
 			["Increases FLEE"],
 			["Increases perfect dodge"]
 		]

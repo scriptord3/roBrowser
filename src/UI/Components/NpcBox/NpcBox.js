@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,19 +15,19 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var jQuery      = require('Utils/jquery');
-	var KEYS        = require('Controls/KeyEventHandler');
-	var Renderer    = require('Renderer/Renderer');
-	var UIManager   = require('UI/UIManager');
+	var jQuery = require('Utils/jquery');
+	var KEYS = require('Controls/KeyEventHandler');
+	var Renderer = require('Renderer/Renderer');
+	var UIManager = require('UI/UIManager');
 	var UIComponent = require('UI/UIComponent');
-	var htmlText    = require('text!./NpcBox.html');
-	var cssText     = require('text!./NpcBox.css');
+	var htmlText = require('text!./NpcBox.html');
+	var cssText = require('text!./NpcBox.css');
 
 
 	/**
 	 * Create NpcBox component
 	 */
-	var NpcBox = new UIComponent( 'NpcBox', htmlText, cssText );
+	var NpcBox = new UIComponent('NpcBox', htmlText, cssText);
 
 
 
@@ -49,17 +49,18 @@ define(function(require)
 	NpcBox.init = function init()
 	{
 		this.ui.css({
-			top: Math.max(100, Renderer.height/2 - 200),
-			left: Math.max( Renderer.width/3, 20)
+			top: Math.max(100, Renderer.height / 2 - 200),
+			left: Math.max(Renderer.width / 3, 20)
 		});
 
 		// Bind mouse
-		this.ui.find('.next').click( NpcBox.next.bind(this) );
-		this.ui.find('.close').click( NpcBox.close.bind(this) );
+		this.ui.find('.next').click(NpcBox.next.bind(this));
+		this.ui.find('.close').click(NpcBox.close.bind(this));
 
 		// Content do not drag window (official)
 		// Will also fix the problem about the scrollbar
-		this.ui.find('.content').mousedown(function(event){
+		this.ui.find('.content').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
@@ -77,12 +78,12 @@ define(function(require)
 		this.ui.find('.content').text('');
 
 		_needCleanUp = false;
-		_ownerID     = 0;
+		_ownerID = 0;
 
 		// Cutin system
 		var cutin = document.getElementById('cutin');
 		if (cutin) {
-			document.body.removeChild( cutin );
+			document.body.removeChild(cutin);
 		}
 	};
 
@@ -90,7 +91,7 @@ define(function(require)
 	/**
 	 * Add support for Enter key
 	 */
-	NpcBox.onKeyDown = function onKeyDown( event )
+	NpcBox.onKeyDown = function onKeyDown(event)
 	{
 		switch (event.which) {
 			case KEYS.ENTER:
@@ -126,17 +127,17 @@ define(function(require)
 	 * @param {string} text to display
 	 * @param {number} gid - npc id
 	 */
-	NpcBox.setText = function SetText( text, gid )
+	NpcBox.setText = function SetText(text, gid)
 	{
 		var content = this.ui.find('.content');
-		_ownerID    = gid;
+		_ownerID = gid;
 
 		if (_needCleanUp) {
 			_needCleanUp = false;
 			content.text('');
 		}
 
-		content.append( jQuery('<div/>').text(text) );
+		content.append(jQuery('<div/>').text(text));
 	};
 
 
@@ -145,7 +146,7 @@ define(function(require)
 	 *
 	 * @param {number} gid - npc id
 	 */
-	NpcBox.addNext = function addNext( gid )
+	NpcBox.addNext = function addNext(gid)
 	{
 		_ownerID = gid;
 		this.ui.find('.next').show();
@@ -157,7 +158,7 @@ define(function(require)
 	 *
 	 * @param {number} gid - npc id
 	 */
-	NpcBox.addClose = function addClose( gid )
+	NpcBox.addClose = function addClose(gid)
 	{
 		_ownerID = gid;
 		this.ui.find('.close').show();
@@ -171,7 +172,7 @@ define(function(require)
 	{
 		_needCleanUp = true;
 		this.ui.find('.next').hide();
-		this.onNextPressed( _ownerID );
+		this.onNextPressed(_ownerID);
 	};
 
 
@@ -182,15 +183,15 @@ define(function(require)
 	{
 		_needCleanUp = true;
 		this.ui.find('.close').hide();
-		this.onClosePressed( _ownerID );
+		this.onClosePressed(_ownerID);
 	};
 
 
 	/**
 	 * Callback
 	 */
-	NpcBox.onClosePressed = function OnClosePressed(){};
-	NpcBox.onNextPressed  = function OnNextPressed(){};
+	NpcBox.onClosePressed = function OnClosePressed() { };
+	NpcBox.onNextPressed = function OnNextPressed() { };
 
 
 	/**

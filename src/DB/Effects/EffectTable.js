@@ -8,7 +8,7 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -62,7 +62,7 @@ define(function( require )
 		10: [{
 			type: 'STR',
 			file: 'maemor',
-			min:  'memor_min',
+			min: 'memor_min',
 			attachedEntity: true
 		}],
 
@@ -84,7 +84,7 @@ define(function( require )
 		25: [{
 			type: 'STR',
 			file: 'firewall%d',
-			wav:  'effect/ef_firewall',
+			wav: 'effect/ef_firewall',
 			rand: [1, 2],
 			attachedEntity: false
 		}],
@@ -100,7 +100,7 @@ define(function( require )
 		30: [{
 			type: 'STR',
 			file: 'thunderstorm',
-			wav:  'effect/magician_thunderstorm',
+			wav: 'effect/magician_thunderstorm',
 			attachedEntity: false
 		}],
 
@@ -108,7 +108,7 @@ define(function( require )
 		39: [{
 			type: 'SPR',
 			file: '¼º¼ö¶ß±â',
-			head:  true,
+			head: true,
 			attachedEntity: true
 		}],
 
@@ -123,8 +123,8 @@ define(function( require )
 		41: [{
 			type: 'STR',
 			file: 'angelus',
-			wav:  'effect/ef_angelus',
-			min:  'jong_mini',
+			wav: 'effect/ef_angelus',
+			min: 'jong_mini',
 			attachedEntity: true
 		}],
 
@@ -140,7 +140,7 @@ define(function( require )
 		49: [{
 			type: 'STR',
 			file: 'firehit%d',
-			wav:  'effect/ef_firehit',
+			wav: 'effect/ef_firehit',
 			rand: [1, 3],
 			attachedEntity: true
 		}],
@@ -157,7 +157,8 @@ define(function( require )
 		60: [{
 			type: 'FUNC',
 			attachedEntity: true,
-			func: function(entity, tick) {
+			func: function (entity, tick)
+			{
 				var LockOnTarget = require('Renderer/Effects/LockOnTarget');
 
 				this.add(new LockOnTarget(
@@ -186,8 +187,8 @@ define(function( require )
 		66: [{
 			type: 'STR',
 			file: 'cure',
-			wav:  'effect/acolyte_cure',
-			min:  'cure_min',
+			wav: 'effect/acolyte_cure',
+			min: 'cure_min',
 			attachedEntity: true
 		}],
 
@@ -195,7 +196,7 @@ define(function( require )
 		67: [{
 			type: 'STR',
 			file: 'provoke',
-			wav:  'effect/swordman_provoke',
+			wav: 'effect/swordman_provoke',
 			attachedEntity: true
 		}],
 
@@ -203,7 +204,7 @@ define(function( require )
 		68: [{
 			type: 'STR',
 			file: 'mvp',
-			wav:  'effect/st_mvp',
+			wav: 'effect/st_mvp',
 			attachedEntity: true
 		}],
 
@@ -211,7 +212,7 @@ define(function( require )
 		69: [{
 			type: 'STR',
 			file: 'skidtrap',
-			wav:  'effect/hunter_skidtrap',
+			wav: 'effect/hunter_skidtrap',
 			attachedEntity: false
 		}],
 
@@ -219,7 +220,7 @@ define(function( require )
 		70: [{
 			type: 'STR',
 			file: 'brandish',
-			wav:  'effect/knight_brandish_spear',
+			wav: 'effect/knight_brandish_spear',
 			attachedEntity: true
 		}],
 
@@ -227,8 +228,8 @@ define(function( require )
 		75: [{
 			type: 'STR',
 			file: 'gloria',
-			wav:  'effect/priest_gloria',
-			min:  'gloria_min',
+			wav: 'effect/priest_gloria',
+			min: 'gloria_min',
 			attachedEntity: true
 		}],
 
@@ -236,8 +237,8 @@ define(function( require )
 		76: [{
 			type: 'STR',
 			file: 'magnificat',
-			wav:  'effect/priest_magnificat',
-			min:  'magnificat_min',
+			wav: 'effect/priest_magnificat',
+			min: 'magnificat_min',
 			attachedEntity: true
 		}],
 
@@ -245,8 +246,8 @@ define(function( require )
 		77: [{
 			type: 'STR',
 			file: 'resurrection',
-			wav:  'effect/priest_resurrection',
-			min:  'resurrection_min',
+			wav: 'effect/priest_resurrection',
+			min: 'resurrection_min',
 			attachedEntity: true
 		}],
 
@@ -254,7 +255,7 @@ define(function( require )
 		78: [{
 			type: 'STR',
 			file: 'recovery',
-			wav:  'effect/priest_recovery',
+			wav: 'effect/priest_recovery',
 			attachedEntity: true
 		}],
 
@@ -262,7 +263,7 @@ define(function( require )
 		83: [{
 			type: 'STR',
 			file: 'sanctuary',
-			wav:  'effect/priest_sanctuary',
+			wav: 'effect/priest_sanctuary',
 			attachedEntity: false
 		}],
 
@@ -270,7 +271,7 @@ define(function( require )
 		84: [{
 			type: 'STR',
 			file: 'impositio',
-			wav:  'effect/priest_impositio',
+			wav: 'effect/priest_impositio',
 			attachedEntity: true
 		}],
 
@@ -278,8 +279,8 @@ define(function( require )
 		85: [{
 			type: 'STR',
 			file: 'lexaeterna',
-			wav:  'effect/priest_lexaeterna',
-			min:  'lexaeterna_min',
+			wav: 'effect/priest_lexaeterna',
+			min: 'lexaeterna_min',
 			attachedEntity: true
 		}],
 
@@ -287,7 +288,7 @@ define(function( require )
 		86: [{
 			type: 'STR',
 			file: 'aspersio',
-			wav:  'effect/priest_aspersio',
+			wav: 'effect/priest_aspersio',
 			attachedEntity: true
 		}],
 
@@ -295,7 +296,7 @@ define(function( require )
 		87: [{
 			type: 'STR',
 			file: 'lexdivina',
-			wav:  'effect/priest_lexdivina',
+			wav: 'effect/priest_lexdivina',
 			attachedEntity: true
 		}],
 
@@ -303,8 +304,8 @@ define(function( require )
 		88: [{
 			type: 'STR',
 			file: 'suffragium',
-			wav:  'effect/priest_suffrahium',
-			min:  'suffragium_min',
+			wav: 'effect/priest_suffrahium',
+			min: 'suffragium_min',
 			attachedEntity: true
 		}],
 
@@ -312,8 +313,8 @@ define(function( require )
 		89: [{
 			type: 'STR',
 			file: 'stormgust',
-			wav:  'effect/wizard_stormgust',
-			min:  'storm_min',
+			wav: 'effect/wizard_stormgust',
+			min: 'storm_min',
 			attachedEntity: false
 		}],
 
@@ -321,7 +322,7 @@ define(function( require )
 		90: [{
 			type: 'STR',
 			file: 'lord',
-			wav:  'effect/wizard_fire_ivy',
+			wav: 'effect/wizard_fire_ivy',
 			attachedEntity: false
 		}],
 
@@ -329,7 +330,7 @@ define(function( require )
 		91: [{
 			type: 'STR',
 			file: 'benedictio',
-			wav:  'effect/priest_benedictio',
+			wav: 'effect/priest_benedictio',
 			attachedEntity: true
 		}],
 
@@ -337,7 +338,7 @@ define(function( require )
 		92: [{
 			type: 'STR',
 			file: 'meteor%d',
-			wav:  'effect/wizard_meteor',
+			wav: 'effect/wizard_meteor',
 			rand: [1, 4],
 			attachedEntity: false
 		}],
@@ -360,7 +361,7 @@ define(function( require )
 		96: [{
 			type: 'STR',
 			file: 'firepillar',
-			wav:  'effect/wizard_fire_pillar_a',
+			wav: 'effect/wizard_fire_pillar_a',
 			attachedEntity: false
 		}],
 
@@ -368,7 +369,7 @@ define(function( require )
 		97: [{
 			type: 'STR',
 			file: 'firepillarbomb',
-			wav:  'effect/wizard_fire_pillar_b',
+			wav: 'effect/wizard_fire_pillar_b',
 			attachedEntity: false
 		}],
 
@@ -376,7 +377,7 @@ define(function( require )
 		101: [{
 			type: 'STR',
 			file: 'repairweapon',
-			wav:  'effect/black_weapon_repear',
+			wav: 'effect/black_weapon_repear',
 			attachedEntity: true
 		}],
 
@@ -384,7 +385,7 @@ define(function( require )
 		102: [{
 			type: 'STR',
 			file: 'crashearth',
-			wav:  'effect/black_hammerfall',
+			wav: 'effect/black_hammerfall',
 			attachedEntity: false
 		}],
 
@@ -392,8 +393,8 @@ define(function( require )
 		103: [{
 			type: 'STR',
 			file: 'weaponperfection',
-			wav:  'effect/black_weapon_perfection',
-			min:  'weaponperfection_min',
+			wav: 'effect/black_weapon_perfection',
+			min: 'weaponperfection_min',
 			attachedEntity: true
 		}],
 
@@ -401,8 +402,8 @@ define(function( require )
 		104: [{
 			type: 'STR',
 			file: 'maximizepower',
-			wav:  'effect/black_maximize_power_sword',
-			min:  'maximize_min',
+			wav: 'effect/black_maximize_power_sword',
+			min: 'maximize_min',
 			attachedEntity: true
 		}],
 
@@ -410,7 +411,7 @@ define(function( require )
 		106: [{
 			type: 'STR',
 			file: 'blastmine',
-			wav:  'effect/hunter_blastmine',
+			wav: 'effect/hunter_blastmine',
 			attachedEntity: false
 		}],
 
@@ -418,7 +419,7 @@ define(function( require )
 		107: [{
 			type: 'STR',
 			file: 'claymore',
-			wav:  'effect/hunter_claymoretrap',
+			wav: 'effect/hunter_claymoretrap',
 			attachedEntity: false
 		}],
 
@@ -426,7 +427,7 @@ define(function( require )
 		108: [{
 			type: 'STR',
 			file: 'freezing',
-			wav:  'effect/hunter_freezingtrap',
+			wav: 'effect/hunter_freezingtrap',
 			attachedEntity: false
 		}],
 
@@ -442,7 +443,7 @@ define(function( require )
 		110: [{
 			type: 'STR',
 			file: 'gaspush',
-			wav:  'effect/se_gas_pushhh',
+			wav: 'effect/se_gas_pushhh',
 			attachedEntity: false
 		}],
 
@@ -450,7 +451,7 @@ define(function( require )
 		111: [{
 			type: 'STR',
 			file: 'spring',
-			wav:  'effect/hunter_springtrap',
+			wav: 'effect/hunter_springtrap',
 			attachedEntity: false
 		}],
 
@@ -458,8 +459,8 @@ define(function( require )
 		112: [{
 			type: 'STR',
 			file: 'kyrie',
-			wav:  'effect/priest_kyrie_eleison_a',
-			min:  'kyrie_min',
+			wav: 'effect/priest_kyrie_eleison_a',
+			min: 'kyrie_min',
 			attachedEntity: true
 		}],
 
@@ -467,7 +468,7 @@ define(function( require )
 		113: [{
 			type: 'STR',
 			file: 'magnus',
-			wav:  'effect/priest_magnus',
+			wav: 'effect/priest_magnus',
 			attachedEntity: false
 		}],
 
@@ -475,7 +476,7 @@ define(function( require )
 		124: [{
 			type: 'STR',
 			file: 'venomdust',
-			wav:  'effect/assasin_venomdust',
+			wav: 'effect/assasin_venomdust',
 			attachedEntity: false
 		}],
 
@@ -483,7 +484,7 @@ define(function( require )
 		126: [{
 			type: 'STR',
 			file: 'poisonreact_1st',
-			wav:  'effect/assasin_poisonreact',
+			wav: 'effect/assasin_poisonreact',
 			attachedEntity: true
 		}],
 
@@ -491,7 +492,7 @@ define(function( require )
 		127: [{
 			type: 'STR',
 			file: 'poisonreact',
-			wav:  'effect/assasin_poisonreact',
+			wav: 'effect/assasin_poisonreact',
 			attachedEntity: true
 		}],
 
@@ -499,7 +500,7 @@ define(function( require )
 		129: [{
 			type: 'STR',
 			file: 'venomsplasher',
-			wav:  'effect/assasin_venomsplasher',
+			wav: 'effect/assasin_venomsplasher',
 			attachedEntity: true
 		}],
 
@@ -507,7 +508,7 @@ define(function( require )
 		130: [{
 			type: 'STR',
 			file: 'twohand',
-			wav:  'effect/knight_twohandquicken',
+			wav: 'effect/knight_twohandquicken',
 			attachedEntity: true
 		}],
 
@@ -515,7 +516,7 @@ define(function( require )
 		131: [{
 			type: 'STR',
 			file: 'autocounter',
-			wav:  'effect/knight_autocounter',
+			wav: 'effect/knight_autocounter',
 			attachedEntity: true
 		}],
 
@@ -551,7 +552,7 @@ define(function( require )
 		139: [{
 			type: 'STR',
 			file: 'sandman',
-			wav:  'effect/hunter_sandman',
+			wav: 'effect/hunter_sandman',
 			attachedEntity: false
 		}],
 
@@ -574,7 +575,7 @@ define(function( require )
 		144: [{
 			type: 'STR',
 			file: 'brandish2',
-			wav:  'effect/knight_brandish_spear',
+			wav: 'effect/knight_brandish_spear',
 			attachedEntity: true
 		}],
 
@@ -582,7 +583,7 @@ define(function( require )
 		145: [{
 			type: 'STR',
 			file: 'shockwave',
-			wav:  'effect/hunter_shockwavetrap',
+			wav: 'effect/hunter_shockwavetrap',
 			attachedEntity: true
 		}],
 
@@ -611,7 +612,7 @@ define(function( require )
 		149: [{
 			type: 'STR',
 			file: 'bowling',
-			wav:  'effect/knight_bowling_bash',
+			wav: 'effect/knight_bowling_bash',
 			attachedEntity: true
 		}],
 
@@ -626,7 +627,7 @@ define(function( require )
 		151: [{
 			type: 'STR',
 			file: 'spearboomerang',
-			wav:  'effect/knight_spear_boomerang',
+			wav: 'effect/knight_spear_boomerang',
 			attachedEntity: true
 		}],
 
@@ -641,7 +642,7 @@ define(function( require )
 		153: [{
 			type: 'STR',
 			file: 'concentration',
-			wav:  'effect/ac_concentration',
+			wav: 'effect/ac_concentration',
 			attachedEntity: true
 		}],
 
@@ -649,7 +650,7 @@ define(function( require )
 		154: [{
 			type: 'STR',
 			file: 'bs_refinesuccess',
-			wav:  'effect/bs_refinesuccess',
+			wav: 'effect/bs_refinesuccess',
 			attachedEntity: true
 		}],
 
@@ -657,7 +658,7 @@ define(function( require )
 		155: [{
 			type: 'STR',
 			file: 'bs_refinefailed',
-			wav:  'effect/bs_refinefailed',
+			wav: 'effect/bs_refinefailed',
 			attachedEntity: true
 		}],
 
@@ -919,7 +920,7 @@ define(function( require )
 		245: [{
 			type: 'STR',
 			file: 'holy_cross',
-			wav:  'effect/cru_holycross',
+			wav: 'effect/cru_holycross',
 			attachedEntity: true
 		}],
 
@@ -990,7 +991,7 @@ define(function( require )
 		269: [{
 			type: 'STR',
 			file: 'strip_weapon',
-			wav:  'effect/t_º®Æ¨±è',
+			wav: 'effect/t_º®Æ¨±è',
 			attachedEntity: true
 		}],
 
@@ -998,7 +999,7 @@ define(function( require )
 		270: [{
 			type: 'STR',
 			file: 'strip_shield',
-			wav:  'effect/t_º®Æ¨±è',
+			wav: 'effect/t_º®Æ¨±è',
 			attachedEntity: true
 		}],
 
@@ -1006,7 +1007,7 @@ define(function( require )
 		271: [{
 			type: 'STR',
 			file: 'strip_armor',
-			wav:  'effect/t_º®Æ¨±è',
+			wav: 'effect/t_º®Æ¨±è',
 			attachedEntity: true
 		}],
 
@@ -1014,7 +1015,7 @@ define(function( require )
 		272: [{
 			type: 'STR',
 			file: 'strip_helm',
-			wav:  'effect/t_º®Æ¨±è',
+			wav: 'effect/t_º®Æ¨±è',
 			attachedEntity: true
 		}],
 
@@ -1085,7 +1086,7 @@ define(function( require )
 		371: [{
 			type: 'STR',
 			file: 'angel',
-			wav:  'levelup',
+			wav: 'levelup',
 			attachedEntity: true
 		}],
 
@@ -1150,11 +1151,13 @@ define(function( require )
 		420: [{
 			type: 'FUNC',
 			attachedEntity: true,
-			func: function EffectSmallTransition(entity) {
+			func: function EffectSmallTransition(entity)
+			{
 				var xSize = entity.xSize;
 				var ySize = entity.ySize;
 
-				entity.animations.add(function(tick){
+				entity.animations.add(function (tick)
+				{
 					entity.xSize = xSize + (2.5 - xSize) * (Math.min(tick, 300) / 300);
 					entity.ySize = ySize + (2.5 - ySize) * (Math.min(tick, 300) / 300);
 
@@ -1167,7 +1170,8 @@ define(function( require )
 		421: [{
 			type: 'FUNC',
 			attachedEntity: true,
-			func: function EffectSmall(entity) {
+			func: function EffectSmall(entity)
+			{
 				entity.xSize = 2.5;
 				entity.ySize = 2.5;
 			}
@@ -1177,11 +1181,13 @@ define(function( require )
 		422: [{
 			type: 'FUNC',
 			attachedEntity: true,
-			func: function EffectBigTransition(entity) {
+			func: function EffectBigTransition(entity)
+			{
 				var xSize = entity.xSize;
 				var ySize = entity.ySize;
 
-				entity.animations.add(function(tick){
+				entity.animations.add(function (tick)
+				{
 					entity.xSize = xSize + (7.5 - xSize) * (Math.min(tick, 300) / 300);
 					entity.ySize = ySize + (7.5 - ySize) * (Math.min(tick, 300) / 300);
 
@@ -1194,7 +1200,8 @@ define(function( require )
 		423: [{
 			type: 'FUNC',
 			attachedEntity: true,
-			func: function EffectBig(entity) {
+			func: function EffectBig(entity)
+			{
 				entity.xSize = 7.5;
 				entity.ySize = 7.5;
 			}
@@ -1460,7 +1467,7 @@ define(function( require )
 			type: 'SPR',
 			file: 'ÇÕ°Ý_',
 			attachedEntity: true
-		},{
+		}, {
 			type: 'STR',
 			file: 'itempokjuk',
 			attachedEntity: true
@@ -1696,8 +1703,8 @@ define(function( require )
 		717: [{
 			type: 'STR',
 			file: 'angelus',
-			wav:  'effect/ef_angelus',
-			min:  'jong_mini',
+			wav: 'effect/ef_angelus',
+			min: 'jong_mini',
 			attachedEntity: true
 		}],
 

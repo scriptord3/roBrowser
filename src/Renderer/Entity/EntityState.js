@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,18 +15,18 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var Sound       = require('Audio/SoundManager');
+	var Sound = require('Audio/SoundManager');
 	var StatusConst = require('DB/Status/StatusState');
-	var MountTable  = require('DB/Jobs/MountTable');
-	var Session     = require('Engine/SessionStorage');
+	var MountTable = require('DB/Jobs/MountTable');
+	var Session = require('Engine/SessionStorage');
 
 
 	/**
 	 * Status color
 	 */
-	var _bodyStateColor   = new Float32Array([1,1,1,1]);
-	var _healthStateColor = new Float32Array([1,1,1,1]);
-	var _effectStateColor = new Float32Array([1,1,1,1]);
+	var _bodyStateColor = new Float32Array([1, 1, 1, 1]);
+	var _healthStateColor = new Float32Array([1, 1, 1, 1]);
+	var _effectStateColor = new Float32Array([1, 1, 1, 1]);
 
 
 	/**
@@ -47,7 +47,7 @@ define(function( require )
 	 *
 	 * @param {number} new value
 	 */
-	function updateBodyState( value )
+	function updateBodyState(value)
 	{
 		if (value === this._bodyState) {
 			return;
@@ -69,15 +69,15 @@ define(function( require )
 			case StatusConst.BodyState.FREEZE:
 				Sound.play('_frozen_explosion.wav');
 				this.attachments.add({
-					frame:     1,
-					uid:       'status-freeze',
-					file:      '\xbe\xf3\xc0\xbd\xb6\xaf',
+					frame: 1,
+					uid: 'status-freeze',
+					file: '\xbe\xf3\xc0\xbd\xb6\xaf',
 				});
 				this.setAction({
 					action: this.ACTION.READYFIGHT,
-					frame:  0,
+					frame: 0,
 					repeat: true,
-					play:   true,
+					play: true,
 				});
 				break;
 
@@ -96,7 +96,7 @@ define(function( require )
 				this._bodyStateColor[0] = 0.1;
 				this._bodyStateColor[1] = 0.1;
 				this._bodyStateColor[2] = 0.1;
-				this.animation.play     = false;
+				this.animation.play = false;
 				break;
 
 			case StatusConst.BodyState.STONEWAIT:
@@ -107,11 +107,11 @@ define(function( require )
 
 			case StatusConst.BodyState.SLEEP:
 				this.attachments.add({
-					repeat:    true,
-					frame:     0,
-					uid:       'status-sleep',
-					file:      'status-sleep',
-					head:      true,
+					repeat: true,
+					frame: 0,
+					uid: 'status-sleep',
+					file: 'status-sleep',
+					head: true,
 				});
 				break;
 
@@ -122,26 +122,26 @@ define(function( require )
 				this._bodyStateColor[2] = 0.8;
 				this.attachments.add({
 					animationId: 0,
-					frame:       0,
-					uid:         'status-freeze',
-					file:        '\xbe\xf3\xc0\xbd\xb6\xaf',
+					frame: 0,
+					uid: 'status-freeze',
+					file: '\xbe\xf3\xc0\xbd\xb6\xaf',
 				});
 				this.setAction({
 					action: this.ACTION.FREEZE2,
-					frame:  0,
+					frame: 0,
 					repeat: false,
-					play:   false
+					play: false
 				});
 				break;
 
 			case StatusConst.BodyState.STUN:
 				Sound.play('_stun.wav');
 				this.attachments.add({
-					repeat:    true,
-					frame:     0,
-					uid:       'status-stun',
-					file:      'status-stun',
-					head:      true
+					repeat: true,
+					frame: 0,
+					uid: 'status-stun',
+					file: 'status-stun',
+					head: true
 				});
 				break;
 		}
@@ -156,7 +156,7 @@ define(function( require )
 	 *
 	 * @param {number} new value
 	 */
-	function updateHealthState( value )
+	function updateHealthState(value)
 	{
 		if (value === this._healthState) {
 			return;
@@ -174,11 +174,11 @@ define(function( require )
 			if (!(this._healthState & StatusConst.HealthState.CURSE)) {
 				Sound.play('_curse.wav');
 				this.attachments.add({
-					repeat:    true,
-					uid:       'status-curse',
-					file:      'status-curse',
-					head:      true,
-					opacity:   0.5
+					repeat: true,
+					uid: 'status-curse',
+					file: 'status-curse',
+					head: true,
+					opacity: 0.5
 				});
 			}
 
@@ -217,7 +217,7 @@ define(function( require )
 	 *
 	 * @param {number} new value
 	 */
-	function updateEffectState( value )
+	function updateEffectState(value)
 	{
 		var costume = 0;
 
@@ -234,13 +234,13 @@ define(function( require )
 
 
 		var RIDING = (
-			StatusConst.EffectState.RIDING  |
+			StatusConst.EffectState.RIDING |
 			StatusConst.EffectState.DRAGON1 |
 			StatusConst.EffectState.DRAGON2 |
 			StatusConst.EffectState.DRAGON3 |
 			StatusConst.EffectState.DRAGON4 |
 			StatusConst.EffectState.DRAGON5 |
-			StatusConst.EffectState.WUGRIDER|
+			StatusConst.EffectState.WUGRIDER |
 			StatusConst.EffectState.MADOGEAR
 		);
 
@@ -282,8 +282,8 @@ define(function( require )
 			this._effectStateColor[3] = 0.0;
 		}
 
-		// Cloack / Hide
-		else if (value & (StatusConst.EffectState.HIDE|StatusConst.EffectState.CLOAK|StatusConst.EffectState.CHASEWALK)) {
+			// Cloack / Hide
+		else if (value & (StatusConst.EffectState.HIDE | StatusConst.EffectState.CLOAK | StatusConst.EffectState.CHASEWALK)) {
 			// Maya purple card
 			if (Session.intravision) {
 				this._effectStateColor[0] = 0.0;
@@ -303,7 +303,7 @@ define(function( require )
 
 		if (costume !== this.costume) {
 			this.costume = costume;
-			this.job     = this._job;
+			this.job = this._job;
 		}
 
 
@@ -317,24 +317,24 @@ define(function( require )
 	 */
 	return function Init()
 	{
-		this._bodyStateColor   = new Float32Array([1, 1, 1, 1]);
+		this._bodyStateColor = new Float32Array([1, 1, 1, 1]);
 		this._healthStateColor = new Float32Array([1, 1, 1, 1]);
 		this._effectStateColor = new Float32Array([1, 1, 1, 1]);
-		this.effectColor       = new Float32Array([1, 1, 1, 1]);
+		this.effectColor = new Float32Array([1, 1, 1, 1]);
 
 
 		Object.defineProperty(this, 'bodyState', {
-			get: function(){ return this._bodyState },
+			get: function () { return this._bodyState },
 			set: updateBodyState
 		});
 
 		Object.defineProperty(this, 'healthState', {
-			get: function(){ return this._healthState },
+			get: function () { return this._healthState },
 			set: updateHealthState
 		});
 
 		Object.defineProperty(this, 'effectState', {
-			get: function(){ return this._effectState },
+			get: function () { return this._effectState },
 			set: updateEffectState
 		});
 	};

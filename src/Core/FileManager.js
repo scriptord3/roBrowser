@@ -8,20 +8,20 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load dependencies
-	var GameFile   = require('Loaders/GameFile');
-	var World      = require('Loaders/World');
-	var Ground     = require('Loaders/Ground');
-	var Altitude   = require('Loaders/Altitude');
-	var Model      = require('Loaders/Model');
-	var Sprite     = require('Loaders/Sprite');
-	var Action     = require('Loaders/Action');
-	var Str        = require('Loaders/Str');
+	var GameFile = require('Loaders/GameFile');
+	var World = require('Loaders/World');
+	var Ground = require('Loaders/Ground');
+	var Altitude = require('Loaders/Altitude');
+	var Model = require('Loaders/Model');
+	var Sprite = require('Loaders/Sprite');
+	var Action = require('Loaders/Action');
+	var Str = require('Loaders/Str');
 	var FileSystem = require('Core/FileSystem');
 
 
@@ -57,15 +57,15 @@ define(function( require )
 	 *
 	 * @param {mixed} grf list
 	 */
-	FileManager.init = function Init( grfList )
+	FileManager.init = function Init(grfList)
 	{
-		
+
 		var i, count;
 		var list = [];
 
 		// load GRFs from a file (DATA.INI)
 		if (typeof grfList === 'string') {
-			var files = FileSystem.search( grfList );
+			var files = FileSystem.search(grfList);
 
 			if (files.length) {
 				var content = (new FileReaderSync()).readAsText(files[0]);
@@ -75,11 +75,11 @@ define(function( require )
 
 				// Get a list of GRF
 				while ((result = regex.exec(content))) {
-					list[ parseInt(result[1]) ] = result[2];
+					list[parseInt(result[1])] = result[2];
 				}
-	
+
 				// Remove empty slot from list
-				for (i = 0, count = list.length; i < count; ) {
+				for (i = 0, count = list.length; i < count;) {
 					if (list[i] === undefined) {
 						list.splice(i, 1);
 						count--;
@@ -100,17 +100,18 @@ define(function( require )
 		if (grfList instanceof Array) {
 			list = grfList;
 			for (i = 0, count = list.length; i < count; ++i) {
-				list[i] = FileSystem.getFileSync( list[i] );
+				list[i] = FileSystem.getFileSync(list[i]);
 			}
 
-			list.sort(function(a,b){
+			list.sort(function (a, b)
+			{
 				return a.size - b.size;
 			});
 		}
 
 		// Search GRF from a regex
 		if (grfList instanceof RegExp) {
-			list = FileSystem.search( grfList );
+			list = FileSystem.search(grfList);
 		}
 
 		// Load Game files
@@ -125,21 +126,21 @@ define(function( require )
 	 *
 	 * @param {File} file to load
 	 */
-	FileManager.addGameFile = function AddGameFile( file )
+	FileManager.addGameFile = function AddGameFile(file)
 	{
 		try {
 			var grf = new GameFile();
 			grf.load(file);
-	
+
 			this.gameFiles.push(grf);
 
 			if (this.onGameFileLoaded) {
-				this.onGameFileLoaded( file.name );
+				this.onGameFileLoaded(file.name);
 			}
 		}
-		catch(e) {
+		catch (e) {
 			if (this.onGameFileError) {
-				this.onGameFileError( file.name, e.message );
+				this.onGameFileError(file.name, e.message);
 			}
 		}
 	};
@@ -160,13 +161,13 @@ define(function( require )
 	 * @param {RegExp} regex
 	 * @return {Array} filename list
 	 */
-	FileManager.search = function Search( regex )
+	FileManager.search = function Search(regex)
 	{
 		// Use hosted client (only one to be async ?)
 		if (!this.gameFiles.length && this.remoteClient) {
-			var req    = new XMLHttpRequest();
+			var req = new XMLHttpRequest();
 			req.open('POST', this.remoteClient, false);
-			req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 			req.setRequestHeader('X-Application', 'roBrowser');
 			req.overrideMimeType('text/plain; charset=ISO-8859-1');
 			req.send('filter=' + encodeURIComponent(regex.source));
@@ -177,8 +178,8 @@ define(function( require )
 		var fileList, out, matches;
 
 		fileList = this.gameFiles;
-		count    = fileList.length;
-		out      = {};
+		count = fileList.length;
+		out = {};
 
 		for (i = 0; i < count; ++i) {
 			matches = fileList[i].table.data.match(regex);
@@ -186,7 +187,7 @@ define(function( require )
 			if (matches !== null) {
 				// Remove duplicates
 				for (j = 0, size = matches.length; j < size; ++j) {
-					out[ matches[j] ] = 1;
+					out[matches[j]] = 1;
 				}
 			}
 		}
@@ -201,7 +202,7 @@ define(function( require )
 	 * @param {string} filename
 	 * @param {function} callback
 	 */
-	FileManager.get = function Get( filename, callback )
+	FileManager.get = function Get(filename, callback)
 	{
 		// Trim the path
 		filename = filename.replace(/^\s+|\s+$/g, '');
@@ -211,33 +212,36 @@ define(function( require )
 			filename,
 
 			// Found in file system, youhou !
-			function onFound(file) {
+			function onFound(file)
+			{
 				var reader = new FileReader();
-				reader.onloadend = function onLoad(event){
-					callback( event.target.result );
+				reader.onloadend = function onLoad(event)
+				{
+					callback(event.target.result);
 				};
 				reader.readAsArrayBuffer(file);
 			},
 
 			// Not found, fetching files
-			function onNotFound() {
+			function onNotFound()
+			{
 				var i, count;
 				var fileList;
 				var path;
 
-				path     = filename.replace( /\//g, '\\');
+				path = filename.replace(/\//g, '\\');
 				fileList = FileManager.gameFiles;
-				count    = fileList.length;
+				count = fileList.length;
 
 				for (i = 0; i < count; ++i) {
-					if (fileList[i].getFile( path, callback)) {
+					if (fileList[i].getFile(path, callback)) {
 						return;
 					}
 				}
 
 				// Not in GRFs ? Try to load it from
 				// remote client host
-				FileManager.getHTTP( filename, callback);
+				FileManager.getHTTP(filename, callback);
 			}
 		);
 	};
@@ -249,7 +253,7 @@ define(function( require )
 	 * @param {string} filename
 	 * @param {function} callback
 	 */
-	FileManager.getHTTP = function GetHTTP( filename, callback )
+	FileManager.getHTTP = function GetHTTP(filename, callback)
 	{
 		// Use http request here (ajax)
 		if (!this.remoteClient) {
@@ -257,7 +261,7 @@ define(function( require )
 			return;
 		}
 
-		filename = filename.replace( /\\/g, '/');
+		filename = filename.replace(/\\/g, '/');
 
 		// Don't load mp3 sounds to avoid blocking the queue
 		// They can be load by the HTML5 Audio / Flash directly.
@@ -270,25 +274,27 @@ define(function( require )
 		xhr.open('GET', this.remoteClient + filename, true);
 		xhr.setRequestHeader('X-Application', 'roBrowser');
 		xhr.responseType = 'arraybuffer';
-		xhr.onload = function(){
+		xhr.onload = function ()
+		{
 			if (xhr.status == 200) {
-				callback( xhr.response );
-				FileSystem.saveFile( filename, xhr.response );
+				callback(xhr.response);
+				FileSystem.saveFile(filename, xhr.response);
 			}
 			else {
-				callback( null, 'Can\'t get file');
+				callback(null, 'Can\'t get file');
 			}
 		};
-		xhr.onerror = function(){
-			callback( null, 'Can\'t get file');
+		xhr.onerror = function ()
+		{
+			callback(null, 'Can\'t get file');
 		};
 
 		// Can throw an error if not connected to internet
 		try {
 			xhr.send(null);
 		}
-		catch(e) {
-			callback( null, 'Can\'t get file');
+		catch (e) {
+			callback(null, 'Can\'t get file');
 		}
 	};
 
@@ -300,7 +306,7 @@ define(function( require )
 	 * @param {function} callback
 	 * @return {string|object}
 	 */
-	FileManager.load = function Load( filename, callback, args )
+	FileManager.load = function Load(filename, callback, args)
 	{
 		if (!filename) {
 			callback(null, 'undefined ?');
@@ -309,8 +315,9 @@ define(function( require )
 
 		filename = filename.replace(/^\s+|\s+$/g, '');
 
-		this.get( filename, function(buffer, error){
-			var ext    = filename.match(/.[^\.]+$/).toString().substr(1).toLowerCase();
+		this.get(filename, function (buffer, error)
+		{
+			var ext = filename.match(/.[^\.]+$/).toString().substr(1).toLowerCase();
 			var result = null;
 
 			if (!buffer || buffer.byteLength === 0) {
@@ -318,7 +325,7 @@ define(function( require )
 				return;
 			}
 
-			error  = null;
+			error = null;
 
 			try {
 				switch (ext) {
@@ -330,17 +337,17 @@ define(function( require )
 					case 'gif':
 					case 'png':
 						result = URL.createObjectURL(
-							new Blob( [buffer], { type: 'image/' + ext })
+							new Blob([buffer], { type: 'image/' + ext })
 						);
 						break;
 
-					// Audio
+						// Audio
 					case 'wav':
 					case 'mp3':
 						// From GRF : change the data to an URI
 						if (buffer instanceof ArrayBuffer) {
 							result = URL.createObjectURL(
-								new Blob( [buffer], { type: 'audio/' + ext })
+								new Blob([buffer], { type: 'audio/' + ext })
 							);
 							break;
 						}
@@ -351,26 +358,26 @@ define(function( require )
 						result = buffer;
 						break;
 
-					// Texts
+						// Texts
 					case 'txt':
 					case 'xml':
 					case 'lua':
 						var i, count, str, uint8;
 						uint8 = new Uint8Array(buffer);
 						count = uint8.length;
-						str   = '';
+						str = '';
 
 						for (i = 0; i < count; ++i) {
 							if (uint8[i] === 0) {
 								break;
 							}
-							str += String.fromCharCode( uint8[i] );
+							str += String.fromCharCode(uint8[i]);
 						}
 
 						result = str;
 						break;
 
-					// Sprite
+						// Sprite
 					case 'spr':
 						var spr = new Sprite(buffer);
 						if (args && args.to_rgba) {
@@ -380,7 +387,7 @@ define(function( require )
 						result = spr.compile();
 						break;
 
-					// Binary
+						// Binary
 					case 'rsw':
 						result = new World(buffer);
 						break;
@@ -411,11 +418,11 @@ define(function( require )
 				}
 			}
 
-			catch(e) {
+			catch (e) {
 				error = e.message;
 			}
 
-			callback( result, error );
+			callback(result, error);
 		});
 	};
 

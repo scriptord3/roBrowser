@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,30 +15,30 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                   = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var Client               = require('Core/Client');
-	var Preferences          = require('Core/Preferences');
-	var Renderer             = require('Renderer/Renderer');
-	var UIManager            = require('UI/UIManager');
-	var UIComponent          = require('UI/UIComponent');
-	var htmlText             = require('text!./PetInformations.html');
-	var cssText              = require('text!./PetInformations.css');
+	var Client = require('Core/Client');
+	var Preferences = require('Core/Preferences');
+	var Renderer = require('Renderer/Renderer');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./PetInformations.html');
+	var cssText = require('text!./PetInformations.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var PetInformations = new UIComponent( 'PetInformations', htmlText, cssText );
+	var PetInformations = new UIComponent('PetInformations', htmlText, cssText);
 
 
 	/**
 	 * @var {Preferences} Window preferences
 	 */
 	var _preferences = Preferences.get('PetInformations', {
-		x:        100,
-		y:        200,
-		show:     true,
+		x: 100,
+		y: 200,
+		show: true,
 	}, 1.0);
 
 
@@ -51,25 +51,30 @@ define(function(require)
 
 		this.draggable();
 
-		ui.find('.close').mousedown(function(event){
+		ui.find('.close').mousedown(function (event)
+		{
 			ui.hide();
 			event.stopImmediatePropagation();
 		});
 
-		ui.find('.name').mousedown(function(event){
+		ui.find('.name').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
-		ui.find('.modify').mousedown(function(event){
+		ui.find('.modify').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
-			PetInformations.reqNameEdit( ui.find('.name').val() );
+			PetInformations.reqNameEdit(ui.find('.name').val());
 		});
 
-		ui.find('.command').mousedown(function(event){
+		ui.find('.command').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
-		ui.find('.command').change(function(){
+		ui.find('.command').change(function ()
+		{
 			switch (this.value) {
 				case 'feed':
 					PetInformations.reqPetFeed();
@@ -104,8 +109,8 @@ define(function(require)
 		}
 
 		this.ui.css({
-			top:  Math.min( Math.max( 0, _preferences.y), Renderer.height - this.ui.height()),
-			left: Math.min( Math.max( 0, _preferences.x), Renderer.width  - this.ui.width())
+			top: Math.min(Math.max(0, _preferences.y), Renderer.height - this.ui.height()),
+			left: Math.min(Math.max(0, _preferences.x), Renderer.width - this.ui.width())
 		});
 	};
 
@@ -116,9 +121,9 @@ define(function(require)
 	PetInformations.onRemove = function onRemove()
 	{
 		// Save preferences
-		_preferences.show   =  this.ui.is(':visible');
-		_preferences.y      =  parseInt(this.ui.css('top'), 10);
-		_preferences.x      =  parseInt(this.ui.css('left'), 10);
+		_preferences.show = this.ui.is(':visible');
+		_preferences.y = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
 		_preferences.save();
 	};
 
@@ -128,7 +133,7 @@ define(function(require)
 	 *
 	 * @param {object} key
 	 */
-	PetInformations.onShortCut = function onShortCut( key )
+	PetInformations.onShortCut = function onShortCut(key)
 	{
 		// Not in body
 		if (!this.ui) {
@@ -161,8 +166,9 @@ define(function(require)
 
 		this.ui.find('.accessory').text(DB.getMessage(info.ITID ? MsgStringIDs.MSI_ITEM_EQUIPED : MsgStringIDs.MSI_ITEM_UNEQUIPED));
 
-		Client.loadFile( DB.getPetIllustPath(info.job), function(data){
-			this.ui.find('.content').css('backgroundImage', 'url('+ data +')');
+		Client.loadFile(DB.getPetIllustPath(info.job), function (data)
+		{
+			this.ui.find('.content').css('backgroundImage', 'url(' + data + ')');
 		}.bind(this));
 
 		if (!info.bModified) {
@@ -211,11 +217,11 @@ define(function(require)
 	/**
 	 * Functions defined in Engine/MapEngine/Pet.js
 	 */
-	PetInformations.reqPetFeed    = function reqPetFeed(){};
-	PetInformations.reqPetAction  = function reqPetAction(){};
-	PetInformations.reqNameEdit   = function reqNameEdit(){};
-	PetInformations.reqUnEquipPet = function reqUnEquipPet(){};
-	PetInformations.reqBackToEgg  = function reqBackToEgg(){};
+	PetInformations.reqPetFeed = function reqPetFeed() { };
+	PetInformations.reqPetAction = function reqPetAction() { };
+	PetInformations.reqNameEdit = function reqNameEdit() { };
+	PetInformations.reqUnEquipPet = function reqUnEquipPet() { };
+	PetInformations.reqBackToEgg = function reqBackToEgg() { };
 
 
 	/**

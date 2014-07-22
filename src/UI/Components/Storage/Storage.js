@@ -5,7 +5,7 @@
  *
  * This file is part of ROBrowser, Ragnarok Online in the Web Browser (http://www.robrowser.com/).
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -13,41 +13,41 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                 = require('DB/DBManager');
-	var jQuery             = require('Utils/jquery');
-	var Client             = require('Core/Client');
-	var Preferences        = require('Core/Preferences');
-	var Renderer           = require('Renderer/Renderer');
-	var Mouse              = require('Controls/MouseEventHandler');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var InputBox           = require('UI/Components/InputBox/InputBox');
-	var ItemInfo           = require('UI/Components/ItemInfo/ItemInfo');
-	var htmlText           = require('text!./Storage.html');
-	var cssText            = require('text!./Storage.css');
+	var DB = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var Client = require('Core/Client');
+	var Preferences = require('Core/Preferences');
+	var Renderer = require('Renderer/Renderer');
+	var Mouse = require('Controls/MouseEventHandler');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var InputBox = require('UI/Components/InputBox/InputBox');
+	var ItemInfo = require('UI/Components/ItemInfo/ItemInfo');
+	var htmlText = require('text!./Storage.html');
+	var cssText = require('text!./Storage.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var Storage = new UIComponent( 'Storage', htmlText, cssText );
+	var Storage = new UIComponent('Storage', htmlText, cssText);
 
 
 	/**
 	 * Item type constants
 	 */
 	Storage.ITEM = {
-		HEALING:       0,
-		USABLE:        2,
-		ETC:           3,
-		WEAPON:        4,
-		EQUIP:         5,
-		CARD:          6,
-		PETEGG:        7,
-		PETEQUIP:      8,
-		AMMO:         10,
+		HEALING: 0,
+		USABLE: 2,
+		ETC: 3,
+		WEAPON: 4,
+		EQUIP: 5,
+		CARD: 6,
+		PETEGG: 7,
+		PETEQUIP: 8,
+		AMMO: 10,
 		USABLE_SKILL: 11,
-		USABLE_UNK:   18
+		USABLE_UNK: 18
 	};
 
 
@@ -55,13 +55,13 @@ define(function(require)
 	 * Tab constant
 	 */
 	Storage.TAB = {
-		ITEM:   0,
-		KAFRA:  1,
-		ARMS:   2,
-		ARMOR:  3,
-		AMMO:   4,
-		CARD:   5,
-		ETC:    6
+		ITEM: 0,
+		KAFRA: 1,
+		ARMS: 2,
+		ARMOR: 3,
+		AMMO: 4,
+		CARD: 5,
+		ETC: 6
 	};
 
 
@@ -75,10 +75,10 @@ define(function(require)
 	 * @var {Preference} structure to save
 	 */
 	var _preferences = Preferences.get('Storage', {
-		x:      200,
-		y:      500,
-		height:   8,
-		tab:      Storage.TAB.ITEM
+		x: 200,
+		y: 500,
+		height: 8,
+		tab: Storage.TAB.ITEM
 	}, 1.0);
 
 
@@ -94,7 +94,8 @@ define(function(require)
 
 		// drag, drop items
 		this.ui.on('drop', onDrop);
-		this.ui.on('dragover', function(event){
+		this.ui.on('dragover', function (event)
+		{
 			event.stopImmediatePropagation();
 			return false;
 		});
@@ -107,9 +108,10 @@ define(function(require)
 			.on('mousewheel DOMMouseScroll', onScroll)
 
 			// Title feature
-			.on('mouseover', '.item', function(){
-				var idx = parseInt( this.getAttribute('data-index'), 10);
-				var i   = getItemIndexById(idx);
+			.on('mouseover', '.item', function ()
+			{
+				var idx = parseInt(this.getAttribute('data-index'), 10);
+				var i = getItemIndexById(idx);
 
 				// Not found
 				if (i < 0) {
@@ -118,12 +120,12 @@ define(function(require)
 
 				// Get back data
 				var item = _list[i];
-				var pos  = jQuery(this).position();
+				var pos = jQuery(this).position();
 
 				// Display box
 				overlay.show();
-				overlay.css({top: pos.top-10, left:pos.left+35});
-				overlay.html(DB.getItemName(item) + ' ' + ( item.count || 1 ) + ' ea');
+				overlay.css({ top: pos.top - 10, left: pos.left + 35 });
+				overlay.html(DB.getItemName(item) + ' ' + (item.count || 1) + ' ea');
 
 				if (item.IsIdentified) {
 					overlay.removeClass('grey');
@@ -134,31 +136,34 @@ define(function(require)
 			})
 
 			// Stop title feature
-			.on('mouseout', '.item', function(){
+			.on('mouseout', '.item', function ()
+			{
 				overlay.hide();
 			})
 
 			// Stop drag drop feature
-			.on('mousedown', '.item', function(event){
+			.on('mousedown', '.item', function (event)
+			{
 				event.stopImmediatePropagation();
 			})
 
 			// Item drag drop feature
-			.on('dragstart', '.item', function(event){
+			.on('dragstart', '.item', function (event)
+			{
 				// Set image to the drag drop element
 				var img = new Image();
 				var url = this.firstChild.style.backgroundImage.match(/\(([^\)]+)/)[1];
-				url     = url = url.replace(/^\"/, '').replace(/\"$/, ''); // Firefox bug
+				url = url = url.replace(/^\"/, '').replace(/\"$/, ''); // Firefox bug
 				img.src = url;
 
-				event.originalEvent.dataTransfer.setDragImage( img, 12, 12 );
+				event.originalEvent.dataTransfer.setDragImage(img, 12, 12);
 
-				var index   = parseInt(this.getAttribute('data-index'), 10);
-				var i       = getItemIndexById(index);
+				var index = parseInt(this.getAttribute('data-index'), 10);
+				var i = getItemIndexById(index);
 
 				if (i > -1) {
 					event.originalEvent.dataTransfer.setData('Text',
-						JSON.stringify( window._OBJ_DRAG_ = {
+						JSON.stringify(window._OBJ_DRAG_ = {
 							type: 'item',
 							from: 'storage',
 							data: _list[i]
@@ -172,14 +177,16 @@ define(function(require)
 			})
 
 			// Clean up
-			.on('dragend', '.item', function(){
+			.on('dragend', '.item', function ()
+			{
 				delete window._OBJ_DRAG_;
 			})
 
 			// Right click on item
-			.on('contextmenu', '.item', function(event) {
-				var index   = parseInt(this.getAttribute('data-index'), 10);
-				var i       = getItemIndexById(index);
+			.on('contextmenu', '.item', function (event)
+			{
+				var index = parseInt(this.getAttribute('data-index'), 10);
+				var i = getItemIndexById(index);
 
 				if (i > -1) {
 
@@ -191,7 +198,7 @@ define(function(require)
 					// Add ui to window
 					ItemInfo.append();
 					ItemInfo.uid = _list[i].ITID;
-					ItemInfo.setItem( _list[i] );
+					ItemInfo.setItem(_list[i]);
 				}
 
 				event.stopImmediatePropagation();
@@ -207,15 +214,16 @@ define(function(require)
 	 */
 	Storage.onAppend = function onAppend()
 	{
-		Client.loadFile( DB.INTERFACE_PATH + 'basic_interface/tab_itm_ex_0'+ (_preferences.tab+1) +'.bmp', function(data){
+		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_ex_0' + (_preferences.tab + 1) + '.bmp', function (data)
+		{
 			Storage.ui.find('.tabs').css('backgroundImage', 'url("' + data + '")');
 		});
 
 		resizeHeight(_preferences.height);
 
 		this.ui.css({
-			top:  Math.min( Math.max( 0, _preferences.y), Renderer.height - this.ui.height()),
-			left: Math.min( Math.max( 0, _preferences.x), Renderer.width  - this.ui.width())
+			top: Math.min(Math.max(0, _preferences.y), Renderer.height - this.ui.height()),
+			left: Math.min(Math.max(0, _preferences.x), Renderer.width - this.ui.width())
 		});
 	};
 
@@ -229,9 +237,9 @@ define(function(require)
 		_list.length = 0;
 
 		// Save preferences
-		_preferences.y      =  parseInt(this.ui.css('top'), 10);
-		_preferences.x      =  parseInt(this.ui.css('left'), 10);
-		_preferences.height =  Math.floor( (this.ui.height() - (31 + 19 - 30)) / 32 );
+		_preferences.y = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
+		_preferences.height = Math.floor((this.ui.height() - (31 + 19 - 30)) / 32);
 		_preferences.save();
 	};
 
@@ -246,7 +254,7 @@ define(function(require)
 		var i, count;
 
 		for (i = 0, count = items.length; i < count ; ++i) {
-			if (this.addItemSub( items[i])) {
+			if (this.addItemSub(items[i])) {
 				_list.push(items[i]);
 			}
 		}
@@ -258,14 +266,14 @@ define(function(require)
 	 *
 	 * @param {object} Item
 	 */
-	Storage.addItem = function addItem( item )
+	Storage.addItem = function addItem(item)
 	{
 		var i = getItemIndexById(item.index);
 
 		// Found, update quantity
 		if (i > -1) {
 			_list[i].count += item.count;
-			this.ui.find('.item[data-index="'+ item.index +'"] .count').text(_list[i].count);
+			this.ui.find('.item[data-index="' + item.index + '"] .count').text(_list[i].count);
 			return;
 		}
 
@@ -280,10 +288,10 @@ define(function(require)
 	 *
 	 * @param {object} Item
 	 */
-	Storage.addItemSub = function addItemSub( item )
+	Storage.addItemSub = function addItemSub(item)
 	{
 		var tab;
-		
+
 		switch (item.type) {
 			case Storage.ITEM.HEALING:
 			case Storage.ITEM.USABLE:
@@ -292,9 +300,9 @@ define(function(require)
 				tab = Storage.TAB.ITEM;
 				break;
 
-			// TOFIX: WTH is it for ?
-			//	tab = Storage.TAB.KAFRA;
-			//	break;
+				// TOFIX: WTH is it for ?
+				//	tab = Storage.TAB.KAFRA;
+				//	break;
 
 			case Storage.ITEM.EQUIP:
 			case Storage.ITEM.PETEQUIP:
@@ -321,18 +329,19 @@ define(function(require)
 		}
 
 		if (tab === _preferences.tab) {
-			var it   = DB.getItemInfo( item.ITID );
+			var it = DB.getItemInfo(item.ITID);
 
 			this.ui.find('.container .content').append(
-				'<div class="item" data-index="' + item.index +'" draggable="true">' +
+				'<div class="item" data-index="' + item.index + '" draggable="true">' +
 					'<div class="icon"></div>' +
-					'<div class="amount">'+ (item.count ? '<span class="count">' + item.count + '</span>' + ' ' : '') + '</div>' +
+					'<div class="amount">' + (item.count ? '<span class="count">' + item.count + '</span>' + ' ' : '') + '</div>' +
 					'<span class="name">' + DB.getItemName(item) + '</span>' +
 				'</div>'
 			);
 
-			Client.loadFile( DB.INTERFACE_PATH + 'item/' + ( item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName ) + '.bmp', function(data){
-				this.ui.find('.item[data-index="'+ item.index +'"] .icon').css('backgroundImage', 'url('+ data +')');
+			Client.loadFile(DB.INTERFACE_PATH + 'item/' + (item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName) + '.bmp', function (data)
+			{
+				this.ui.find('.item[data-index="' + item.index + '"] .icon').css('backgroundImage', 'url(' + data + ')');
 			}.bind(this));
 		}
 
@@ -345,7 +354,7 @@ define(function(require)
 	 *
 	 * @param {number} index in Storage
 	 */
-	Storage.removeItem = function removeItem( index, count )
+	Storage.removeItem = function removeItem(index, count)
 	{
 		var i = getItemIndexById(index);
 		var item;
@@ -359,15 +368,15 @@ define(function(require)
 			_list[i].count -= count;
 
 			if (_list[i].count > 0) {
-				this.ui.find('.item[data-index="'+ index +'"] .count').text(_list[i].count);
+				this.ui.find('.item[data-index="' + index + '"] .count').text(_list[i].count);
 				return _list[i];
 			}
 		}
 
 		// Remove item
 		item = _list[i];
-		_list.splice( i, 1 );
-		this.ui.find('.item[data-index="'+ index +'"]').remove();
+		_list.splice(i, 1);
+		this.ui.find('.item[data-index="' + index + '"]').remove();
 
 		return item;
 	};
@@ -376,7 +385,8 @@ define(function(require)
 	/**
 	 * Update or set the current amount of items in storage in ui
 	 */
-	Storage.setItemInfo = function setItemInfo( current, limit ) {
+	Storage.setItemInfo = function setItemInfo(current, limit)
+	{
 		this.ui.find('.footer .current').text(current);
 		this.ui.find('.footer .limit').text(limit);
 	};
@@ -385,20 +395,20 @@ define(function(require)
 	/**
 	 * Extend Storage window size
 	 */
-	function onResize( event )
+	function onResize(event)
 	{
-		var ui         = Storage.ui;
-		var top        = ui.position().top;
+		var ui = Storage.ui;
+		var top = ui.position().top;
 		var lastHeight = 0;
 		var _Interval;
 
 		function resizing()
 		{
 			var extraY = 31 + 19 - 30;
-			var h = Math.floor( (Mouse.screen.y - top  - extraY) / 32 );
+			var h = Math.floor((Mouse.screen.y - top - extraY) / 32);
 
 			// Maximum and minimum window size
-			h = Math.min( Math.max(h, 8), 17);
+			h = Math.min(Math.max(h, 8), 17);
 
 			if (h === lastHeight) {
 				return;
@@ -409,10 +419,11 @@ define(function(require)
 		}
 
 		// Start resizing
-		_Interval = setInterval( resizing, 30);
+		_Interval = setInterval(resizing, 30);
 
 		// Stop resizing
-		jQuery(window).one('mouseup', function(event){
+		jQuery(window).one('mouseup', function (event)
+		{
 			// Only on left click
 			if (event.which === 1) {
 				clearInterval(_Interval);
@@ -429,7 +440,7 @@ define(function(require)
 	 */
 	function resizeHeight(height)
 	{
-		height = Math.min( Math.max(height, 8), 17);
+		height = Math.min(Math.max(height, 8), 17);
 
 		Storage.ui.find('.container .content').css('height', height * 32);
 		Storage.ui.css('height', 31 + 19 + height * 32);
@@ -440,12 +451,13 @@ define(function(require)
 	/**
 	 * Modify tab, filter display entries
 	 */
-	function switchTab( event )
+	function switchTab(event)
 	{
-		var idx          = jQuery(this).index();
+		var idx = jQuery(this).index();
 		_preferences.tab = idx;
 
-		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_ex_0'+ (idx+1) +'.bmp', function(data){
+		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/tab_itm_ex_0' + (idx + 1) + '.bmp', function (data)
+		{
 			Storage.ui.find('.tabs').css('backgroundImage', 'url("' + data + '")');
 			filter(idx);
 		});
@@ -458,7 +470,7 @@ define(function(require)
 	/**
 	 * Drop from inventory to storage
 	 */
-	function onDrop( event )
+	function onDrop(event)
 	{
 		var item, data;
 
@@ -467,7 +479,7 @@ define(function(require)
 				event.originalEvent.dataTransfer.getData('Text')
 			);
 		}
-		catch(e) {}
+		catch (e) { }
 
 		event.stopImmediatePropagation();
 
@@ -482,18 +494,19 @@ define(function(require)
 		if (item.count > 1) {
 			InputBox.append();
 			InputBox.setType('number', false, item.count);
-			InputBox.onSubmitRequest = function OnSubmitRequest( count ) {
+			InputBox.onSubmitRequest = function OnSubmitRequest(count)
+			{
 				InputBox.remove();
 				Storage.reqAddItem(
 					item.index,
-					parseInt(count, 10 )
+					parseInt(count, 10)
 				);
 			};
 
 			return false;
 		}
 
-		Storage.reqAddItem( item.index, 1 );
+		Storage.reqAddItem(item.index, 1);
 		return false;
 	}
 
@@ -518,7 +531,7 @@ define(function(require)
 	 *
 	 * @param {number} item id
 	 */
-	function getItemIndexById( index )
+	function getItemIndexById(index)
 	{
 		var i, count;
 
@@ -535,12 +548,12 @@ define(function(require)
 	/**
 	 * Update scroll by block (32px)
 	 */
-	function onScroll( event )
+	function onScroll(event)
 	{
 		var delta;
 
 		if (event.originalEvent.wheelDelta) {
-			delta = event.originalEvent.wheelDelta / 120 ;
+			delta = event.originalEvent.wheelDelta / 120;
 			if (window.opera) {
 				delta = -delta;
 			}
@@ -549,7 +562,7 @@ define(function(require)
 			delta = -event.originalEvent.detail;
 		}
 
-		this.scrollTop = Math.floor(this.scrollTop/32) * 32 - (delta * 32);
+		this.scrollTop = Math.floor(this.scrollTop / 32) * 32 - (delta * 32);
 		return false;
 	}
 
@@ -557,9 +570,9 @@ define(function(require)
 	/**
 	 * Callbacks
 	 */
-	Storage.onClosePressed  = function onClosedPressed(){};
-	Storage.reqAddItem      = function reqAddItem(){};
-	Storage.reqRemoveItem   = function reqRemoveItem(){};
+	Storage.onClosePressed = function onClosedPressed() { };
+	Storage.reqAddItem = function reqAddItem() { };
+	Storage.reqRemoveItem = function reqRemoveItem() { };
 
 
 	/**

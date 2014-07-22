@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	"use strict";
 
@@ -25,12 +25,13 @@ define(function()
 	 * Loop over version to find the good one
 	 * @return integer[] offset
 	 */
-	function getPacketVersion() {
+	function getPacketVersion()
+	{
 		var versions = this.versions;
 		var i, count = versions.length;
-	
-		for (i = 0; i < count-1; ++i) {
-			if (_min < versions[i+1][0]) {
+
+		for (i = 0; i < count - 1; ++i) {
+			if (_min < versions[i + 1][0]) {
 				return versions[i];
 			}
 		}
@@ -44,18 +45,19 @@ define(function()
 	 * @param {number} date
 	 * @param {number[]} list of offsets
 	 */
-	function AddSupport(date, list) {
+	function AddSupport(date, list)
+	{
 		var packet, param;
 		var i, count = list.length;
 
 		for (i = 0; i < count; ++i) {
-			param    = list[i];
-			packet   = param[0];
+			param = list[i];
+			packet = param[0];
 			param[0] = date;
 
 			if (!packet.prototype.versions)
 				packet.prototype.versions = [];
-	
+
 			packet.prototype.versions.push(list[i]);
 			packet.prototype.getPacketVersion = getPacketVersion;
 		}
@@ -71,21 +73,24 @@ define(function()
 		get max() { return _max; },
 		get min() { return _min; },
 
-		set max(v) {
+		set max(v)
+		{
 			if (v < _max) {
-				_max = Math.max(v, _min );
-				console.log( "%c[PACKETVER] Guess packet version between", "color:#007000", _min , "-", _max );
+				_max = Math.max(v, _min);
+				console.log("%c[PACKETVER] Guess packet version between", "color:#007000", _min, "-", _max);
 			}
 		},
 
-		set min(v) {
+		set min(v)
+		{
 			if (v > _min) {
 				_min = Math.min(v, _max);
-				console.log( "%c[PACKETVER] Guess packet version between", "color:#007000", _min , "-", _max );
+				console.log("%c[PACKETVER] Guess packet version between", "color:#007000", _min, "-", _max);
 			}
 		},
 
-		set: function Set(min, max) {
+		set: function Set(min, max)
+		{
 			_min = min;
 			_max = max || min;
 		},

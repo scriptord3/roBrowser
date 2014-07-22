@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,28 +15,28 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var Preferences   = require('Core/Preferences');
+	var Preferences = require('Core/Preferences');
 	var AudioSettings = require('Preferences/Audio');
-	var AudioManager  = require('Audio/BGM');
-	var SoundManager  = require('Audio/SoundManager');
-	var UIManager     = require('UI/UIManager');
-	var UIComponent   = require('UI/UIComponent');
-	var htmlText      = require('text!./SoundOption.html');
-	var cssText       = require('text!./SoundOption.css');
+	var AudioManager = require('Audio/BGM');
+	var SoundManager = require('Audio/SoundManager');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./SoundOption.html');
+	var cssText = require('text!./SoundOption.css');
 
 
 	/**
 	 * Create Sound Settings Component
 	 */
-	var SoundOption = new UIComponent( 'SoundOption', htmlText, cssText );
+	var SoundOption = new UIComponent('SoundOption', htmlText, cssText);
 
 
 	/**
 	 * @var {Preferences} window option
 	 */
-	var _preferences=  Preferences.get('SoundOption', {
-		x:    300,
-		y:    300,
+	var _preferences = Preferences.get('SoundOption', {
+		x: 300,
+		y: 300,
 	}, 1.0);
 
 
@@ -45,31 +45,36 @@ define(function(require)
 	 */
 	SoundOption.init = function Init()
 	{
-		this.ui.find('.close').click(function(){
+		this.ui.find('.close').click(function ()
+		{
 			this.remove();
 		}.bind(this));
 
 		//Avoid drag and drop in input elements
-		this.ui.find('input').mousedown(function(event){
+		this.ui.find('input').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
-		this.ui.find('.sound').change(function(){
+		this.ui.find('.sound').change(function ()
+		{
 			AudioSettings.Sound.volume = parseInt(this.value, 10) / 100;
 			AudioSettings.save();
 
-			SoundManager.setVolume( AudioSettings.Sound.volume );
+			SoundManager.setVolume(AudioSettings.Sound.volume);
 		});
 
-		this.ui.find('.bgm').change(function(){
+		this.ui.find('.bgm').change(function ()
+		{
 			AudioSettings.BGM.volume = parseInt(this.value, 10) / 100;
 			AudioSettings.save();
 
-			AudioManager.setVolume( AudioSettings.BGM.volume );
+			AudioManager.setVolume(AudioSettings.BGM.volume);
 		});
 
-		this.ui.find('.sound_state').change(function(){
-			var oldVolume            = AudioSettings.Sound.volume;
+		this.ui.find('.sound_state').change(function ()
+		{
+			var oldVolume = AudioSettings.Sound.volume;
 			AudioSettings.Sound.play = this.checked;
 
 			if (this.checked) {
@@ -84,7 +89,8 @@ define(function(require)
 			AudioSettings.save();
 		});
 
-		this.ui.find('.bgm_state').change(function(){
+		this.ui.find('.bgm_state').change(function ()
+		{
 			AudioSettings.BGM.play = this.checked;
 			AudioSettings.save();
 
@@ -108,14 +114,14 @@ define(function(require)
 	SoundOption.onAppend = function OnAppend()
 	{
 		this.ui.css({
-			top:     _preferences.y,
-			left:    _preferences.x
+			top: _preferences.y,
+			left: _preferences.x
 		});
 
 		this.ui.find('.sound').val(AudioSettings.Sound.volume * 100);
-		this.ui.find('.bgm').val( AudioSettings.BGM.volume * 100);
+		this.ui.find('.bgm').val(AudioSettings.BGM.volume * 100);
 		this.ui.find('.sound_state')[0].checked = AudioSettings.Sound.play;
-		this.ui.find('.bgm_state')[0].checked   = AudioSettings.BGM.play;
+		this.ui.find('.bgm_state')[0].checked = AudioSettings.BGM.play;
 	};
 
 
@@ -124,8 +130,8 @@ define(function(require)
 	 */
 	SoundOption.onRemove = function OnRemove()
 	{
-		_preferences.x    = parseInt(this.ui.css('left'), 10);
-		_preferences.y    = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
+		_preferences.y = parseInt(this.ui.css('top'), 10);
 		_preferences.save();
 	};
 

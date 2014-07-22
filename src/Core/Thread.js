@@ -10,7 +10,7 @@
  */
 
 
-define(['require', 'Core/Configs'], function( require, Configs )
+define(['require', 'Core/Configs'], function (require, Configs)
 {
 	'use strict';
 
@@ -26,7 +26,7 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	 * List of hook callback
 	 * @var List
 	 */
-	var _hook   = {};
+	var _hook = {};
 
 
 	/**
@@ -58,20 +58,20 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	{
 		var _input = { type: '', data: null, uid: 0 };
 
-		return function Send( type, data, callback )
+		return function Send(type, data, callback)
 		{
 			var uid = 0;
-	
+
 			if (callback) {
-				uid          = ++_uid;
+				uid = ++_uid;
 				_memory[uid] = callback;
 			}
 
 			_input.type = type;
 			_input.data = data;
-			_input.uid  = uid;
+			_input.uid = uid;
 
-			_source.postMessage( _input, _origin );
+			_source.postMessage(_input, _origin);
 		};
 	}();
 
@@ -84,7 +84,7 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	 */
 	function Receive(event)
 	{
-		var uid  = event.data.uid;
+		var uid = event.data.uid;
 		var type = event.data.type;
 
 		// Direct callback
@@ -106,7 +106,7 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	 * @param {string} type
 	 * @param {function} callback
 	 */
-	function Hook( type, callback )
+	function Hook(type, callback)
 	{
 		_hook[type] = callback;
 	}
@@ -118,7 +118,7 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	 * @param {Window} source
 	 * @param {string} origin
 	 */
-	function Delegate( source, origin )
+	function Delegate(source, origin)
 	{
 		_source = source;
 		_origin = origin;
@@ -132,7 +132,7 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	{
 		if (!_source) {
 			var url = Configs.get('development') ? './ThreadEventHandler.js' : './../../ThreadEventHandler.js';
-			_source = new Worker( require.toUrl(url) + '?' + Configs.get('version', '') );
+			_source = new Worker(require.toUrl(url) + '?' + Configs.get('version', ''));
 		}
 
 		// Worker context
@@ -140,10 +140,10 @@ define(['require', 'Core/Configs'], function( require, Configs )
 			_source.addEventListener('message', Receive, false);
 		}
 
-		// Other frame worker
+			// Other frame worker
 		else {
-			window.addEventListener('message', Receive, false );
-			_source.postMessage({type:'SYNC'}, _origin );
+			window.addEventListener('message', Receive, false);
+			_source.postMessage({ type: 'SYNC' }, _origin);
 		}
 	}
 
@@ -152,9 +152,9 @@ define(['require', 'Core/Configs'], function( require, Configs )
 	 * Exports
 	 */
 	return {
-		send:     Send,
-		hook:     Hook,
-		init:     Init,
+		send: Send,
+		hook: Hook,
+		init: Init,
 		delegate: Delegate
 	};
 });

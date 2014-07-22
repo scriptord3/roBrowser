@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,30 +15,30 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var Thread         = require('Core/Thread');
-	var SoundManager   = require('Audio/SoundManager');
-	var BGM            = require('Audio/BGM');
-	var DB             = require('DB/DBManager');
-	var UIManager      = require('UI/UIManager');
-	var Background     = require('UI/Background');
-	var Cursor         = require('UI/CursorManager');
-	var Session        = require('Engine/SessionStorage');
-	var MemoryManager  = require('Core/MemoryManager');
-	var Mouse          = require('Controls/MouseEventHandler');
-	var Renderer       = require('Renderer/Renderer');
-	var Camera         = require('Renderer/Camera');
-	var EntityManager  = require('Renderer/EntityManager');
-	var GridSelector   = require('Renderer/Map/GridSelector');
-	var Ground         = require('Renderer/Map/Ground');
-	var Altitude       = require('Renderer/Map/Altitude');
-	var Water          = require('Renderer/Map/Water');
-	var Models         = require('Renderer/Map/Models');
-	var Sounds         = require('Renderer/Map/Sounds');
-	var Effects        = require('Renderer/Map/Effects');
+	var Thread = require('Core/Thread');
+	var SoundManager = require('Audio/SoundManager');
+	var BGM = require('Audio/BGM');
+	var DB = require('DB/DBManager');
+	var UIManager = require('UI/UIManager');
+	var Background = require('UI/Background');
+	var Cursor = require('UI/CursorManager');
+	var Session = require('Engine/SessionStorage');
+	var MemoryManager = require('Core/MemoryManager');
+	var Mouse = require('Controls/MouseEventHandler');
+	var Renderer = require('Renderer/Renderer');
+	var Camera = require('Renderer/Camera');
+	var EntityManager = require('Renderer/EntityManager');
+	var GridSelector = require('Renderer/Map/GridSelector');
+	var Ground = require('Renderer/Map/Ground');
+	var Altitude = require('Renderer/Map/Altitude');
+	var Water = require('Renderer/Map/Water');
+	var Models = require('Renderer/Map/Models');
+	var Sounds = require('Renderer/Map/Sounds');
+	var Effects = require('Renderer/Map/Effects');
 	var SpriteRenderer = require('Renderer/SpriteRenderer');
-	var EffectManager  = require('Renderer/EffectManager');
-	var Sky            = require('Renderer/Effects/Sky');
-	var Damage         = require('Renderer/Effects/Damage');
+	var EffectManager = require('Renderer/EffectManager');
+	var Sky = require('Renderer/Effects/Sky');
+	var Damage = require('Renderer/Effects/Damage');
 	var MapPreferences = require('Preferences/Map');
 
 
@@ -88,12 +88,12 @@ define(function( require )
 	 * @var {Object} Fog structure
 	 */
 	MapRenderer.fog = {
-		use:    MapPreferences.useFog,
-		exist:  true,
-		far:    30,
-		near:   180,
+		use: MapPreferences.useFog,
+		exist: true,
+		far: 30,
+		near: 180,
 		factor: 1.0,
-		color:  new Float32Array([1,1,1])
+		color: new Float32Array([1, 1, 1])
 	};
 
 
@@ -102,7 +102,7 @@ define(function( require )
 	 *
 	 * @param {string} mapname to load
 	 */
-	MapRenderer.setMap = function loadMap( mapname )
+	MapRenderer.setMap = function loadMap(mapname)
 	{
 		// TODO: stop the map loading, and start to load the new map.
 		if (this.loading) {
@@ -124,18 +124,19 @@ define(function( require )
 			// Parse the filename (ugly RO)
 			var filename = mapname.replace(/\.gat$/i, '.rsw');
 
-			Background.setLoading(function() {
+			Background.setLoading(function ()
+			{
 				// Hooking Thread
-				Thread.hook('MAP_PROGRESS', onProgressUpdate.bind(MapRenderer) );
-				Thread.hook('MAP_WORLD',    onWorldComplete.bind(MapRenderer) );
-				Thread.hook('MAP_GROUND',   onGroundComplete.bind(MapRenderer) );
-				Thread.hook('MAP_ALTITUDE', onAltitudeComplete.bind(MapRenderer) );
-				Thread.hook('MAP_MODELS',   onModelsComplete.bind(MapRenderer) );
+				Thread.hook('MAP_PROGRESS', onProgressUpdate.bind(MapRenderer));
+				Thread.hook('MAP_WORLD', onWorldComplete.bind(MapRenderer));
+				Thread.hook('MAP_GROUND', onGroundComplete.bind(MapRenderer));
+				Thread.hook('MAP_ALTITUDE', onAltitudeComplete.bind(MapRenderer));
+				Thread.hook('MAP_MODELS', onModelsComplete.bind(MapRenderer));
 
 				// Start Loading
 				MapRenderer.free();
 				Renderer.remove();
-				Thread.send('LOAD_MAP', filename, onMapComplete.bind(MapRenderer) );
+				Thread.send('LOAD_MAP', filename, onMapComplete.bind(MapRenderer));
 			});
 
 			return;
@@ -143,15 +144,16 @@ define(function( require )
 
 		var gl = Renderer.getContext();
 		EntityManager.free();
-		Damage.free( gl );
-		EffectManager.free( gl );
+		Damage.free(gl);
+		EffectManager.free(gl);
 
 		// Basic TP
-		Background.remove(function(){
+		Background.remove(function ()
+		{
 			MapRenderer.onLoad();
 			Sky.setUpCloudData();
 
-			Renderer.render( MapRenderer.onRender );
+			Renderer.render(MapRenderer.onRender);
 		});
 	};
 
@@ -164,20 +166,20 @@ define(function( require )
 		var gl = Renderer.getContext();
 
 		EntityManager.free();
-		GridSelector.free( gl );
+		GridSelector.free(gl);
 		Sounds.free();
 		Effects.free();
-		Ground.free( gl );
-		Water.free( gl );
-		Models.free( gl );
-		Damage.free( gl );
-		EffectManager.free( gl );
+		Ground.free(gl);
+		Water.free(gl);
+		Models.free(gl);
+		Damage.free(gl);
+		EffectManager.free(gl);
 
 		Mouse.intersect = false;
 
-		this.light   = null;
-		this.water   = null;
-		this.sounds  = null;
+		this.light = null;
+		this.water = null;
+		this.sounds = null;
 		this.effects = null;
 	};
 
@@ -187,26 +189,26 @@ define(function( require )
 	 *
 	 * @param {number} percent (progress)
 	 */
-	function onProgressUpdate( percent )
+	function onProgressUpdate(percent)
 	{
-		Background.setPercent( percent );
+		Background.setPercent(percent);
 	}
 
 
 	/**
 	 * Received parsed world
 	 */
-	function onWorldComplete( data )
+	function onWorldComplete(data)
 	{
-		this.light   = data.light;
-		this.water   = data.water;
-		this.sounds  = data.sound;
+		this.light = data.light;
+		this.water = data.water;
+		this.sounds = data.sound;
 		this.effects = data.effect;
 
 		// Calculate light direction
 		this.light.direction = new Float32Array(3);
-		var longitude        = this.light.longitude * Math.PI / 180;
-		var latitude         = this.light.latitude  * Math.PI / 180;
+		var longitude = this.light.longitude * Math.PI / 180;
+		var latitude = this.light.latitude * Math.PI / 180;
 
 		this.light.direction[0] = -Math.cos(longitude) * Math.sin(latitude);
 		this.light.direction[1] = -Math.cos(latitude);
@@ -217,27 +219,27 @@ define(function( require )
 	/**
 	 * Received ground data from Thread
 	 */
-	function onGroundComplete( data )
+	function onGroundComplete(data)
 	{
 		var gl = Renderer.getContext();
 
-		this.water.mesh      = data.waterMesh;
+		this.water.mesh = data.waterMesh;
 		this.water.vertCount = data.waterVertCount;
 
-		Ground.init( gl, data );
-		Water.init( gl, this.water );
+		Ground.init(gl, data);
+		Water.init(gl, this.water);
 
 		// Initialize sounds
 		var i, count, tmp;
 
 		count = this.sounds.length;
 		for (i = 0; i < count; ++i) {
-			tmp                    = -this.sounds[i].pos[1];
+			tmp = -this.sounds[i].pos[1];
 			this.sounds[i].pos[0] += data.width;
-			this.sounds[i].pos[1]  = this.sounds[i].pos[2] + data.height;
-			this.sounds[i].pos[2]  = tmp;
-			this.sounds[i].range  *= 0.2;
-			this.sounds[i].tick    =   0;
+			this.sounds[i].pos[1] = this.sounds[i].pos[2] + data.height;
+			this.sounds[i].pos[2] = tmp;
+			this.sounds[i].range *= 0.2;
+			this.sounds[i].tick = 0;
 
 			Sounds.add(this.sounds[i]);
 		}
@@ -247,51 +249,51 @@ define(function( require )
 		for (i = 0; i < count; ++i) {
 			// Note: effects objects do not need to be centered in a cell
 			// as we apply +0.5 in the shader, we have to revert it.
-			tmp                     = -this.effects[i].pos[1];
+			tmp = -this.effects[i].pos[1];
 			this.effects[i].pos[0] += data.width - 0.5;
-			this.effects[i].pos[1]  = this.effects[i].pos[2] + data.height - 0.5;
-			this.effects[i].pos[2]  = tmp;
-			this.effects[i].tick    = 0;
+			this.effects[i].pos[1] = this.effects[i].pos[2] + data.height - 0.5;
+			this.effects[i].pos[2] = tmp;
+			this.effects[i].tick = 0;
 
 			Effects.add(this.effects[i]);
 		}
 
 		this.effects.length = 0;
-		this.sounds.length  = 0;
+		this.sounds.length = 0;
 	}
 
 
 	/**
 	 * Receiving parsed GAT from Thread
 	 */
-	function onAltitudeComplete( data )
+	function onAltitudeComplete(data)
 	{
 		var gl = Renderer.getContext();
-		Altitude.init( data );
-		GridSelector.init( gl );
+		Altitude.init(data);
+		GridSelector.init(gl);
 	}
 
 
 	/**
 	 * Receiving parsed RSMs from Thread
 	 */
-	function onModelsComplete( data )
+	function onModelsComplete(data)
 	{
-		Models.init( Renderer.getContext(), data );
+		Models.init(Renderer.getContext(), data);
 	}
 
 
 	/**
 	 * Once the map finished to load
 	 */
-	function onMapComplete( success, error )
+	function onMapComplete(success, error)
 	{
 		var worldResource = this.currentMap.replace(/\.gat$/i, '.rsw');
-		var mapInfo       = DB.getMap(worldResource);
+		var mapInfo = DB.getMap(worldResource);
 
 		// Problem during loading ?
 		if (!success) {
-			UIManager.showErrorBox( error ).ui.css('zIndex', 1000);
+			UIManager.showErrorBox(error).ui.css('zIndex', 1000);
 			return;
 		}
 
@@ -301,10 +303,10 @@ define(function( require )
 		// Apply fog to map
 		this.fog.exist = !!(mapInfo && mapInfo.fog);
 		if (this.fog.exist) {
-			this.fog.near   = mapInfo.fog.near * 240;
-			this.fog.far    = mapInfo.fog.far  * 240;
+			this.fog.near = mapInfo.fog.near * 240;
+			this.fog.far = mapInfo.fog.far * 240;
 			this.fog.factor = mapInfo.fog.factor;
-			this.fog.color.set( mapInfo.fog.color );
+			this.fog.color.set(mapInfo.fog.color);
 		}
 
 		// Initialize renderers
@@ -312,21 +314,22 @@ define(function( require )
 		var gl = Renderer.getContext();
 
 		SpriteRenderer.init(gl);
-		Sky.init( gl, worldResource );
+		Sky.init(gl, worldResource);
 		Damage.init(gl);
 		EffectManager.init(gl);
 
 		// Starting to render
-		Background.remove(function(){
+		Background.remove(function ()
+		{
 			MapRenderer.loading = false;
-			Mouse.intersect     = true;
+			Mouse.intersect = true;
 
 			MapRenderer.onLoad();
 			Sky.setUpCloudData();
 
 			// Display game
 			Renderer.show();
-			Renderer.render( MapRenderer.onRender );
+			Renderer.render(MapRenderer.onRender);
 		});
 	}
 
@@ -338,66 +341,66 @@ define(function( require )
 	 * @param {object} gl context
 	 */
 	var _pos = new Uint16Array(2);
-	MapRenderer.onRender = function OnRender( tick, gl )
+	MapRenderer.onRender = function OnRender(tick, gl)
 	{
-		var fog   = MapRenderer.fog;
-		fog.use   = MapPreferences.fog;
+		var fog = MapRenderer.fog;
+		fog.use = MapPreferences.fog;
 		var light = MapRenderer.light;
 
 		var modelView, projection, normalMat;
 		var x, y;
 
 		// Clean mouse position in world
-		Mouse.world.x =  -1;
-		Mouse.world.y =  -1;
-		Mouse.world.z =  -1;
+		Mouse.world.x = -1;
+		Mouse.world.y = -1;
+		Mouse.world.z = -1;
 
 		// Clear screen, update camera
-		gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
-		Camera.update( tick );
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		Camera.update(tick);
 
-		modelView  = Camera.modelView;
+		modelView = Camera.modelView;
 		projection = Camera.projection;
-		normalMat  = Camera.normalMat;
+		normalMat = Camera.normalMat;
 
 		// Spam map effects
 		//Effects.spam( Session.Entity.position, tick);
 
-		Ground.render(gl, modelView, projection, normalMat, fog, light );
-		Models.render(gl, modelView, projection, normalMat, fog, light );
+		Ground.render(gl, modelView, projection, normalMat, fog, light);
+		Models.render(gl, modelView, projection, normalMat, fog, light);
 
-		if (Mouse.intersect && Altitude.intersect( modelView, projection, _pos)) {
+		if (Mouse.intersect && Altitude.intersect(modelView, projection, _pos)) {
 			x = _pos[0];
 			y = _pos[1];
 
 			// Walkable
-			if (Altitude.getCellType( x, y ) & Altitude.TYPE.WALKABLE) {
-				GridSelector.render( gl, modelView, projection, fog, x, y );
-				Mouse.world.x =  x;
-				Mouse.world.y =  y;
-				Mouse.world.z =  Altitude.getCellHeight( x, y );
+			if (Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE) {
+				GridSelector.render(gl, modelView, projection, fog, x, y);
+				Mouse.world.x = x;
+				Mouse.world.y = y;
+				Mouse.world.z = Altitude.getCellHeight(x, y);
 			}
 		}
 
 		// Display zone effects and entities
-		Sky.render( gl, modelView, projection, fog, tick );
-		EffectManager.render( gl, modelView, projection, fog, tick, true);
-		EntityManager.render( gl, modelView, projection, fog );
+		Sky.render(gl, modelView, projection, fog, tick);
+		EffectManager.render(gl, modelView, projection, fog, tick, true);
+		EntityManager.render(gl, modelView, projection, fog);
 
 		// Rendering water
-		Water.render( gl, modelView, projection, fog, light, tick );
+		Water.render(gl, modelView, projection, fog, light, tick);
 
 		// Rendering effects
-		Damage.render( gl, modelView, projection, fog, tick );
-		EffectManager.render( gl, modelView, projection, fog, tick, false);
+		Damage.render(gl, modelView, projection, fog, tick);
+		EffectManager.render(gl, modelView, projection, fog, tick, false);
 
 		// Play sounds
-		Sounds.render( Session.Entity.position, tick );
+		Sounds.render(Session.Entity.position, tick);
 
 		// Find entity over the cursor
 		if (Mouse.intersect) {
 			var entity = EntityManager.intersect();
-			EntityManager.setOverEntity( entity );
+			EntityManager.setOverEntity(entity);
 		}
 
 		// Clean up

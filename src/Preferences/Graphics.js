@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( ['Core/Preferences'], function( Preferences )
+define(['Core/Preferences'], function (Preferences)
 {
 	'use strict';
 
@@ -15,25 +15,25 @@ define( ['Core/Preferences'], function( Preferences )
 	/**
 	 * Export
 	 */
-	return Preferences.get( 'Graphics', {
+	return Preferences.get('Graphics', {
 
 		/**
 		 * Game size
 		 */
-		screensize:  '800x600',
+		screensize: '800x600',
 
 		/*
 		 * Game quality detail
 		 * 100: Full
 		 */
-		quality:     100,
+		quality: 100,
 
 
 		/**
 		 * Do we show official game cursor ?
 		 */
-		cursor:      true
+		cursor: true
 
-	}, 1.1 );
+	}, 1.1);
 
 });

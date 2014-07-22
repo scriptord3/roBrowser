@@ -5,7 +5,7 @@
  *
  * This file is part of ROBrowser, Ragnarok Online in the Web Browser (http://www.robrowser.com/).
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -13,26 +13,26 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB           = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var jQuery       = require('Utils/jquery');
-	var Client       = require('Core/Client');
-	var Session      = require('Engine/SessionStorage');
-	var Renderer     = require('Renderer/Renderer');
-	var UIManager    = require('UI/UIManager');
-	var UIComponent  = require('UI/UIComponent');
-	var InputBox     = require('UI/Components/InputBox/InputBox');
-	var ItemInfo     = require('UI/Components/ItemInfo/ItemInfo');
-	var Inventory    = require('UI/Components/Inventory/Inventory');
-	var ChatBox      = require('UI/Components/ChatBox/ChatBox');
-	var htmlText     = require('text!./Trade.html');
-	var cssText      = require('text!./Trade.css');
+	var jQuery = require('Utils/jquery');
+	var Client = require('Core/Client');
+	var Session = require('Engine/SessionStorage');
+	var Renderer = require('Renderer/Renderer');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var InputBox = require('UI/Components/InputBox/InputBox');
+	var ItemInfo = require('UI/Components/ItemInfo/ItemInfo');
+	var Inventory = require('UI/Components/Inventory/Inventory');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
+	var htmlText = require('text!./Trade.html');
+	var cssText = require('text!./Trade.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var Trade = new UIComponent( 'Trade', htmlText, cssText);
+	var Trade = new UIComponent('Trade', htmlText, cssText);
 
 
 	/**
@@ -69,20 +69,23 @@ define(function(require)
 		this.ui.find('.trade.enabled').click(onTrade.bind(this));
 		this.ui.find('.cancel').click(onCancel.bind(this));
 
-		this.ui.on('mousedown', '.disabled', function(event){
+		this.ui.on('mousedown', '.disabled', function (event)
+		{
 			event.stopImmediatePropagation();
 			return false;
 		});
 
 		// drag, drop items
-		this.ui.on('drop',     onDrop);
-		this.ui.on('dragover', function(event){
+		this.ui.on('drop', onDrop);
+		this.ui.on('dragover', function (event)
+		{
 			event.stopImmediatePropagation();
 			return false;
 		});
 
 		// Avoid drag and drop on input
-		this.ui.find('.zeny.send').mousedown(function(event){
+		this.ui.find('.zeny.send').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 			this.select();
 		});
@@ -92,17 +95,18 @@ define(function(require)
 		this.ui.find('.box')
 
 			// Title feature
-			.on('mouseover', '.item', function(){
-				var idx  = parseInt( this.getAttribute('data-index'), 10);
+			.on('mouseover', '.item', function ()
+			{
+				var idx = parseInt(this.getAttribute('data-index'), 10);
 				var item = this.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
-				var $e   = jQuery(this);
-				var pos  = $e.parent().position();
+				var $e = jQuery(this);
+				var pos = $e.parent().position();
 				pos.left += $e.position().left;
-				pos.top  += $e.position().top;
+				pos.top += $e.position().top;
 
 				// Display box
 				overlay.show();
-				overlay.css({top: pos.top+5, left:pos.left+30});
+				overlay.css({ top: pos.top + 5, left: pos.left + 30 });
 				overlay.html(DB.getItemName(item));
 
 				if (item.IsIdentified) {
@@ -114,18 +118,21 @@ define(function(require)
 			})
 
 			// Stop title feature
-			.on('mouseout', '.item', function(){
+			.on('mouseout', '.item', function ()
+			{
 				overlay.hide();
 			})
 
 			// Stop drag drop feature
-			.on('mousedown', '.item', function(event){
+			.on('mousedown', '.item', function (event)
+			{
 				event.stopImmediatePropagation();
 			})
 
 			// Right click on item
-			.on('contextmenu', '.item', function(event) {
-				var idx  = parseInt( this.getAttribute('data-index'), 10);
+			.on('contextmenu', '.item', function (event)
+			{
+				var idx = parseInt(this.getAttribute('data-index'), 10);
 				var item = this.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
 
 				// Don't add the same UI twice, remove it
@@ -156,8 +163,8 @@ define(function(require)
 		this.ui.find('.titlebar .title').text(this.title);
 
 		this.ui.css({
-			top:  (Renderer.height - this.ui.height()) / 2,
-			left: (Renderer.width  - this.ui.width()) / 2
+			top: (Renderer.height - this.ui.height()) / 2,
+			left: (Renderer.width - this.ui.width()) / 2
 		});
 	};
 
@@ -167,7 +174,7 @@ define(function(require)
 	 */
 	Trade.onRemove = function onRemove()
 	{
-		_tmpCount    = {};
+		_tmpCount = {};
 		_recv.length = 0;
 		_send.length = 0;
 
@@ -200,22 +207,23 @@ define(function(require)
 			return;
 		}
 
-		var item    = jQuery.extend({}, Inventory.removeItem(index, _tmpCount[index]));
-		var it      = DB.getItemInfo( item.ITID );
-		var idx     = _send.push(item) - 1;
-		var box     = this.ui.find('.box.send');
-		item.count  = _tmpCount[index];
+		var item = jQuery.extend({}, Inventory.removeItem(index, _tmpCount[index]));
+		var it = DB.getItemInfo(item.ITID);
+		var idx = _send.push(item) - 1;
+		var box = this.ui.find('.box.send');
+		item.count = _tmpCount[index];
 
 		box.append(
-			'<div class="item" data-index="'+ idx +'">' +
+			'<div class="item" data-index="' + idx + '">' +
 				'<div class="icon"></div>' +
 				'<div class="amount"><span class="count">' + (_tmpCount[index] || 1) + '</span></div>' +
 				'<span class="name">' + DB.getItemName(item) + '</span>' +
 			'</div>'
 		);
 
-		Client.loadFile( DB.INTERFACE_PATH + 'item/' + ( item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName ) + '.bmp', function(data){
-			box.find('.item[data-index="'+ idx +'"] .icon').css('backgroundImage', 'url('+ data +')');
+		Client.loadFile(DB.INTERFACE_PATH + 'item/' + (item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName) + '.bmp', function (data)
+		{
+			box.find('.item[data-index="' + idx + '"] .icon').css('backgroundImage', 'url(' + data + ')');
 		}.bind(this));
 	};
 
@@ -233,20 +241,21 @@ define(function(require)
 			return;
 		}
 
-		var it  = DB.getItemInfo( item.ITID );
+		var it = DB.getItemInfo(item.ITID);
 		var idx = _recv.push(item) - 1;
 		var box = this.ui.find('.box.recv');
 
 		box.append(
-			'<div class="item" data-index="'+ idx +'">' +
+			'<div class="item" data-index="' + idx + '">' +
 				'<div class="icon"></div>' +
-				'<div class="amount">'+ item.count + '</div>' +
+				'<div class="amount">' + item.count + '</div>' +
 				'<span class="name">' + DB.getItemName(item) + '</span>' +
 			'</div>'
 		);
 
-		Client.loadFile( DB.INTERFACE_PATH + 'item/' + ( item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName ) + '.bmp', function(data){
-			box.find('.item[data-index="'+ idx +'"] .icon').css('backgroundImage', 'url('+ data +')');
+		Client.loadFile(DB.INTERFACE_PATH + 'item/' + (item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName) + '.bmp', function (data)
+		{
+			box.find('.item[data-index="' + idx + '"] .icon').css('backgroundImage', 'url(' + data + ')');
 		}.bind(this));
 	};
 
@@ -257,15 +266,15 @@ define(function(require)
 	 * @param {number}
 	 * @return {string}
 	 */
-	function prettifyZeny( value )
+	function prettifyZeny(value)
 	{
 		var num = String(value);
 		var i = 0, len = num.length;
 		var out = '';
 
 		while (i < len) {
-			out = num[len-i-1] + out;
-			if ((i+1) % 3 === 0 && i+1 !== len) {
+			out = num[len - i - 1] + out;
+			if ((i + 1) % 3 === 0 && i + 1 !== len) {
 				out = ',' + out;
 			}
 			++i;
@@ -280,22 +289,22 @@ define(function(require)
 	 * @param {number} item index in inventory
 	 * @param {number} item count
 	 */
-	function onRequestAddItem( index, count )
+	function onRequestAddItem(index, count)
 	{
 		// You cannot overlap items on a window
 		if (index in _tmpCount) {
-			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CAN_DRAG_ITEM_OLNY_ONETIME), ChatBox.TYPE.ERROR);
+			ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CAN_DRAG_ITEM_OLNY_ONETIME), ChatBox.TYPE.ERROR);
 			return;
 		}
 
 		// You cannot trade more than 10 types of items per trade.
 		if (_send.length >= 10) {
-			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_MAXEXCHANGE_IS_10_KIND), ChatBox.TYPE.ERROR);
+			ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_MAXEXCHANGE_IS_10_KIND), ChatBox.TYPE.ERROR);
 			return;
 		}
 
-		_tmpCount[index]  = count;
-		Trade.reqAddItem( index, count);
+		_tmpCount[index] = count;
+		Trade.reqAddItem(index, count);
 	}
 
 
@@ -333,9 +342,9 @@ define(function(require)
 	{
 		// Send zeny value before concluding
 		var zeny = parseInt(Trade.ui.find('.zeny.send').val(), 10) || 0;
-		zeny     = Math.min( Math.max(0, zeny), Session.zeny);
+		zeny = Math.min(Math.max(0, zeny), Session.zeny);
 
-		onRequestAddItem( 0, zeny);
+		onRequestAddItem(0, zeny);
 		Trade.onConclude();
 	}
 
@@ -354,7 +363,7 @@ define(function(require)
 	/**
 	 * Drop from inventory to storage
 	 */
-	function onDrop( event )
+	function onDrop(event)
 	{
 		var item, data;
 
@@ -363,7 +372,7 @@ define(function(require)
 				event.originalEvent.dataTransfer.getData('Text')
 			);
 		}
-		catch(e) {}
+		catch (e) { }
 
 		event.stopImmediatePropagation();
 
@@ -378,9 +387,10 @@ define(function(require)
 		if (item.count > 1) {
 			InputBox.append();
 			InputBox.setType('number', false, item.count);
-			InputBox.onSubmitRequest = function OnSubmitRequest(count) {
+			InputBox.onSubmitRequest = function OnSubmitRequest(count)
+			{
 				var value = parseInt(count, 10) || 0;
-				value     = Math.min(Math.max( value, 0), item.count); // cap
+				value = Math.min(Math.max(value, 0), item.count); // cap
 
 				InputBox.remove();
 
@@ -400,10 +410,10 @@ define(function(require)
 	/**
 	 * Callbacks
 	 */
-	Trade.onConclude    = function onConclude(){};
-	Trade.onTradeSubmit = function onTradeSubmit(){};
-	Trade.reqAddItem    = function reqAddItem(){};
-	Trade.onCancel      = function onCancel(){};
+	Trade.onConclude = function onConclude() { };
+	Trade.onTradeSubmit = function onTradeSubmit() { };
+	Trade.reqAddItem = function reqAddItem() { };
+	Trade.onCancel = function onCancel() { };
 
 
 	/**

@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,24 +15,24 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var jQuery      = require('Utils/jquery');
-	var DB          = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var KEYS        = require('Controls/KeyEventHandler');
-	var Renderer    = require('Renderer/Renderer');
+	var KEYS = require('Controls/KeyEventHandler');
+	var Renderer = require('Renderer/Renderer');
 	var Preferences = require('Core/Preferences');
-	var UIManager   = require('UI/UIManager');
+	var UIManager = require('UI/UIManager');
 	var UIComponent = require('UI/UIComponent');
-	var htmlText    = require('text!./ChatRoomCreate.html');
-	var cssText     = require('text!./ChatRoomCreate.css');
+	var htmlText = require('text!./ChatRoomCreate.html');
+	var cssText = require('text!./ChatRoomCreate.css');
 
 
 	/**
 	 * Create Component
 	 */
-	var ChatRoomCreate = new UIComponent( 'ChatRoomCreate', htmlText, cssText );
-	
-	
+	var ChatRoomCreate = new UIComponent('ChatRoomCreate', htmlText, cssText);
+
+
 	/**
 	 * @var {string} chat room title
 	 */
@@ -63,9 +63,9 @@ define(function(require)
 	 * @var {Preference} structure to save
 	 */
 	var _preferences = Preferences.get('ChatRoomCreate', {
-		x:        480,
-		y:        200,
-		show:   false
+		x: 480,
+		y: 200,
+		show: false
 	}, 1.0);
 
 
@@ -76,13 +76,15 @@ define(function(require)
 	{
 		// Bindings
 		this.ui.find('.close, .cancel').on('click', this.hide.bind(this));
-		this.ui.find('.ok').on('click', parseChatSetup.bind(this) );
-		this.ui.find('.setup').submit(function() {
+		this.ui.find('.ok').on('click', parseChatSetup.bind(this));
+		this.ui.find('.setup').submit(function ()
+		{
 			return false;
 		});
 
 		// Do not activate drag
-		this.ui.find('input, button, select').mousedown(function(event) {
+		this.ui.find('input, button, select').mousedown(function (event)
+		{
 			event.stopImmediatePropagation();
 		});
 
@@ -101,13 +103,13 @@ define(function(require)
 		}
 
 		this.ui.css({
-			top:  Math.min( Math.max( 0, _preferences.y), Renderer.height - this.ui.height()),
-			left: Math.min( Math.max( 0, _preferences.x), Renderer.width  - this.ui.width())
+			top: Math.min(Math.max(0, _preferences.y), Renderer.height - this.ui.height()),
+			left: Math.min(Math.max(0, _preferences.x), Renderer.width - this.ui.width())
 		});
 
 		// Escape key order
-		var events = jQuery._data( window, 'events').keydown;
-		events.unshift( events.pop() );
+		var events = jQuery._data(window, 'events').keydown;
+		events.unshift(events.pop());
 	};
 
 
@@ -116,9 +118,9 @@ define(function(require)
 	 */
 	ChatRoomCreate.onRemove = function OnRemove()
 	{
-		_preferences.show   =  this.ui.is(':visible');
-		_preferences.y      =  parseInt(this.ui.css('top'), 10);
-		_preferences.x      =  parseInt(this.ui.css('left'), 10);
+		_preferences.show = this.ui.is(':visible');
+		_preferences.y = parseInt(this.ui.css('top'), 10);
+		_preferences.x = parseInt(this.ui.css('left'), 10);
 		_preferences.save();
 	};
 
@@ -133,8 +135,8 @@ define(function(require)
 
 		_preferences.show = true;
 	};
-	
-	
+
+
 	/**
 	 * Hide the setup ui
 	 */
@@ -145,7 +147,7 @@ define(function(require)
 
 		_preferences.show = false;
 	};
-	
+
 
 	/**
 	 * Key Listener
@@ -153,7 +155,7 @@ define(function(require)
 	 * @param {object} event
 	 * @return {boolean}
 	 */
-	ChatRoomCreate.onKeyDown = function onKeyDown( event )
+	ChatRoomCreate.onKeyDown = function onKeyDown(event)
 	{
 		if (this.ui.is(':visible')) {
 			if (event.which === KEYS.ENTER) {
@@ -177,7 +179,7 @@ define(function(require)
 	 *
 	 * @param {object} key
 	 */
-	ChatRoomCreate.onShortCut = function onShurtCut( key )
+	ChatRoomCreate.onShortCut = function onShurtCut(key)
 	{
 		switch (key.cmd) {
 			case 'TOGGLE':
@@ -193,7 +195,7 @@ define(function(require)
 	/**
 	 * Pseudo functions :)
 	 */
-	ChatRoomCreate.requestRoom = function requestRoom(){};
+	ChatRoomCreate.requestRoom = function requestRoom() { };
 
 
 	/**
@@ -201,22 +203,23 @@ define(function(require)
 	 */
 	function parseChatSetup()
 	{
-		this.title    = this.ui.find('input[name=title]').val();
-		this.limit    = parseInt( this.ui.find('select[name=limit]').val(), 10);
-		this.type     = parseInt( this.ui.find('input[name=public]:checked').val(), 10);
+		this.title = this.ui.find('input[name=title]').val();
+		this.limit = parseInt(this.ui.find('select[name=limit]').val(), 10);
+		this.type = parseInt(this.ui.find('input[name=public]:checked').val(), 10);
 		this.password = this.ui.find('input[name=password]').val();
 
 		if (this.title.length < 1) {
-			var overlay       = document.createElement('div');
+			var overlay = document.createElement('div');
 			overlay.className = 'win_popup_overlay';
 			document.body.appendChild(overlay);
 
-			var popup = UIManager.showMessageBox( DB.getMessage(MsgStringIDs.MSI_ENTER_ROOM_TITLE), 'ok', function(){
+			var popup = UIManager.showMessageBox(DB.getMessage(MsgStringIDs.MSI_ENTER_ROOM_TITLE), 'ok', function ()
+			{
 				document.body.removeChild(overlay);
 			}, true);
 
 			popup.ui.css({
-				top:  parseInt(this.ui.css('top'), 10) - 120,
+				top: parseInt(this.ui.css('top'), 10) - 120,
 				left: parseInt(this.ui.css('left'), 10)
 			});
 			return;

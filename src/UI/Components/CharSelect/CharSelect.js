@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,25 +15,25 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                 = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var MonsterTable       = require('DB/Monsters/MonsterTable');
-	var Preferences        = require('Core/Preferences');
-	var KEYS               = require('Controls/KeyEventHandler');
-	var Renderer           = require('Renderer/Renderer');
-	var Entity             = require('Renderer/Entity/Entity');
-	var SpriteRenderer     = require('Renderer/SpriteRenderer');
-	var Camera             = require('Renderer/Camera');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var htmlText           = require('text!./CharSelect.html');
-	var cssText            = require('text!./CharSelect.css');
+	var MonsterTable = require('DB/Monsters/MonsterTable');
+	var Preferences = require('Core/Preferences');
+	var KEYS = require('Controls/KeyEventHandler');
+	var Renderer = require('Renderer/Renderer');
+	var Entity = require('Renderer/Entity/Entity');
+	var SpriteRenderer = require('Renderer/SpriteRenderer');
+	var Camera = require('Renderer/Camera');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./CharSelect.html');
+	var cssText = require('text!./CharSelect.css');
 
 
 	/**
 	 * Create Chararacter Selection namespace
 	 */
-	var CharSelect = new UIComponent( 'CharSelect', htmlText, cssText );
+	var CharSelect = new UIComponent('CharSelect', htmlText, cssText);
 
 
 	/**
@@ -41,7 +41,7 @@ define(function(require)
 	 */
 	var _preferences = Preferences.get('CharSelect', {
 		index: 0
-	}, 1.0 );
+	}, 1.0);
 
 
 	/**
@@ -94,17 +94,17 @@ define(function(require)
 		var ui = this.ui;
 
 		ui.css({
-			top:  (Renderer.height-342)/2,
-			left: (Renderer.width-576)/2
+			top: (Renderer.height - 342) / 2,
+			left: (Renderer.width - 576) / 2
 		});
 
 		// Bind buttons
-		ui.find('.ok'    ).click(connect);
+		ui.find('.ok').click(connect);
 		ui.find('.cancel').click(cancel);
-		ui.find('.make'  ).click(create);
+		ui.find('.make').click(create);
 		ui.find('.delete').click(suppress);
 
-		ui.find('.arrow.left' ).mousedown(genericArrowDown(-1));
+		ui.find('.arrow.left').mousedown(genericArrowDown(-1));
 		ui.find('.arrow.right').mousedown(genericArrowDown(+1));
 
 		// Bind canvas
@@ -113,7 +113,8 @@ define(function(require)
 		ui.find('.slot3').mousedown(genericCanvasDown(2));
 
 		ui.find('canvas').
-			dblclick(function(){
+			dblclick(function ()
+			{
 				if (_slots[_index]) {
 					connect();
 				}
@@ -121,8 +122,9 @@ define(function(require)
 					create();
 				}
 			}).
-			each(function(){
-				_ctx.push( this.getContext('2d') );
+			each(function ()
+			{
+				_ctx.push(this.getContext('2d'));
 			});
 
 		this.draggable();
@@ -136,8 +138,8 @@ define(function(require)
 	{
 		_index = _preferences.index;
 
-		this.ui.find('.slotinfo .number').text( _list.length + ' / ' + _maxSlots );
-		this.ui.find('.pageinfo .count').text( _maxSlots / 3 );
+		this.ui.find('.slotinfo .number').text(_list.length + ' / ' + _maxSlots);
+		this.ui.find('.pageinfo .count').text(_maxSlots / 3);
 
 		// Update values
 		moveCursorTo(_index);
@@ -163,19 +165,19 @@ define(function(require)
 	 *
 	 * @param {object} event
 	 */
-	CharSelect.onKeyDown = function onKeyDown( event )
+	CharSelect.onKeyDown = function onKeyDown(event)
 	{
 		switch (event.which) {
 			case KEYS.ESCAPE:
 				cancel();
 				break;
-	
+
 			case KEYS.LEFT:
-				moveCursorTo(_index-1);
+				moveCursorTo(_index - 1);
 				break;
 
 			case KEYS.RIGHT:
-				moveCursorTo(_index+1);
+				moveCursorTo(_index + 1);
 				break;
 
 			case KEYS.SUPR:
@@ -207,29 +209,29 @@ define(function(require)
 	 *
 	 * @param {object} pkt - packet structure
 	 */
-	CharSelect.setInfo = function setInfo( pkt )
+	CharSelect.setInfo = function setInfo(pkt)
 	{
-		_maxSlots           = pkt.TotalSlotNum || 9; // default 9 ?
-		_sex                = pkt.sex;
-		_slots.length       = 0;
+		_maxSlots = pkt.TotalSlotNum || 9; // default 9 ?
+		_sex = pkt.sex;
+		_slots.length = 0;
 		_entitySlots.length = 0;
-		_list.length        = 0;
+		_list.length = 0;
 
 		if (pkt.charInfo) {
 			var i, count = pkt.charInfo.length;
 			for (i = 0; i < count; ++i) {
-				CharSelect.addCharacter( pkt.charInfo[i] );
+				CharSelect.addCharacter(pkt.charInfo[i]);
 
 				// Guess the max slot
 				// required if the client is < 20100413 and have more than 9 slots
-				_maxSlots = Math.max( _maxSlots, Math.floor(pkt.charInfo[i].CharNum / 3 + 1) * 3 );
+				_maxSlots = Math.max(_maxSlots, Math.floor(pkt.charInfo[i].CharNum / 3 + 1) * 3);
 			}
 		}
 
-		this.ui.find('.slotinfo .number').text( _list.length + ' / ' + _maxSlots );
-		this.ui.find('.pageinfo .count').text( _maxSlots / 3 );
+		this.ui.find('.slotinfo .number').text(_list.length + ' / ' + _maxSlots);
+		this.ui.find('.pageinfo .count').text(_maxSlots / 3);
 
-		moveCursorTo( _index );
+		moveCursorTo(_index);
 	};
 
 
@@ -238,7 +240,7 @@ define(function(require)
 	 *
 	 * @param {number} error id
 	 */
-	CharSelect.deleteAnswer = function DeleteAnswer( error )
+	CharSelect.deleteAnswer = function DeleteAnswer(error)
 	{
 		this.on('keydown');
 
@@ -247,7 +249,7 @@ define(function(require)
 			case -2:
 				return;
 
-			// Success (clean up character)
+				// Success (clean up character)
 			case -1:
 				delete _slots[_index];
 				delete _entitySlots[_index];
@@ -257,7 +259,7 @@ define(function(require)
 
 				while (i < count) {
 					if (_list[i].CharNum === _index) {
-						_list.splice( i, 1 );
+						_list.splice(i, 1);
 						--count;
 					}
 					else {
@@ -266,13 +268,13 @@ define(function(require)
 				}
 
 				// Refresh UI
-				moveCursorTo( _index );
-				this.ui.find('.slotinfo .number').text( _list.length + ' / ' + _maxSlots );
+				moveCursorTo(_index);
+				this.ui.find('.slotinfo .number').text(_list.length + ' / ' + _maxSlots);
 				return;
 
 			default: // Others error ?
-			case  0: // Incorrect adress email
-				UIManager.showMessageBox( DB.getMessage(MsgStringIDs.MSI_CANNOT_DELETE_CHARACTER_EMAIL), 'ok' );
+			case 0: // Incorrect adress email
+				UIManager.showMessageBox(DB.getMessage(MsgStringIDs.MSI_CANNOT_DELETE_CHARACTER_EMAIL), 'ok');
 				break;
 		}
 	};
@@ -283,24 +285,24 @@ define(function(require)
 	 *
 	 * @param {object} character data
 	 */
-	CharSelect.addCharacter = function addCharacter( character )
+	CharSelect.addCharacter = function addCharacter(character)
 	{
 		character.sex = _sex;
-		_list.push( character );
-		_slots[ character.CharNum ] = character;
+		_list.push(character);
+		_slots[character.CharNum] = character;
 
-		_entitySlots[ character.CharNum ] = new Entity();
-		_entitySlots[ character.CharNum ].set( character );
+		_entitySlots[character.CharNum] = new Entity();
+		_entitySlots[character.CharNum].set(character);
 	};
 
 
 	/**
 	 * Callback to use
 	 */
-	CharSelect.onExitRequest    = function onExitRequest(){};
-	CharSelect.onDeleteRequest  = function onDeleteRequest(){};
-	CharSelect.onCreateRequest  = function onCreateRequest(){};
-	CharSelect.onConnectRequest = function onConnectRequest(){};
+	CharSelect.onExitRequest = function onExitRequest() { };
+	CharSelect.onDeleteRequest = function onDeleteRequest() { };
+	CharSelect.onCreateRequest = function onCreateRequest() { };
+	CharSelect.onConnectRequest = function onConnectRequest() { };
 
 
 	/**
@@ -308,10 +310,11 @@ define(function(require)
 	 *
 	 * @param {number} value to move
 	 */
-	function genericArrowDown( value )
+	function genericArrowDown(value)
 	{
-		return function( event ) {
-			moveCursorTo((_index + _maxSlots + value) % _maxSlots );
+		return function (event)
+		{
+			moveCursorTo((_index + _maxSlots + value) % _maxSlots);
 			event.stopImmediatePropagation();
 			return false;
 		};
@@ -323,10 +326,11 @@ define(function(require)
 	 *
 	 * @param {number} value to move
 	 */
-	function genericCanvasDown( value )
+	function genericCanvasDown(value)
 	{
-		return function( event ) {
-			moveCursorTo( Math.floor(_index / 3) * 3 + value );
+		return function (event)
+		{
+			moveCursorTo(Math.floor(_index / 3) * 3 + value);
 			event.stopImmediatePropagation();
 			return false;
 		};
@@ -338,7 +342,8 @@ define(function(require)
 	 */
 	function cancel()
 	{
-		UIManager.showPromptBox( DB.getMessage(MsgStringIDs.MSI_DO_YOU_REALLY_WANT_TO_QUIT), 'ok', 'cancel', function(){
+		UIManager.showPromptBox(DB.getMessage(MsgStringIDs.MSI_DO_YOU_REALLY_WANT_TO_QUIT), 'ok', 'cancel', function ()
+		{
 			CharSelect.onExitRequest();
 		}, null);
 	}
@@ -349,18 +354,19 @@ define(function(require)
 	 */
 	function create()
 	{
-		CharSelect.onCreateRequest( _index );
+		CharSelect.onCreateRequest(_index);
 	}
 
 
 	/**
 	 * Select Player, connect
 	 */
-	function connect() {
+	function connect()
+	{
 		if (_slots[_index]) {
 			_preferences.index = _index;
 			_preferences.save();
-			CharSelect.onConnectRequest( _slots[_index] );
+			CharSelect.onConnectRequest(_slots[_index]);
 		}
 	}
 
@@ -368,10 +374,11 @@ define(function(require)
 	/**
 	 * Delete a character
 	 */
-	function suppress() {
+	function suppress()
+	{
 		if (_slots[_index]) {
 			CharSelect.off('keydown');
-			CharSelect.onDeleteRequest( _slots[_index].GID );
+			CharSelect.onDeleteRequest(_slots[_index].GID);
 		}
 	}
 
@@ -381,7 +388,7 @@ define(function(require)
 	 *
 	 * @param {number} index
 	 */
-	function moveCursorTo( index )
+	function moveCursorTo(index)
 	{
 		var ui = CharSelect.ui;
 		var $charinfo = ui.find('.charinfo');
@@ -391,8 +398,8 @@ define(function(require)
 		if (entity) {
 			entity.setAction({
 				action: entity.ACTION.IDLE,
-				frame:  0,
-				play:   true,
+				frame: 0,
+				play: true,
 				repeat: true
 			});
 		}
@@ -404,7 +411,7 @@ define(function(require)
 			addClass('slot' + (_index % 3 + 1));
 
 		// Set page
-		ui.find('.pageinfo .current').text( Math.floor( _index / 3) + 1 );
+		ui.find('.pageinfo .current').text(Math.floor(_index / 3) + 1);
 
 		// Not found, just clean up.
 		entity = _entitySlots[_index];
@@ -419,8 +426,8 @@ define(function(require)
 		// Animate the character
 		entity.setAction({
 			action: entity.ACTION.READYFIGHT,
-			frame:  0,
-			play:   true,
+			frame: 0,
+			play: true,
 			repeat: true
 		});
 
@@ -430,21 +437,21 @@ define(function(require)
 		ui.find('.ok').show();
 
 		var info = _slots[_index];
-		$charinfo.find('.name').text( info.name );
-		$charinfo.find('.job').text( MonsterTable[info.job] || '' );
-		$charinfo.find('.lvl').text( info.level );
-		$charinfo.find('.exp').text( info.exp );
-		$charinfo.find('.hp').text( info.hp );
-		$charinfo.find('.sp').text( info.sp );
+		$charinfo.find('.name').text(info.name);
+		$charinfo.find('.job').text(MonsterTable[info.job] || '');
+		$charinfo.find('.lvl').text(info.level);
+		$charinfo.find('.exp').text(info.exp);
+		$charinfo.find('.hp').text(info.hp);
+		$charinfo.find('.sp').text(info.sp);
 
 		//TODO: Check win_select.bmp size to insert it if needed ?
 		//$charinfo.find('.map').text( info.lastMap || '' );
-		$charinfo.find('.str').text( info.Str );
-		$charinfo.find('.agi').text( info.Agi );
-		$charinfo.find('.vit').text( info.Vit );
-		$charinfo.find('.int').text( info.Int );
-		$charinfo.find('.dex').text( info.Dex );
-		$charinfo.find('.luk').text( info.Luk );
+		$charinfo.find('.str').text(info.Str);
+		$charinfo.find('.agi').text(info.Agi);
+		$charinfo.find('.vit').text(info.Vit);
+		$charinfo.find('.int').text(info.Int);
+		$charinfo.find('.dex').text(info.Dex);
+		$charinfo.find('.luk').text(info.Luk);
 	}
 
 
@@ -456,16 +463,16 @@ define(function(require)
 		var i, count, idx;
 
 		Camera.direction = 4;
-		idx              = Math.floor(_index / 3) * 3;
-		count            = _ctx.length;
+		idx = Math.floor(_index / 3) * 3;
+		count = _ctx.length;
 
 
 		for (i = 0; i < count; ++i) {
 			_ctx[i].clearRect(0, 0, _ctx[i].canvas.width, _ctx[i].canvas.height);
 
-			if (_entitySlots[idx+i]) {
+			if (_entitySlots[idx + i]) {
 				SpriteRenderer.bind2DContext(_ctx[i], 63, 130);
-				_entitySlots[idx+i].renderEntity();
+				_entitySlots[idx + i].renderEntity();
 			}
 		}
 	}

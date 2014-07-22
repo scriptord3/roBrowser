@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 define(['Core/Client', 'Renderer/Renderer', 'Renderer/SpriteRenderer', 'Renderer/Camera'],
-function(     Client,            Renderer,            SpriteRenderer,            Camera )
+function (Client, Renderer, SpriteRenderer, Camera)
 {
 	'use strict';
 
@@ -19,9 +19,9 @@ function(     Client,            Renderer,            SpriteRenderer,           
 	 * @constructor
 	 * @param {object} entity attached
 	 */
-	function AttachmentManager( entity )
+	function AttachmentManager(entity)
 	{
-		this.list   = [];
+		this.list = [];
 		this.entity = entity;
 	}
 
@@ -31,20 +31,20 @@ function(     Client,            Renderer,            SpriteRenderer,           
 	 *
 	 * @param {object} attachment options
 	 */
-	AttachmentManager.prototype.add = function add( attachment )
+	AttachmentManager.prototype.add = function add(attachment)
 	{
 		if (attachment.uid) {
 			this.remove(attachment.uid);
 		}
 
-		attachment.startTick     = Renderer.tick;
-		attachment.opacity       = attachment.hasOwnProperty('opacity') ? attachment.opacity : 1.0;
-		attachment.direction     = attachment.hasOwnProperty('frame')   ? false : true;
-		attachment.frame         = attachment.frame     || 0;
-		attachment.depth         = attachment.depth     || 0.0;
-		attachment.head          = attachment.head      || false;
-		attachment.repeat        = attachment.repeat    || false;
-		attachment.stopAtEnd     = attachment.stopAtEnd || false;
+		attachment.startTick = Renderer.tick;
+		attachment.opacity = attachment.hasOwnProperty('opacity') ? attachment.opacity : 1.0;
+		attachment.direction = attachment.hasOwnProperty('frame') ? false : true;
+		attachment.frame = attachment.frame || 0;
+		attachment.depth = attachment.depth || 0.0;
+		attachment.head = attachment.head || false;
+		attachment.repeat = attachment.repeat || false;
+		attachment.stopAtEnd = attachment.stopAtEnd || false;
 
 		if (attachment.file) {
 			attachment.spr = 'data/sprite/\xc0\xcc\xc6\xd1\xc6\xae/' + attachment.file + '.spr';
@@ -52,9 +52,10 @@ function(     Client,            Renderer,            SpriteRenderer,           
 		}
 
 		// Start rendering once sprite is loaded
-		Client.loadFile(attachment.spr, function onLoad() {
+		Client.loadFile(attachment.spr, function onLoad()
+		{
 			this.list.push(attachment);
-		}.bind(this), null, {to_rgba:true});
+		}.bind(this), null, { to_rgba: true });
 	};
 
 
@@ -63,12 +64,12 @@ function(     Client,            Renderer,            SpriteRenderer,           
 	 *
 	 * @param {mixed} unique id
 	 */
-	AttachmentManager.prototype.remove = function remove( uid )
+	AttachmentManager.prototype.remove = function remove(uid)
 	{
 		var i, count;
 		var list;
 
-		list  = this.list;
+		list = this.list;
 		count = list.length;
 
 		for (i = 0; i < count; ++i) {
@@ -86,7 +87,7 @@ function(     Client,            Renderer,            SpriteRenderer,           
 	 *
 	 * @param {number} index
 	 */
-	AttachmentManager.prototype.removeIndex = function removeIndex( index )
+	AttachmentManager.prototype.removeIndex = function removeIndex(index)
 	{
 		this.list.splice(index, 1);
 
@@ -105,21 +106,21 @@ function(     Client,            Renderer,            SpriteRenderer,           
 	AttachmentManager.prototype.render = function renderClosure()
 	{
 		var effectColor = new Float32Array(4);
-		var resetColor  = new Float32Array([1.0, 1.0, 1.0, 1.0]);
+		var resetColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
 
-		return function render( tick )
+		return function render(tick)
 		{
 			var list;
 			var i, count;
 
-			list  = this.list;
+			list = this.list;
 			count = list.length;
 
 			effectColor.set(this.entity.effectColor);
 			this.entity.effectColor.set(resetColor);
 
 			for (i = 0; i < count; ++i) {
-				if (this.renderAttachment( this.list[i], tick)) {
+				if (this.renderAttachment(this.list[i], tick)) {
 					this.removeIndex(i);
 					i--;
 					count--;
@@ -143,7 +144,7 @@ function(     Client,            Renderer,            SpriteRenderer,           
 	{
 		var position = new Int16Array(2);
 
-		return function renderAttachment( attachment, tick)
+		return function renderAttachment(attachment, tick)
 		{
 			// Nothing to render yet
 			if (attachment.startTick > tick) {
@@ -162,28 +163,28 @@ function(     Client,            Renderer,            SpriteRenderer,           
 				return clean;
 			}
 
-			this.entity.effectColor[3]  = attachment.opacity;
-			position[1]                 = attachment.head ? -100 : 0;
-			frame                       = attachment.direction ? (Camera.direction + this.entity.direction + 8) % 8 : attachment.frame;
-			frame                      %= act.actions.length;
-			animations                  = act.actions[frame].animations;
-			delay                       = attachment.delay || act.actions[frame].delay;
-			SpriteRenderer.depth        = attachment.depth;
+			this.entity.effectColor[3] = attachment.opacity;
+			position[1] = attachment.head ? -100 : 0;
+			frame = attachment.direction ? (Camera.direction + this.entity.direction + 8) % 8 : attachment.frame;
+			frame %= act.actions.length;
+			animations = act.actions[frame].animations;
+			delay = attachment.delay || act.actions[frame].delay;
+			SpriteRenderer.depth = attachment.depth;
 
 			// pause
 			if ('animationId' in attachment) {
 				layers = animations[attachment.animationId].layers;
 			}
 
-			// repeat animation
+				// repeat animation
 			else if (attachment.repeat) {
-				layers = animations[ Math.floor((tick - attachment.startTick) / delay) % animations.length].layers;
+				layers = animations[Math.floor((tick - attachment.startTick) / delay) % animations.length].layers;
 			}
 
-			// stop at end
+				// stop at end
 			else {
-				animation = Math.min( Math.floor((tick - attachment.startTick) / delay), animations.length-1);
-				layers    = animations[animation].layers;
+				animation = Math.min(Math.floor((tick - attachment.startTick) / delay), animations.length - 1);
+				layers = animations[animation].layers;
 
 				if (animation === animations.length - 1 && !attachment.stopAtEnd) {
 					clean = true;

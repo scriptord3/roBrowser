@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -17,9 +17,9 @@ define(function()
 	 *
 	 * @param {boolean} does key have to be unique ?
 	 */
-	function History( uniqueKey )
+	function History(uniqueKey)
 	{
-		this.list      = [];
+		this.list = [];
 		this.uniqueKey = !!uniqueKey;
 	}
 
@@ -41,18 +41,18 @@ define(function()
 	 *
 	 * @param {string} message
 	 */
-	History.prototype.push = function push( message )
+	History.prototype.push = function push(message)
 	{
 		var count = this.list.length;
 		var pos;
 
-		if (!count || this.list[count-1] !== message) {
+		if (!count || this.list[count - 1] !== message) {
 
 			// Remove duplicated key
 			if (this.uniqueKey) {
 				pos = this.list.indexOf(message);
 				if (pos > -1) {
-					this.list.splice( pos, 1);
+					this.list.splice(pos, 1);
 					count--;
 				}
 			}
@@ -105,7 +105,7 @@ define(function()
 	History.prototype.clear = function clear()
 	{
 		this.list.length = 0;
-		this.index       = 0;
+		this.index = 0;
 	};
 
 

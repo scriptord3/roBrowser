@@ -9,7 +9,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -48,18 +48,18 @@ define(function()
 	 * @param {number} delay
 	 * @return {?} event unique id 
 	 */
-	Events.setTimeout = function setTimeout( callback, delay )
+	Events.setTimeout = function setTimeout(callback, delay)
 	{
 		var i, count, tick;
 		var event;
 
-		tick  = _tick + delay;
-		event = { callback: callback, tick: _tick + delay, uid:_uid++ };
+		tick = _tick + delay;
+		event = { callback: callback, tick: _tick + delay, uid: _uid++ };
 
 		// Add it to the list, sorted by delay
 		for (i = 0, count = _events.length; i < count; ++i) {
 			if (tick < _events[i].tick) {
-				_events.splice( i, 0, event);
+				_events.splice(i, 0, event);
 				return event.uid;
 			}
 		}
@@ -75,7 +75,7 @@ define(function()
 	 *
 	 * @param {?} event unique id
 	 */
-	Events.clearTimeout = function clearTimeout( uid )
+	Events.clearTimeout = function clearTimeout(uid)
 	{
 		var i, count = _events.length;
 
@@ -94,7 +94,7 @@ define(function()
 	 *
 	 * @param {number} game tick
 	 */
-	Events.process = function process( tick )
+	Events.process = function process(tick)
 	{
 		var count = _events.length;
 

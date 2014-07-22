@@ -9,7 +9,7 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -17,37 +17,37 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var jQuery           = require('Utils/jquery');
-	var DB               = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var SoundManager     = require('Audio/SoundManager');
-	var BGM              = require('Audio/BGM');
-	var Events           = require('Core/Events');
-	var Session          = require('Engine/SessionStorage');
-	var Network          = require('Network/NetworkManager');
-	var PACKET           = require('Network/PacketStructure');
-	var Renderer         = require('Renderer/Renderer');
-	var Camera           = require('Renderer/Camera');
-	var MapRenderer      = require('Renderer/MapRenderer');
-	var EntityManager    = require('Renderer/EntityManager');
-	var Entity           = require('Renderer/Entity/Entity');
-	var Altitude         = require('Renderer/Map/Altitude');
-	var Mouse            = require('Controls/MouseEventHandler');
-	var KEYS             = require('Controls/KeyEventHandler');
-	var UIManager        = require('UI/UIManager');
-	var Background       = require('UI/Background');
-	var Escape           = require('UI/Components/Escape/Escape');
-	var ChatBox          = require('UI/Components/ChatBox/ChatBox');
-	var MiniMap          = require('UI/Components/MiniMap/MiniMap');
-	var BasicInfo        = require('UI/Components/BasicInfo/BasicInfo');
-	var WinStats         = require('UI/Components/WinStats/WinStats');
-	var Inventory        = require('UI/Components/Inventory/Inventory');
-	var ShortCut         = require('UI/Components/ShortCut/ShortCut');
-	var Equipment        = require('UI/Components/Equipment/Equipment');
-	var StatusIcons      = require('UI/Components/StatusIcons/StatusIcons');
-	var ChatRoomCreate   = require('UI/Components/ChatRoomCreate/ChatRoomCreate');
-	var Emoticons        = require('UI/Components/Emoticons/Emoticons');
-	var SkillList        = require('UI/Components/SkillList/SkillList');
+	var SoundManager = require('Audio/SoundManager');
+	var BGM = require('Audio/BGM');
+	var Events = require('Core/Events');
+	var Session = require('Engine/SessionStorage');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var Renderer = require('Renderer/Renderer');
+	var Camera = require('Renderer/Camera');
+	var MapRenderer = require('Renderer/MapRenderer');
+	var EntityManager = require('Renderer/EntityManager');
+	var Entity = require('Renderer/Entity/Entity');
+	var Altitude = require('Renderer/Map/Altitude');
+	var Mouse = require('Controls/MouseEventHandler');
+	var KEYS = require('Controls/KeyEventHandler');
+	var UIManager = require('UI/UIManager');
+	var Background = require('UI/Background');
+	var Escape = require('UI/Components/Escape/Escape');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
+	var MiniMap = require('UI/Components/MiniMap/MiniMap');
+	var BasicInfo = require('UI/Components/BasicInfo/BasicInfo');
+	var WinStats = require('UI/Components/WinStats/WinStats');
+	var Inventory = require('UI/Components/Inventory/Inventory');
+	var ShortCut = require('UI/Components/ShortCut/ShortCut');
+	var Equipment = require('UI/Components/Equipment/Equipment');
+	var StatusIcons = require('UI/Components/StatusIcons/StatusIcons');
+	var ChatRoomCreate = require('UI/Components/ChatRoomCreate/ChatRoomCreate');
+	var Emoticons = require('UI/Components/Emoticons/Emoticons');
+	var SkillList = require('UI/Components/SkillList/SkillList');
 
 
 	/**
@@ -69,7 +69,7 @@ define(function( require )
 	 * @param {number} port
 	 * @param {string} mapName
 	 */
-	function init( ip, port, mapName )
+	function init(ip, port, mapName)
 	{
 		_mapName = mapName;
 		// fix for instance maps
@@ -78,28 +78,30 @@ define(function( require )
 		}
 
 		// Connect to char server
-		Network.connect( Network.utils.longToIP( ip ), port, function( success ){
+		Network.connect(Network.utils.longToIP(ip), port, function (success)
+		{
 
 			// Force reloading map
 			MapRenderer.currentMap = '';
 
 			// Fail to connect...
 			if (!success) {
-				UIManager.showErrorBox( DB.getMessage(MsgStringIDs.MSI_SERVER_CONNECTION_FAILED) );
+				UIManager.showErrorBox(DB.getMessage(MsgStringIDs.MSI_SERVER_CONNECTION_FAILED));
 				return;
 			}
 
 			// Success, try to login.
-			var pkt        = new PACKET.CZ.ENTER();
-			pkt.AID        = Session.AID;
-			pkt.GID        = Session.GID;
-			pkt.AuthCode   = Session.AuthCode;
+			var pkt = new PACKET.CZ.ENTER();
+			pkt.AID = Session.AID;
+			pkt.GID = Session.GID;
+			pkt.AuthCode = Session.AuthCode;
 			pkt.clientTime = Date.now();
-			pkt.Sex        = Session.Sex;
+			pkt.Sex = Session.Sex;
 			Network.sendPacket(pkt);
 
 			// Server send back AID
-			Network.read(function(fp){
+			Network.read(function (fp)
+			{
 				// if PACKETVER < 20070521, client send GID...
 				if (fp.length === 4) {
 					Session.Character.GID = fp.readLong();
@@ -108,7 +110,8 @@ define(function( require )
 
 			// Ping
 			var ping = new PACKET.CZ.REQUEST_TIME();
-			Network.setPing(function(){
+			Network.setPing(function ()
+			{
 				ping.time = Date.now();
 				Network.sendPacket(ping);
 			});
@@ -122,16 +125,16 @@ define(function( require )
 		_isInitialised = true;
 
 		// Hook packets
-		Network.hookPacket( PACKET.ZC.AID,                 onReceiveAccountID );
-		Network.hookPacket( PACKET.ZC.ACCEPT_ENTER,        onConnectionAccepted );
-		Network.hookPacket( PACKET.ZC.ACCEPT_ENTER2,       onConnectionAccepted );
-		Network.hookPacket( PACKET.ZC.NPCACK_MAPMOVE,      onMapChange );
-		Network.hookPacket( PACKET.ZC.NPCACK_SERVERMOVE,   onServerChange );
-		Network.hookPacket( PACKET.ZC.ACCEPT_QUIT,         onExitSuccess );
-		Network.hookPacket( PACKET.ZC.REFUSE_QUIT,         onExitFail );
-		Network.hookPacket( PACKET.ZC.RESTART_ACK,         onRestartAnswer );
-		Network.hookPacket( PACKET.ZC.ACK_REQ_DISCONNECT,  onDisconnectAnswer );
-		Network.hookPacket( PACKET.ZC.NOTIFY_TIME,         onPong );
+		Network.hookPacket(PACKET.ZC.AID, onReceiveAccountID);
+		Network.hookPacket(PACKET.ZC.ACCEPT_ENTER, onConnectionAccepted);
+		Network.hookPacket(PACKET.ZC.ACCEPT_ENTER2, onConnectionAccepted);
+		Network.hookPacket(PACKET.ZC.NPCACK_MAPMOVE, onMapChange);
+		Network.hookPacket(PACKET.ZC.NPCACK_SERVERMOVE, onServerChange);
+		Network.hookPacket(PACKET.ZC.ACCEPT_QUIT, onExitSuccess);
+		Network.hookPacket(PACKET.ZC.REFUSE_QUIT, onExitFail);
+		Network.hookPacket(PACKET.ZC.RESTART_ACK, onRestartAnswer);
+		Network.hookPacket(PACKET.ZC.ACK_REQ_DISCONNECT, onDisconnectAnswer);
+		Network.hookPacket(PACKET.ZC.NOTIFY_TIME, onPong);
 
 		// Extend controller
 		require('./MapEngine/Main').call();
@@ -154,7 +157,7 @@ define(function( require )
 	 * Pong from server
 	 * TODO: check the time ?
 	 */
-	function onPong( pkt )
+	function onPong(pkt)
 	{
 		//pkt.time
 	}
@@ -165,7 +168,7 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.AID
 	 */
-	function onReceiveAccountID( pkt )
+	function onReceiveAccountID(pkt)
 	{
 		Session.Character.GID = pkt.AID;
 	}
@@ -176,35 +179,35 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.ACCEPT_ENTER
 	 */
-	function onConnectionAccepted( pkt )
+	function onConnectionAccepted(pkt)
 	{
-		Session.Entity = new Entity( Session.Character );
+		Session.Entity = new Entity(Session.Character);
 		Session.Entity.onWalkEnd = onWalkEnd;
 
-		BasicInfo.update('blvl', Session.Character.level );
-		BasicInfo.update('jlvl', Session.Character.joblevel );
-		BasicInfo.update('zeny', Session.Character.money );
-		BasicInfo.update('name', Session.Character.name );
-		BasicInfo.update('job',  Session.Character.job );
+		BasicInfo.update('blvl', Session.Character.level);
+		BasicInfo.update('jlvl', Session.Character.joblevel);
+		BasicInfo.update('zeny', Session.Character.money);
+		BasicInfo.update('name', Session.Character.name);
+		BasicInfo.update('job', Session.Character.job);
 
 		// Bind UI
-		WinStats.onRequestUpdate        = onRequestStatUpdate;
-		Equipment.onUnEquip             = onUnEquip;
-		Equipment.onConfigUpdate        = onConfigUpdate;
-		Equipment.onEquipItem           = onEquipItem;
-		Equipment.onRemoveOption        = onRemoveOption;
-		Inventory.onUseItem             = onUseItem;
-		Inventory.onEquipItem           = onEquipItem;
-		Escape.onExitRequest            = onExitRequest;
-		Escape.onCharSelectionRequest   = onRestartRequest;
+		WinStats.onRequestUpdate = onRequestStatUpdate;
+		Equipment.onUnEquip = onUnEquip;
+		Equipment.onConfigUpdate = onConfigUpdate;
+		Equipment.onEquipItem = onEquipItem;
+		Equipment.onRemoveOption = onRemoveOption;
+		Inventory.onUseItem = onUseItem;
+		Inventory.onEquipItem = onEquipItem;
+		Escape.onExitRequest = onExitRequest;
+		Escape.onCharSelectionRequest = onRestartRequest;
 		Escape.onReturnSavePointRequest = onReturnSavePointRequest;
-		Escape.onResurectionRequest     = onResurectionRequest;
-		ChatBox.onRequestTalk           = onRequestTalk;
+		Escape.onResurectionRequest = onResurectionRequest;
+		ChatBox.onRequestTalk = onRequestTalk;
 
 		// Fix http://forum.robrowser.com/?topic=32177.0
 		onMapChange({
-			xPos:    pkt.PosDir[0],
-			yPos:    pkt.PosDir[1],
+			xPos: pkt.PosDir[0],
+			yPos: pkt.PosDir[1],
 			mapName: _mapName
 		});
 	}
@@ -215,14 +218,16 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
 	 */
-	function onMapChange( pkt )
+	function onMapChange(pkt)
 	{
 		jQuery(window).off('keydown.map');
 
-		MapRenderer.onLoad = function(){
+		MapRenderer.onLoad = function ()
+		{
 
 			// TODO: find a better place to put it
-			jQuery(window).on('keydown.map', function( event ){
+			jQuery(window).on('keydown.map', function (event)
+			{
 				if (event.which === KEYS.INSERT) {
 					var pkt = new PACKET.CZ.REQUEST_ACT();
 					pkt.action = Session.Entity.action === Session.Entity.ACTION.SIT ? 3 : 2;
@@ -233,18 +238,18 @@ define(function( require )
 			});
 
 			Session.Entity.set({
-				PosDir: [ pkt.xPos, pkt.yPos, 0 ],
+				PosDir: [pkt.xPos, pkt.yPos, 0],
 				GID: Session.Character.GID
 			});
-			EntityManager.add( Session.Entity );
+			EntityManager.add(Session.Entity);
 
 			// Initialize camera
-			Camera.setTarget( Session.Entity );
+			Camera.setTarget(Session.Entity);
 			Camera.init();
 
 			// Add Game UI
 			MiniMap.append();
-			MiniMap.setMap( MapRenderer.currentMap );
+			MiniMap.setMap(MapRenderer.currentMap);
 			ChatBox.append();
 			BasicInfo.append();
 			Escape.append();
@@ -262,7 +267,7 @@ define(function( require )
 			);
 		};
 
-		MapRenderer.setMap( pkt.mapName );
+		MapRenderer.setMap(pkt.mapName);
 	}
 
 
@@ -271,10 +276,10 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NPCACK_SERVERMOVE
 	 */
-	function onServerChange( pkt )
+	function onServerChange(pkt)
 	{
 		jQuery(window).off('keydown.map');
-		init( pkt.addr.ip, pkt.addr.port, pkt.mapName );
+		init(pkt.addr.ip, pkt.addr.port, pkt.mapName);
 	}
 
 
@@ -294,7 +299,8 @@ define(function( require )
 		SoundManager.stop();
 		BGM.stop();
 
-		Background.remove(function(){
+		Background.remove(function ()
+		{
 			window.close();
 			require('Engine/GameEngine').init();
 		});
@@ -306,9 +312,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.REFUSE_QUIT
 	 */
-	function onExitFail( pkt )
+	function onExitFail(pkt)
 	{
-		ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
+		ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
 	}
 
 
@@ -329,7 +335,8 @@ define(function( require )
 		SoundManager.stop();
 		BGM.stop();
 
-		Background.remove(function(){
+		Background.remove(function ()
+		{
 			window.close();
 			require('Engine/GameEngine').init();
 		});
@@ -373,11 +380,11 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.RESTART_ACK
 	 */
-	function onRestartAnswer( pkt )
+	function onRestartAnswer(pkt)
 	{
 		if (!pkt.type) {
 			// Have to wait 10sec
-			ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR );
+			ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
 		}
 		else {
 			StatusIcons.clean();
@@ -394,7 +401,7 @@ define(function( require )
 	 * Response from server to disconnect
 	 * @param pkt - {object}
 	 */
-	function onDisconnectAnswer( pkt )
+	function onDisconnectAnswer(pkt)
 	{
 		switch (pkt.result) {
 			// Disconnect
@@ -406,7 +413,7 @@ define(function( require )
 
 			case 1:
 				// Have to wait 10 sec
-				ChatBox.addText( DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
+				ChatBox.addText(DB.getMessage(MsgStringIDs.MSI_CANT_EXIT_NOW), ChatBox.TYPE.ERROR);
 				break;
 
 			default:
@@ -420,25 +427,25 @@ define(function( require )
 	 * @param {string} user
 	 * @param {string} text
 	 */
-	function onRequestTalk( user, text )
+	function onRequestTalk(user, text)
 	{
 		var pkt;
 
 		if (user.length) {
-			pkt          = new PACKET.CZ.WHISPER();
+			pkt = new PACKET.CZ.WHISPER();
 			pkt.receiver = user;
-			pkt.msg      = text;
+			pkt.msg = text;
 		}
 		else if (text[0] === '%') {
-			pkt     = new PACKET.CZ.REQUEST_CHAT_PARTY();
+			pkt = new PACKET.CZ.REQUEST_CHAT_PARTY();
 			pkt.msg = Session.Entity.display.name + ' : ' + text.substr(1);
 		}
 		else if (text[0] === '$') {
-			pkt     = new PACKET.CZ.GUILD_CHAT();
+			pkt = new PACKET.CZ.GUILD_CHAT();
 			pkt.msg = Session.Entity.display.name + ' : ' + text.substr(1);
 		}
 		else {
-			pkt     = new PACKET.CZ.REQUEST_CHAT();
+			pkt = new PACKET.CZ.REQUEST_CHAT();
 			pkt.msg = Session.Entity.display.name + ' : ' + text;
 		}
 
@@ -477,11 +484,11 @@ define(function( require )
 
 		// If siting, update direction
 		if (Session.Entity.action === Session.Entity.ACTION.SIT /*|| KEYS.SHIFT see: http://forum.robrowser.com/index.php?topic=32240#msg32446 */) {
-			Session.Entity.lookTo( Mouse.world.x, Mouse.world.y );
+			Session.Entity.lookTo(Mouse.world.x, Mouse.world.y);
 
-			var pkt     = new PACKET.CZ.CHANGE_DIRECTION();
+			var pkt = new PACKET.CZ.CHANGE_DIRECTION();
 			pkt.headDir = Session.Entity.headDir;
-			pkt.dir     = Session.Entity.direction;
+			pkt.dir = Session.Entity.direction;
 			Network.sendPacket(pkt);
 			return;
 		}
@@ -510,7 +517,7 @@ define(function( require )
 			return;
 		}
 
-		var isWalkable   = (Mouse.world.x > -1 && Mouse.world.y > -1);
+		var isWalkable = (Mouse.world.x > -1 && Mouse.world.y > -1);
 		var isCurrentPos = (Math.round(Session.Entity.position[0]) === Mouse.world.x &&
 		                    Math.round(Session.Entity.position[1]) === Mouse.world.y);
 
@@ -526,7 +533,7 @@ define(function( require )
 		}
 
 		Events.clearTimeout(_walkTimer);
-		_walkTimer    =  Events.setTimeout( onWalkRequest, 500);
+		_walkTimer = Events.setTimeout(onWalkRequest, 500);
 		_walkLastTick = +Renderer.tick;
 	}
 
@@ -577,7 +584,8 @@ define(function( require )
 
 		var free = true;
 
-		EntityManager.forEach(function(entity){
+		EntityManager.forEach(function (entity)
+		{
 			if (Math.round(entity.position[0]) === x &&
 			    Math.round(entity.position[1]) === y) {
 				free = false;
@@ -613,8 +621,8 @@ define(function( require )
 	 */
 	function onRequestStatUpdate(id, amount)
 	{
-		var pkt          = new PACKET.CZ.STATUS_CHANGE();
-		pkt.statusID     = id;
+		var pkt = new PACKET.CZ.STATUS_CHANGE();
+		pkt.statusID = id;
 		pkt.changeAmount = amount;
 
 		Network.sendPacket(pkt);
@@ -627,10 +635,10 @@ define(function( require )
 	 * @param {number} index in inventory
 	 * @param {number} count to drop
 	 */
-	function onDropItem( index, count )
+	function onDropItem(index, count)
 	{
 		if (count) {
-			var pkt   = new PACKET.CZ.ITEM_THROW();
+			var pkt = new PACKET.CZ.ITEM_THROW();
 			pkt.Index = index;
 			pkt.count = count;
 			Network.sendPacket(pkt);
@@ -643,11 +651,11 @@ define(function( require )
 	 *
 	 * @param {number} item's index
 	 */
-	function onUseItem( index )
+	function onUseItem(index)
 	{
-		var pkt   = new PACKET.CZ.USE_ITEM();
+		var pkt = new PACKET.CZ.USE_ITEM();
 		pkt.index = index;
-		pkt.AID   = Session.Entity.GID;
+		pkt.AID = Session.Entity.GID;
 		Network.sendPacket(pkt);
 	}
 
@@ -658,10 +666,10 @@ define(function( require )
 	 * @param {number} item's index
 	 * @param {number} where to equip
 	 */
-	function onEquipItem( index, location )
+	function onEquipItem(index, location)
 	{
-		var pkt          = new PACKET.CZ.REQ_WEAR_EQUIP();
-		pkt.index        = index;
+		var pkt = new PACKET.CZ.REQ_WEAR_EQUIP();
+		pkt.index = index;
 		pkt.wearLocation = location;
 		Network.sendPacket(pkt);
 	}
@@ -672,9 +680,9 @@ define(function( require )
 	 *
 	 * @param {number} index to unequip
 	 */
-	function onUnEquip( index )
+	function onUnEquip(index)
 	{
-		var pkt   = new PACKET.CZ.REQ_TAKEOFF_EQUIP();
+		var pkt = new PACKET.CZ.REQ_TAKEOFF_EQUIP();
 		pkt.index = index;
 		Network.sendPacket(pkt);
 	}
@@ -686,11 +694,11 @@ define(function( require )
 	 * @param {number} config id (only type:0 is supported - equip)
 	 * @param {number} val
 	 */
-	function onConfigUpdate( type, val )
+	function onConfigUpdate(type, val)
 	{
-		var pkt    = new PACKET.CZ.CONFIG();
+		var pkt = new PACKET.CZ.CONFIG();
 		pkt.Config = type;
-		pkt.Value  = val;
+		pkt.Value = val;
 		Network.sendPacket(pkt);
 	}
 
@@ -707,11 +715,12 @@ define(function( require )
 	/**
 	 * Export
 	 */
-	return new function MapEngine(){
-		this.init        = init;
-		this.onMouseUp   = onMouseUp;
+	return new function MapEngine()
+	{
+		this.init = init;
+		this.onMouseUp = onMouseUp;
 		this.onMouseDown = onMouseDown;
-		this.onDropItem  = onDropItem;
+		this.onDropItem = onDropItem;
 
 		require('Controls/MapControl').call(this);
 	}();

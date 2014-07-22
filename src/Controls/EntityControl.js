@@ -7,36 +7,36 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load dependencies
-	var glMatrix    = require('Utils/gl-matrix');
+	var glMatrix = require('Utils/gl-matrix');
 	var PathFinding = require('Utils/PathFinding');
-	var DB          = require('DB/DBManager');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var KEYS        = require('Controls/KeyEventHandler');
-	var Mouse       = require('Controls/MouseEventHandler');
+	var KEYS = require('Controls/KeyEventHandler');
+	var Mouse = require('Controls/MouseEventHandler');
 	var Preferences = require('Preferences/Controls');
-	var Camera      = require('Renderer/Camera');
-	var Session     = require('Engine/SessionStorage');
-	var PACKET      = require('Network/PacketStructure');
-	var Network     = require('Network/NetworkManager');
-	var Cursor      = require('UI/CursorManager');
-	var InputBox    = require('UI/Components/InputBox/InputBox');
-	var ChatRoom    = require('UI/Components/ChatRoom/ChatRoom');
+	var Camera = require('Renderer/Camera');
+	var Session = require('Engine/SessionStorage');
+	var PACKET = require('Network/PacketStructure');
+	var Network = require('Network/NetworkManager');
+	var Cursor = require('UI/CursorManager');
+	var InputBox = require('UI/Components/InputBox/InputBox');
+	var ChatRoom = require('UI/Components/ChatRoom/ChatRoom');
 	var ContextMenu = require('UI/Components/ContextMenu/ContextMenu');
-	var Pet         = require('UI/Components/PetInformations/PetInformations');
-	var Trade       = require('UI/Components/Trade/Trade');
+	var Pet = require('UI/Components/PetInformations/PetInformations');
+	var Trade = require('UI/Components/Trade/Trade');
 
 
 	/**
 	 * Import
 	 */
-	var mat4    = glMatrix.mat4;
-	var vec2    = glMatrix.vec2;
+	var mat4 = glMatrix.mat4;
+	var vec2 = glMatrix.vec2;
 	var _matrix = mat4.create();
 
 
@@ -50,7 +50,7 @@ define(function( require )
 		switch (this.objecttype) {
 			case Entity.TYPE_PET:
 				if (!Camera.action.active) {
-					Cursor.setType( Cursor.ACTION.DEFAULT );
+					Cursor.setType(Cursor.ACTION.DEFAULT);
 				}
 				break;
 
@@ -58,30 +58,30 @@ define(function( require )
 			case Entity.TYPE_ELEM:
 			case Entity.TYPE_HOM:
 				// TODO: Check for pvp flag ?
-				if ((KEYS.SHIFT === false && Preferences.noshift === false) || this === Session.Entity)  {
-					if (!Camera.action.active ) {
-						Cursor.setType( Cursor.ACTION.DEFAULT );
+				if ((KEYS.SHIFT === false && Preferences.noshift === false) || this === Session.Entity) {
+					if (!Camera.action.active) {
+						Cursor.setType(Cursor.ACTION.DEFAULT);
 					}
 					break;
 				}
 
-				Cursor.setType( Cursor.ACTION.ATTACK );
+				Cursor.setType(Cursor.ACTION.ATTACK);
 				break;
 
 			case Entity.TYPE_MOB:
-				Cursor.setType( Cursor.ACTION.ATTACK );
+				Cursor.setType(Cursor.ACTION.ATTACK);
 				break;
 
 			case Entity.TYPE_NPC:
-				Cursor.setType( Cursor.ACTION.TALK, true );
+				Cursor.setType(Cursor.ACTION.TALK, true);
 				break;
 
 			case Entity.TYPE_WARP:
-				Cursor.setType( Cursor.ACTION.WARP );
+				Cursor.setType(Cursor.ACTION.WARP);
 				return;
 
 			case Entity.TYPE_ITEM:
-				Cursor.setType( Cursor.ACTION.PICK, true, 0 );
+				Cursor.setType(Cursor.ACTION.PICK, true, 0);
 				break;
 		}
 
@@ -97,13 +97,13 @@ define(function( require )
 				Network.sendPacket(pkt);
 				break;
 
-			// Nothing yet
+				// Nothing yet
 			case this.display.TYPE.LOADING:
 				break;
 
-			// Display the name
+				// Display the name
 			case this.display.TYPE.COMPLETE:
-				mat4.multiply( _matrix, Camera.projection, this.matrix );
+				mat4.multiply(_matrix, Camera.projection, this.matrix);
 				this.display.render(_matrix);
 				this.display.add();
 				break;
@@ -117,10 +117,10 @@ define(function( require )
 	function onMouseOut()
 	{
 		if (!Camera.action.active) {
-			Cursor.setType( Cursor.ACTION.DEFAULT );
+			Cursor.setType(Cursor.ACTION.DEFAULT);
 		}
 		else {
-			Cursor.setType( Cursor.ACTION.ROTATE );
+			Cursor.setType(Cursor.ACTION.ROTATE);
 		}
 
 		if (this !== this.constructor.Manager.getFocusEntity()) {
@@ -128,7 +128,7 @@ define(function( require )
 			this.display.remove();
 		}
 	}
-	
+
 
 	/**
 	 * When clicking on an Entity
@@ -144,16 +144,16 @@ define(function( require )
 				break;
 
 			case Entity.TYPE_ITEM:
-				Cursor.setType( Cursor.ACTION.PICK, true, 2 );
+				Cursor.setType(Cursor.ACTION.PICK, true, 2);
 
-				pkt       = new PACKET.CZ.ITEM_PICKUP();
+				pkt = new PACKET.CZ.ITEM_PICKUP();
 				pkt.ITAID = this.GID;
 
 				// Too far, walking to it
 				if (vec2.distance(Session.Entity.position, this.position) > 2) {
 					Session.moveAction = pkt;
 
-					pkt         = new PACKET.CZ.REQUEST_MOVE();
+					pkt = new PACKET.CZ.REQUEST_MOVE();
 					pkt.dest[0] = Mouse.world.x;
 					pkt.dest[1] = Mouse.world.y;
 					Network.sendPacket(pkt);
@@ -162,25 +162,25 @@ define(function( require )
 				}
 
 				Network.sendPacket(pkt);
-				Session.Entity.lookTo( this.position[0], this.position[1] );
+				Session.Entity.lookTo(this.position[0], this.position[1]);
 				return true;
 
 			case Entity.TYPE_NPC:
-				pkt      = new PACKET.CZ.CONTACTNPC();
+				pkt = new PACKET.CZ.CONTACTNPC();
 				pkt.NAID = this.GID;
 				pkt.type = 0; // TODO: what is it for ?
 				Network.sendPacket(pkt);
 
 				// Updare look
-				Session.Entity.lookTo( this.position[0], this.position[1] );
+				Session.Entity.lookTo(this.position[0], this.position[1]);
 				pkt = new PACKET.CZ.CHANGE_DIRECTION();
 				pkt.headDir = Session.Entity.headDir;
-				pkt.dir     = Session.Entity.direction;
+				pkt.dir = Session.Entity.direction;
 				Network.sendPacket(pkt);
 				return true;
 
 			case Entity.TYPE_WARP:
-				pkt         = new PACKET.CZ.REQUEST_MOVE();
+				pkt = new PACKET.CZ.REQUEST_MOVE();
 				pkt.dest[0] = this.position[0];
 				pkt.dest[1] = this.position[1];
 				Network.sendPacket(pkt);
@@ -212,11 +212,11 @@ define(function( require )
 			case Entity.TYPE_PET:
 				if (Session.petId === this.GID) {
 					ContextMenu.append();
-					ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_PET_SHOWINFO), Pet.ui.show.bind(Pet.ui)); // check pet status
-					ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_PET_FEEDING), Pet.reqPetFeed);           // Feed pet
-					ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_PET_PERFORMANCE), Pet.reqPetAction);         // performance
-					ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_PET_ACC_OFF), Pet.reqUnEquipPet);        // unequip accessory
-					ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_PET_RETURN_EGG), Pet.reqBackToEgg);         // return to egg shell
+					ContextMenu.addElement(DB.getMessage(MsgStringIDs.MSI_PET_SHOWINFO), Pet.ui.show.bind(Pet.ui)); // check pet status
+					ContextMenu.addElement(DB.getMessage(MsgStringIDs.MSI_PET_FEEDING), Pet.reqPetFeed);           // Feed pet
+					ContextMenu.addElement(DB.getMessage(MsgStringIDs.MSI_PET_PERFORMANCE), Pet.reqPetAction);         // performance
+					ContextMenu.addElement(DB.getMessage(MsgStringIDs.MSI_PET_ACC_OFF), Pet.reqUnEquipPet);        // unequip accessory
+					ContextMenu.addElement(DB.getMessage(MsgStringIDs.MSI_PET_RETURN_EGG), Pet.reqBackToEgg);         // return to egg shell
 				}
 				break;
 
@@ -230,7 +230,8 @@ define(function( require )
 				//ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_OTHERUSER_EQUIPED_ITEM), checkPlayerEquipment);
 
 				// Trade option
-				ContextMenu.addElement( DB.getMessage(MsgStringIDs.MSI_REQ_DEAL_WITH).replace('%s', this.display.name), function(){
+				ContextMenu.addElement(DB.getMessage(MsgStringIDs.MSI_REQ_DEAL_WITH).replace('%s', this.display.name), function ()
+				{
 					Trade.reqExchange(entity.GID, entity.display.name);
 				});
 				//ContextMenu.nextGroup();
@@ -254,7 +255,7 @@ define(function( require )
 	function onFocus()
 	{
 		var Entity = this.constructor;
-		var main   = Session.Entity;
+		var main = Session.Entity;
 		var pkt;
 
 		switch (this.objecttype) {
@@ -263,27 +264,27 @@ define(function( require )
 			case Entity.TYPE_ELEM:
 			case Entity.TYPE_HOM:
 				// TODO: add check for PVP/WOE mapflag
-				if (KEYS.SHIFT === false && Preferences.noshift === false)  {
+				if (KEYS.SHIFT === false && Preferences.noshift === false) {
 					if (!Camera.action.active) {
-						Cursor.setType( Cursor.ACTION.DEFAULT );
+						Cursor.setType(Cursor.ACTION.DEFAULT);
 					}
 					break;
 				}
-			// no break intended.
+				// no break intended.
 
 			case Entity.TYPE_MOB:
 
 				// Start rendering the lock on arrow
 				this.attachments.add({
-					uid:    'lockon',
-					spr:    'data/sprite/cursors.spr',
-					act:    'data/sprite/cursors.act',
-					frame:   Cursor.ACTION.LOCK,
-					repeat:  true,
-					depth:   10.0,
+					uid: 'lockon',
+					spr: 'data/sprite/cursors.spr',
+					act: 'data/sprite/cursors.act',
+					frame: Cursor.ACTION.LOCK,
+					repeat: true,
+					depth: 10.0,
 				});
 
-				var out   = [];
+				var out = [];
 				var count = PathFinding.search(
 					main.position[0] | 0, main.position[1] | 0,
 					this.position[0] | 0, this.position[1] | 0,
@@ -296,8 +297,8 @@ define(function( require )
 					return true;
 				}
 
-				pkt           = new PACKET.CZ.REQUEST_ACT();
-				pkt.action    = 7;
+				pkt = new PACKET.CZ.REQUEST_ACT();
+				pkt.action = 7;
 				pkt.targetGID = this.GID;
 
 				// in range send packet
@@ -309,9 +310,9 @@ define(function( require )
 				// Move to entity
 				Session.moveAction = pkt;
 
-				pkt         = new PACKET.CZ.REQUEST_MOVE();
-				pkt.dest[0] = out[ count - 1 ][0];
-				pkt.dest[1] = out[ count - 1 ][1];
+				pkt = new PACKET.CZ.REQUEST_MOVE();
+				pkt.dest[0] = out[count - 1][0];
+				pkt.dest[1] = out[count - 1][1];
 				Network.sendPacket(pkt);
 				return true;
 		}
@@ -373,9 +374,9 @@ define(function( require )
 				pkt.roomID = this.room.id;
 				pkt.passwd = '';
 				Network.sendPacket(pkt);
-				
+
 				/* Prepare the chat room UI */
-				ChatRoom.type  = 1; //public
+				ChatRoom.type = 1; //public
 				ChatRoom.title = this.room.title;
 				ChatRoom.limit = this.room.limit;
 				ChatRoom.count = this.room.count;
@@ -388,13 +389,14 @@ define(function( require )
 				InputBox.append();
 				InputBox.setType('pass', false);
 				var self = this;
-				InputBox.onSubmitRequest = function( pass ) {
+				InputBox.onSubmitRequest = function (pass)
+				{
 					InputBox.remove();
 					pkt.passwd = pass;
 					Network.sendPacket(pkt);
-					
+
 					/* Prepare the chat room UI */
-					ChatRoom.type  = 0; //private
+					ChatRoom.type = 0; //private
 					ChatRoom.title = self.room.title;
 					ChatRoom.limit = self.room.limit;
 					ChatRoom.count = self.room.count;
@@ -409,13 +411,13 @@ define(function( require )
 	 */
 	return function Init()
 	{
-		this.onMouseOver   = onMouseOver;
-		this.onMouseOut    = onMouseOut;
-		this.onMouseDown   = onMouseDown;
-		this.onMouseUp     = onMouseUp;
-		this.onFocus       = onFocus;
-		this.onFocusEnd    = onFocusEnd;
-		this.onRoomEnter   = onRoomEnter;
+		this.onMouseOver = onMouseOver;
+		this.onMouseOut = onMouseOut;
+		this.onMouseDown = onMouseDown;
+		this.onMouseUp = onMouseUp;
+		this.onFocus = onFocus;
+		this.onFocusEnd = onFocusEnd;
+		this.onRoomEnter = onRoomEnter;
 		this.onContextMenu = onContextMenu;
 	};
 });

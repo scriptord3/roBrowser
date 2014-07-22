@@ -7,8 +7,8 @@
  *
  * @author Vincent Thibault
  */
-define( ['Utils/gl-matrix', 'Renderer/EffectManager'],
-function(        glMatrix,            EffectManager)
+define(['Utils/gl-matrix', 'Renderer/EffectManager'],
+function (glMatrix, EffectManager)
 {
 	'use strict';
 
@@ -16,16 +16,16 @@ function(        glMatrix,            EffectManager)
 	/**
 	 * Sound renderer namespace
 	 */
-	var vec3   = glMatrix.vec3;
-	var _list  = [];
+	var vec3 = glMatrix.vec3;
+	var _list = [];
 
 
 	/**
 	 * Add 3D sound to the list
 	 */
-	function add( effect )
+	function add(effect)
 	{
-		_list.push( effect );
+		_list.push(effect);
 	}
 
 
@@ -43,7 +43,7 @@ function(        glMatrix,            EffectManager)
 	 *
 	 * @param {vec3} position
 	 */
-	function spam( position, tick )
+	function spam(position, tick)
 	{
 		var effect;
 		var i, count = _list.length;
@@ -54,7 +54,7 @@ function(        glMatrix,            EffectManager)
 			// distance need to be less than 25 cells (seems like it's
 			// how the official client handle it).
 			if (effect.tick < tick && vec3.dist(effect.pos, position) < 25) {
-				EffectManager.spam( effect.id, -1, effect.pos);
+				EffectManager.spam(effect.id, -1, effect.pos);
 				effect.tick = tick + effect.delay;
 			}
 		}
@@ -65,8 +65,8 @@ function(        glMatrix,            EffectManager)
 	 * Export
 	 */
 	return {
-		add:    add,
-		free:   free,
-		spam:   spam
+		add: add,
+		free: free,
+		spam: spam
 	};
 });

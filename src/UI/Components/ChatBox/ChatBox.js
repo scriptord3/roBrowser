@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,19 +15,19 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var DB                 = require('DB/DBManager');
-	var jQuery             = require('Utils/jquery');
-	var Renderer           = require('Renderer/Renderer');
-	var Client             = require('Core/Client');
-	var Events             = require('Core/Events');
-	var KEYS               = require('Controls/KeyEventHandler');
-	var BattleMode         = require('Controls/BattleMode');
-	var History            = require('./History');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var htmlText           = require('text!./ChatBox.html');
-	var cssText            = require('text!./ChatBox.css');
-	var ProcessCommand     = require('Controls/ProcessCommand');
+	var DB = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var Renderer = require('Renderer/Renderer');
+	var Client = require('Core/Client');
+	var Events = require('Core/Events');
+	var KEYS = require('Controls/KeyEventHandler');
+	var BattleMode = require('Controls/BattleMode');
+	var History = require('./History');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./ChatBox.html');
+	var cssText = require('text!./ChatBox.css');
+	var ProcessCommand = require('Controls/ProcessCommand');
 
 
 	/**
@@ -63,23 +63,23 @@ define(function(require)
 	/**
 	 * Create Basic Info component
 	 */
-	var ChatBox = new UIComponent( 'ChatBox', htmlText, cssText );
+	var ChatBox = new UIComponent('ChatBox', htmlText, cssText);
 
 
 	/**
 	 * Constants
 	 */
 	ChatBox.TYPE = {
-		SELF:     1 << 0,
-		PUBLIC:   1 << 1,
-		PRIVATE:  1 << 2,
-		PARTY:    1 << 3,
-		GUILD:    1 << 4,
+		SELF: 1 << 0,
+		PUBLIC: 1 << 1,
+		PRIVATE: 1 << 2,
+		PARTY: 1 << 3,
+		GUILD: 1 << 4,
 		ANNOUNCE: 1 << 5,
-		ERROR:    1 << 6,
-		INFO:     1 << 7,
-		BLUE:     1 << 8, // TODO: find a better name
-		ADMIN:    1 << 9,
+		ERROR: 1 << 6,
+		INFO: 1 << 7,
+		BLUE: 1 << 8, // TODO: find a better name
+		ADMIN: 1 << 9,
 	};
 
 
@@ -89,7 +89,7 @@ define(function(require)
 	 */
 	ChatBox.PrivateMessageStorage = {
 		nick: '',
-		msg:  ''
+		msg: ''
 	};
 
 
@@ -98,11 +98,12 @@ define(function(require)
 	 */
 	ChatBox.init = function init()
 	{
-		this.ui.css('top', (Renderer.height - ( this.ui.find('.content').height() + 53 )) + 'px');
-		this.draggable( this.ui.find('.input') );
+		this.ui.css('top', (Renderer.height - (this.ui.find('.content').height() + 53)) + 'px');
+		this.draggable(this.ui.find('.input'));
 
 		// Setting chatbox scrollbar
-		Client.loadFiles([DB.INTERFACE_PATH + 'basic_interface/dialscr_down.bmp', DB.INTERFACE_PATH + 'basic_interface/dialscr_up.bmp'], function( down, up ){
+		Client.loadFiles([DB.INTERFACE_PATH + 'basic_interface/dialscr_down.bmp', DB.INTERFACE_PATH + 'basic_interface/dialscr_up.bmp'], function (down, up)
+		{
 			jQuery('style:first').append([
 				'#chatbox .content::-webkit-scrollbar { width: 10px; height: 10px;}',
 				'#chatbox .content::-webkit-scrollbar-button:vertical:start:increment,',
@@ -111,22 +112,25 @@ define(function(require)
 				'#chatbox .content::-webkit-scrollbar-resizer:vertical { display:none;}',
 				'#chatbox .content::-webkit-scrollbar-button:start:decrement,',
 				'#chatbox .content::-webkit-scrollbar-button:end:increment { display: block; border:none;}',
-				'#chatbox .content::-webkit-scrollbar-button:vertical:increment { background: url('+ down +') no-repeat; height:10px;}',
-				'#chatbox .content::-webkit-scrollbar-button:vertical:decrement { background: url('+ up +') no-repeat; height:10px;}',
+				'#chatbox .content::-webkit-scrollbar-button:vertical:increment { background: url(' + down + ') no-repeat; height:10px;}',
+				'#chatbox .content::-webkit-scrollbar-button:vertical:decrement { background: url(' + up + ') no-repeat; height:10px;}',
 				'#chatbox .content::-webkit-scrollbar-track-piece:vertical { background:black; border:none;}',
 				'#chatbox .content::-webkit-scrollbar-thumb:vertical { background:grey; -webkit-border-image:none; border-color:transparent;border-width: 0px 0; }'
 			].join('\n'));
 		});
 
 		// Input selection
-		this.ui.find('.input input').mousedown(function( event ){
+		this.ui.find('.input input').mousedown(function (event)
+		{
 			this.select();
 			event.stopImmediatePropagation();
 			return false;
 		});
 
-		this.ui.find('.input .message').blur(function(){
-			Events.setTimeout(function(){
+		this.ui.find('.input .message').blur(function ()
+		{
+			Events.setTimeout(function ()
+			{
 				if (!document.activeElement.tagName.match(/input|select|textarea/i)) {
 					this.focus();
 				}
@@ -134,15 +138,18 @@ define(function(require)
 		});
 
 		// Button change name
-		this.ui.find('.header input').dblclick(function(){
+		this.ui.find('.header input').dblclick(function ()
+		{
 			this.type = 'text';
 			this.select();
-		}).blur(function(){
+		}).blur(function ()
+		{
 			this.type = 'button';
 		});
 
 		// Change size
-		this.ui.find('.input .size').mousedown(function( event ){
+		this.ui.find('.input .size').mousedown(function (event)
+		{
 			ChatBox.updateHeight(true);
 			event.stopImmediatePropagation();
 			return false;
@@ -161,7 +168,7 @@ define(function(require)
 		var matches, i, count;
 
 		matches = this.ui.find('.content').html().match(/(blob:[^"]+)/g);
-		
+
 		if (matches) {
 			for (i = 0, count = matches.length; i < count; ++i) {
 				window.URL.revokeObjectURL(matches[i]);
@@ -213,7 +220,7 @@ define(function(require)
 	 * @param {number} key id to check
 	 * @return {boolean} found a shortcut ?
 	 */
-	ChatBox.processBattleMode = function processBattleMode( keyId )
+	ChatBox.processBattleMode = function processBattleMode(keyId)
 	{
 		// Direct process
 		if (this.ui.find('.battlemode').is(':visible') || KEYS.ALT || KEYS.SHIFT || KEYS.ctrl) {
@@ -221,11 +228,12 @@ define(function(require)
 		}
 
 		var messageBox = this.ui.find('.input .message');
-		var text       = messageBox.val();
+		var text = messageBox.val();
 
 		// Hacky, need to wait the browser to add text in the input
 		// If there is no change, send the shortcut.
-		Events.setTimeout(function(){
+		Events.setTimeout(function ()
+		{
 			// Nothing rendered, can process the shortcut
 			if (messageBox.val() === text) {
 				BattleMode.process(keyId);
@@ -242,10 +250,10 @@ define(function(require)
 	 * @param {object} event - KeyEventHandler
 	 * @return {boolean}
 	 */
-	ChatBox.onKeyDown = function OnKeyDown( event )
+	ChatBox.onKeyDown = function OnKeyDown(event)
 	{
 		var messageBox = this.ui.find('.input .message');
-		var nickBox    = this.ui.find('.input .username');
+		var nickBox = this.ui.find('.input .username');
 
 		switch (event.which) {
 
@@ -257,7 +265,7 @@ define(function(require)
 				}
 				return true;
 
-			// Switch from user name, to message input
+				// Switch from user name, to message input
 			case KEYS.TAB:
 				if (document.activeElement === messageBox[0]) {
 					nickBox.select().focus();
@@ -270,7 +278,7 @@ define(function(require)
 				}
 				return true;
 
-			// Get back message from history
+				// Get back message from history
 			case KEYS.UP:
 				if (!jQuery('#NpcMenu').length) {
 					if (document.activeElement === messageBox[0]) {
@@ -285,7 +293,7 @@ define(function(require)
 				}
 				return true;
 
-			// Message from history
+				// Message from history
 			case KEYS.DOWN:
 				if (!jQuery('#NpcMenu').length) {
 					if (document.activeElement === messageBox[0]) {
@@ -300,12 +308,12 @@ define(function(require)
 				}
 				return true;
 
-			// Update chat height
+				// Update chat height
 			case KEYS.F10:
 				this.updateHeight(false);
 				break;
 
-			// Send message
+				// Send message
 			case KEYS.ENTER:
 				if (document.activeElement.tagName === 'INPUT' &&
 				    document.activeElement !== messageBox[0]) {
@@ -352,7 +360,7 @@ define(function(require)
 		// Private message
 		if (user.length && text[0] !== '/') {
 			this.PrivateMessageStorage.nick = user;
-			this.PrivateMessageStorage.msg  = text;
+			this.PrivateMessageStorage.msg = text;
 			_historyNickName.push(user);
 			_historyNickName.previous();
 		}
@@ -364,11 +372,11 @@ define(function(require)
 
 		// Command
 		if (text[0] === '/') {
-			ProcessCommand.call(this, text.substr(1) );
+			ProcessCommand.call(this, text.substr(1));
 			return;
 		}
 
-		this.onRequestTalk( user, text );
+		this.onRequestTalk(user, text);
 	};
 
 
@@ -380,7 +388,7 @@ define(function(require)
 	 * @param {string} color
 	 * @param {boolean} default false, html or text ? 
 	 */
-	ChatBox.addText = function addText( text, type, color, override )
+	ChatBox.addText = function addText(text, type, color, override)
 	{
 		if (!this.__loaded) {
 			_stack.push(arguments);
@@ -394,7 +402,7 @@ define(function(require)
 				color = '#00FF00';
 			}
 			else if (type & ChatBox.TYPE.PARTY) {
-				color = ( type & ChatBox.TYPE.SELF ) ? 'rgb(200, 200, 100)' : 'rgb(230,215,200)';
+				color = (type & ChatBox.TYPE.SELF) ? 'rgb(200, 200, 100)' : 'rgb(230,215,200)';
 			}
 			else if (type & ChatBox.TYPE.GUILD) {
 				color = 'rgb(180, 255, 180)';
@@ -422,11 +430,11 @@ define(function(require)
 		$content.append(
 			jQuery('<div/>').
 				css('color', color)
-				[ !override ? 'text' : 'html' ](text)
+				[!override ? 'text' : 'html'](text)
 		);
 
 		// If there is too many line, remove the older one
-		
+
 		var list = $content.find('div');
 		if (list.length > MAX_MSG) {
 			var element, matches;
@@ -453,16 +461,16 @@ define(function(require)
 	/**
 	 * Change chatbox's height
 	 */
-	ChatBox.updateHeight = function changeHeight( AlwaysVisible )
+	ChatBox.updateHeight = function changeHeight(AlwaysVisible)
 	{
-		var HeightList = [ 0, 0, 3*14, 6*14, 9*14, 12*14, 15*14 ];
-		_heightIndex   = (_heightIndex + 1) % HeightList.length;
+		var HeightList = [0, 0, 3 * 14, 6 * 14, 9 * 14, 12 * 14, 15 * 14];
+		_heightIndex = (_heightIndex + 1) % HeightList.length;
 
-		var $content   = this.ui.find('.content');
-		var height     = HeightList[ _heightIndex ];
-		var top        = parseInt( this.ui.css('top'), 10);
+		var $content = this.ui.find('.content');
+		var height = HeightList[_heightIndex];
+		var top = parseInt(this.ui.css('top'), 10);
 
-		this.ui.css('top', top - (height - $content.height()) );
+		this.ui.css('top', top - (height - $content.height()));
 		$content.height(height);
 
 		// Don't remove UI
@@ -494,12 +502,12 @@ define(function(require)
 	/**
 	 * Update scroll by block (14px)
 	 */
-	function onScroll( event )
+	function onScroll(event)
 	{
 		var delta;
 
 		if (event.originalEvent.wheelDelta) {
-			delta = event.originalEvent.wheelDelta / 120 ;
+			delta = event.originalEvent.wheelDelta / 120;
 			if (window.opera) {
 				delta = -delta;
 			}
@@ -508,7 +516,7 @@ define(function(require)
 			delta = -event.originalEvent.detail;
 		}
 
-		this.scrollTop = Math.floor(this.scrollTop/14) * 14 - (delta * 14);
+		this.scrollTop = Math.floor(this.scrollTop / 14) * 14 - (delta * 14);
 		return false;
 	}
 

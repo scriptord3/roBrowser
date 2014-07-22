@@ -9,7 +9,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -18,10 +18,10 @@ define(function()
 	 * Object stored in cache
 	 * @var MemoryItem
 	 */
-	function MemoryItem( onload, onerror )
+	function MemoryItem(onload, onerror)
 	{
 		// Private variables
-		this._onload  = [];
+		this._onload = [];
 		this._onerror = [];
 
 		// Store callback
@@ -40,7 +40,7 @@ define(function()
 	 * Data of the cached Item
 	 * @var mixed
 	 */
-	MemoryItem.prototype._data  = null;
+	MemoryItem.prototype._data = null;
 
 
 	/**
@@ -70,8 +70,9 @@ define(function()
 	 *
 	 * @return mixed
 	 */
-	Object.defineProperty( MemoryItem.prototype, 'data', {
-		get : function(){
+	Object.defineProperty(MemoryItem.prototype, 'data', {
+		get: function ()
+		{
 			this.lastTimeUsed = Date.now();
 			return this._data;
 		}
@@ -83,7 +84,7 @@ define(function()
 	 *
 	 * @param mixed data
 	 */
-	MemoryItem.prototype.addEventListener = function addEventListener( event, callback )
+	MemoryItem.prototype.addEventListener = function addEventListener(event, callback)
 	{
 		if (!(callback instanceof Function)) {
 			throw new Error('MemoryItem::addEventListener() - callback must be a function !');
@@ -113,7 +114,7 @@ define(function()
 				break;
 
 			default:
-				throw new Error('MemoryItem::addEventListener() - Invalid event "'+ event +'" used.');
+				throw new Error('MemoryItem::addEventListener() - Invalid event "' + event + '" used.');
 		}
 	};
 
@@ -123,19 +124,19 @@ define(function()
 	 *
 	 * @param {mixed} data
 	 */
-	MemoryItem.prototype.onload = function onLoad( data )
+	MemoryItem.prototype.onload = function onLoad(data)
 	{
 		var i, size;
 
-		this._data        = data;
-		this.complete     = true;
+		this._data = data;
+		this.complete = true;
 		this.lastTimeUsed = Date.now();
 
 		for (i = 0, size = this._onload.length; i < size; ++i) {
-			this._onload[i]( data );
+			this._onload[i](data);
 		}
 
-		this._onload.length  = 0;
+		this._onload.length = 0;
 		this._onerror.length = 0;
 	};
 
@@ -145,19 +146,19 @@ define(function()
 	 *
 	 * @param {string} error - optional
 	 */
-	MemoryItem.prototype.onerror = function OnError( error )
+	MemoryItem.prototype.onerror = function OnError(error)
 	{
 		var i, size;
 
-		this._error       = error;
-		this.complete     = true;
+		this._error = error;
+		this.complete = true;
 		this.lastTimeUsed = Date.now();
 
 		for (i = 0, size = this._onerror.length; i < size; ++i) {
-			this._onerror[i]( error );
+			this._onerror[i](error);
 		}
 
-		this._onload.length  = 0;
+		this._onload.length = 0;
 		this._onerror.length = 0;
 	};
 

@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function()
+define(function ()
 {
 	"use strict";
 
@@ -25,7 +25,7 @@ define(function()
 	Mouse.screen = {
 		x: -1,
 		y: -1,
-		width:  0,
+		width: 0,
 		height: 0
 	};
 

@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -15,18 +15,18 @@ define(function( require )
 	/**
 	 * Dependencies
 	 */
-	var StatusTable        = require('DB/Status/StatusInfo');
-	var jQuery             = require('Utils/jquery');
-	var Texture            = require('Utils/Texture');
-	var Client             = require('Core/Client');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
+	var StatusTable = require('DB/Status/StatusInfo');
+	var jQuery = require('Utils/jquery');
+	var Texture = require('Utils/Texture');
+	var Client = require('Core/Client');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
 
 
 	/**
 	 * Create component
 	 */
-	var StatusIcons = new UIComponent( 'StatusIcons' );
+	var StatusIcons = new UIComponent('StatusIcons');
 
 
 	/**
@@ -43,12 +43,12 @@ define(function( require )
 		this.ui = jQuery('<div/>');
 		this.ui.attr('id', 'StatusIcons');
 		this.ui.css({
-			display:  'block',
+			display: 'block',
 			position: 'absolute',
-			top:     166,
-			right:   20,
-			width:   34,
-			zIndex:  50
+			top: 166,
+			right: 20,
+			width: 34,
+			zIndex: 50
 		});
 	};
 
@@ -56,7 +56,8 @@ define(function( require )
 	/**
 	 * Once append
 	 */
-	StatusIcons.onAppend = function onAppend(){
+	StatusIcons.onAppend = function onAppend()
+	{
 		if (_stack.length) {
 			var i, count = _stack.length;
 
@@ -85,7 +86,7 @@ define(function( require )
 	 * @param {number} enable/disable
 	 * @param {number} life time
 	 */
-	StatusIcons.update = function Update( index, state, life )
+	StatusIcons.update = function Update(index, state, life)
 	{
 		var ui = this.ui;
 		var target;
@@ -107,10 +108,12 @@ define(function( require )
 		}
 
 		if (!target.length && StatusTable[index].icon) {
-			Client.loadFile( 'data/texture/effect/' + StatusTable[index].icon, function(data){
-				Texture.load( data, function(){
+			Client.loadFile('data/texture/effect/' + StatusTable[index].icon, function (data)
+			{
+				Texture.load(data, function ()
+				{
 					if (!ui.find('.effect' + index).length) {
-						this.className = 'effect'+ index;
+						this.className = 'effect' + index;
 						ui.append(this);
 					}
 				});

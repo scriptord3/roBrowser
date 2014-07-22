@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define([ 'require', 'Utils/jquery'], function( require, jQuery )
+define(['require', 'Utils/jquery'], function (require, jQuery)
 {
 	'use strict';
 
@@ -19,19 +19,19 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 * @param {string} host
 	 * @param {number} port
 	 */
-	function Socket( host, port )
+	function Socket(host, port)
 	{
 		this.connected = false;
-		this.host      = host;
-		this.port      = port;
+		this.host = host;
+		this.port = port;
 
 		// Generate new ID
-		this.id        = this.constructor.list.push(this) - 1;
+		this.id = this.constructor.list.push(this) - 1;
 
 		// Create applet
-		this.applet    = jQuery('<applet/>')
-			.attr({ archive: require.toUrl('./Java/JavaSocketBridge.jar'), code:'JavaSocketBridge.class', width:0, height:0 })
-			.html('<param name="id" value="'+ this.id +'"/>')
+		this.applet = jQuery('<applet/>')
+			.attr({ archive: require.toUrl('./Java/JavaSocketBridge.jar'), code: 'JavaSocketBridge.class', width: 0, height: 0 })
+			.html('<param name="id" value="' + this.id + '"/>')
 			.appendTo('body')[0];
 	}
 
@@ -48,7 +48,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 */
 	Socket.prototype.connect = function SocketConnect()
 	{
-		this.applet.connect( this.host, this.port );
+		this.applet.connect(this.host, this.port);
 	};
 
 
@@ -57,7 +57,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 *
 	 * @param {ArrayBuffer} buffer
 	 */
-	Socket.prototype.send = function Send( buffer )
+	Socket.prototype.send = function Send(buffer)
 	{
 		if (this.connected) {
 
@@ -65,7 +65,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 			// So encoding to hex before sending
 			var data = new Uint8Array(buffer);
 			var i, count = data.length;
-			var hex  = '';
+			var hex = '';
 
 			for (i = 0; i < count; i++) {
 				hex += data[i].toString(16).replace(/^([\da-f])$/, '0$1');
@@ -109,7 +109,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 *
 	 * @param {boolean} success
 	 */
-	Socket.prototype.__onComplete = function onComplete( success )
+	Socket.prototype.__onComplete = function onComplete(success)
 	{
 		this.connected = success;
 
@@ -142,17 +142,17 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 *
 	 * @param {string} hexadecimal
 	 */
-	Socket.prototype.__onReceive = function onReceive( hex )
+	Socket.prototype.__onReceive = function onReceive(hex)
 	{
 		var i, count = hex.length >> 1;
-		var data = new Uint8Array( count );
-	
+		var data = new Uint8Array(count);
+
 		for (i = 0; i < count; i++) {
-			data[i] = parseInt( hex.substr(i*2,2).replace(/[^a-f0-9]/gi, ''), 16 );
+			data[i] = parseInt(hex.substr(i * 2, 2).replace(/[^a-f0-9]/gi, ''), 16);
 		}
 
 		if (this.onMessage) {
-			this.onMessage( data.buffer );
+			this.onMessage(data.buffer);
 		}
 	};
 
@@ -162,7 +162,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 *
 	 * @param {number} id
 	 */
-	window.javasocketbridge_onready = function SocketOnReady( id )
+	window.javasocketbridge_onready = function SocketOnReady(id)
 	{
 		if (Socket.list[id]) {
 			Socket.list[id].__onReady();
@@ -176,7 +176,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 * @param {number} id
 	 * @param {boolean} result
 	 */
-	window.javasocketbridge_oncomplete = function SocketOnComplete( id, result)
+	window.javasocketbridge_oncomplete = function SocketOnComplete(id, result)
 	{
 		if (Socket.list[id]) {
 			Socket.list[id].__onComplete(!!result);
@@ -189,7 +189,7 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 *
 	 * @param {number} id
 	 */
-	window.javasocketbridge_onclose = function( id )
+	window.javasocketbridge_onclose = function (id)
 	{
 		if (Socket.list[id]) {
 			Socket.list[id].__onClose();
@@ -203,10 +203,10 @@ define([ 'require', 'Utils/jquery'], function( require, jQuery )
 	 * @param {number} id
 	 * @param {string} data
 	 */
-	window.javasocketbridge_onmessage = function( id, data )
+	window.javasocketbridge_onmessage = function (id, data)
 	{
 		if (Socket.list[id]) {
-			Socket.list[id].__onReceive( String(data) );
+			Socket.list[id].__onReceive(String(data));
 		}
 	};
 

@@ -7,8 +7,8 @@
  *
  * @author Vincent Thibault
  */
-define( ['Utils/jquery', 'Utils/Texture', 'DB/DBManager', 'Core/Client' ],
-function(       jQuery,         Texture,      DB,               Client )
+define(['Utils/jquery', 'Utils/Texture', 'DB/DBManager', 'Core/Client'],
+function (jQuery, Texture, DB, Client)
 {
 	'use strict';
 
@@ -37,28 +37,32 @@ function(       jQuery,         Texture,      DB,               Client )
 
 		//Custom scrollbar
 		Client.loadFiles(
-			[ DB.INTERFACE_PATH + 'scroll0down.bmp',
+			[DB.INTERFACE_PATH + 'scroll0down.bmp',
 			  DB.INTERFACE_PATH + 'scroll0mid.bmp',
 			  DB.INTERFACE_PATH + 'scroll0up.bmp',
 			  DB.INTERFACE_PATH + 'scroll0bar_down.bmp',
 			  DB.INTERFACE_PATH + 'scroll0bar_mid.bmp',
-			  DB.INTERFACE_PATH + 'scroll0bar_up.bmp' ],
-			function( down, mid, up, base_down, base_mid, base_up ) {
+			  DB.INTERFACE_PATH + 'scroll0bar_up.bmp'],
+			function (down, mid, up, base_down, base_mid, base_up)
+			{
 
-				Texture.load( base_down, function(){
+				Texture.load(base_down, function ()
+				{
 					var base_down = this;
-					Texture.load( base_mid, function(){
+					Texture.load(base_mid, function ()
+					{
 						var base_mid = this;
-						Texture.load( base_up, function(){
+						Texture.load(base_up, function ()
+						{
 							var base_up = this;
-							var base    = document.createElement('canvas');
-							var ctx     = base.getContext('2d');
-							base.width  = base_up.width;
+							var base = document.createElement('canvas');
+							var ctx = base.getContext('2d');
+							base.width = base_up.width;
 							base.height = base_up.height + base_mid.height + base_down.height;
 
-							ctx.drawImage( base_up, 0, 0);
-							ctx.drawImage( base_mid, 0, base_up.height);
-							ctx.drawImage( base_down, 0, base_up.height + base_mid.height );
+							ctx.drawImage(base_up, 0, 0);
+							ctx.drawImage(base_mid, 0, base_up.height);
+							ctx.drawImage(base_down, 0, base_up.height + base_mid.height);
 
 							jQuery('style:first').append([
 								'::-webkit-scrollbar { width: 13px; height: 12px; }',
@@ -73,10 +77,10 @@ function(       jQuery,         Texture,      DB,               Client )
 								'::-webkit-scrollbar-track-piece:vertical {background-repeat:repeat-y;}',
 								'::-webkit-scrollbar-thumb:vertical{border-color: transparent;border-width: 4px 0;min-height: 6px;}',
 
-								'::-webkit-scrollbar-button:vertical:increment { background-image: url('+ down +');}',
-								'::-webkit-scrollbar-button:vertical:decrement { background-image: url('+ up + ');}',
-								'::-webkit-scrollbar-track-piece:vertical { background-image: url('+ mid +');}',
-								'::-webkit-scrollbar-thumb:vertical{ -webkit-border-image: url('+ base.toDataURL() +') 4 0 4 0;}'
+								'::-webkit-scrollbar-button:vertical:increment { background-image: url(' + down + ');}',
+								'::-webkit-scrollbar-button:vertical:decrement { background-image: url(' + up + ');}',
+								'::-webkit-scrollbar-track-piece:vertical { background-image: url(' + mid + ');}',
+								'::-webkit-scrollbar-thumb:vertical{ -webkit-border-image: url(' + base.toDataURL() + ') 4 0 4 0;}'
 							].join('\n'));
 
 							ScrollBar.complete = true;

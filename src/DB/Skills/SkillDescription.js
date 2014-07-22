@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(["./SkillConst"], function( SKID )
+define(["./SkillConst"], function (SKID)
 {
 	"use strict";
 
@@ -10901,7 +10901,7 @@ define(["./SkillConst"], function( SKID )
 		"[LV 1]^777777 700~600~500% ATK, Area 7x7 ^000000",
 		"[LV 2]^777777 1200~1000~800% ATK, Area 5x5 ^000000",
 		"[LV 3]^777777 1500~1400~1100% ATK, Area 3x3 ^000000",
-		
+
 		"Cannon Ball Descriptions:",
 		"- Cannon Ball = Attribute 'None', ATK 100, Weight 1, Price 100z",
 		"- Holy Cannon Ball = Attribute 'Holy', ATK 120, Weight 1, Price 200z",
@@ -12618,7 +12618,7 @@ define(["./SkillConst"], function( SKID )
 		"[LV 2]^777777 Duration 900s / Every 10s drains 8 SP^000000",
 		"[LV 3]^777777 Duration 1200s / Every 10s drains 11 SP^000000",
 	].join("\n");
-	
+
 	SkillDescription[SKID.SO_EL_CONTROL] = [
 		"Spirit Control",
 		"Max Level: ^777777 4^000000",
@@ -12629,7 +12629,7 @@ define(["./SkillConst"], function( SKID )
 		"[LV 3]^777777 Change the Spirit to Offensive Mode^000000",
 		"[LV 4]^777777 Cancles the currently Summoned Spirit^000000",
 	].join("\n");
-	
+
 	SkillDescription[SKID.SO_EL_ACTION] = [
 		"Elemental Action",
 		"Max Level: ^777777 1^000000",

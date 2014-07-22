@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define( ['Core/Preferences'], function( Preferences )
+define(['Core/Preferences'], function (Preferences)
 {
 	'use strict';
 
@@ -15,18 +15,18 @@ define( ['Core/Preferences'], function( Preferences )
 	/**
 	 * Export
 	 */
-	return Preferences.get( 'Audio', {
+	return Preferences.get('Audio', {
 
-		BGM:   {
-			play:   true,
+		BGM: {
+			play: true,
 			volume: 0.5
 		},
 
 		Sound: {
-			play:   true,
+			play: true,
 			volume: 0.5
 		}
 
-	}, 1.0 );
+	}, 1.0);
 
 });

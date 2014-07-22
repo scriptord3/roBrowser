@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function()
+define(function ()
 {
 	'use strict';
 
@@ -42,10 +42,10 @@ define(function()
 	 * @param {object} previous jquery button
 	 * @param {object} next jquery button
 	 */
-	function init( previous, next )
+	function init(previous, next)
 	{
 		_previous = previous;
-		_next     = next;
+		_next = next;
 
 		_previous.removeClass('on');
 		_next.removeClass('on');
@@ -57,10 +57,10 @@ define(function()
 	 *
 	 * @param {string} link
 	 */
-	function push( link )
+	function push(link)
 	{
 		_history.length = (++_index);
-		_history.push( link );
+		_history.push(link);
 
 		_next.removeClass('on');
 
@@ -106,7 +106,7 @@ define(function()
 			_previous.removeClass('on');
 		}
 
-		return _history[ --_index ];
+		return _history[--_index];
 	}
 
 
@@ -114,9 +114,9 @@ define(function()
 	 * Export
 	 */
 	return {
-		push:     push,
-		next:     next,
+		push: push,
+		next: next,
 		previous: previous,
-		init:     init
+		init: init
 	};
 });

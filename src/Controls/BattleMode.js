@@ -7,23 +7,23 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
-	
-	
+
+
 	/**
 	 * Dependencies
 	 */
-	var KEYS        = require('Controls/KeyEventHandler');
+	var KEYS = require('Controls/KeyEventHandler');
 	var Preferences = require('Preferences/BattleMode');
-	var UIManager   = require('UI/UIManager');
+	var UIManager = require('UI/UIManager');
 
 
 	/**
 	 * Create Namespace
 	 */
-	var BattleMode  = {};
+	var BattleMode = {};
 
 
 	/**
@@ -32,14 +32,14 @@ define(function(require)
 	 * @param {number} key pressed id
 	 * @return {boolean} is shortcut found ?
 	 */
-	BattleMode.process = function process( keyId )
+	BattleMode.process = function process(keyId)
 	{
 		var key = Preferences[keyId];
 
 		if (key &&
 		   (!key.shift || KEYS.SHIFT) &&
-		   (!key.alt   || KEYS.ALT)   &&
-		   (!key.ctrl  || KEYS.CTRL)
+		   (!key.alt || KEYS.ALT) &&
+		   (!key.ctrl || KEYS.CTRL)
 		) {
 			var component = UIManager.getComponent(key.component);
 			if (component.onShortCut) {
@@ -59,12 +59,12 @@ define(function(require)
 	 * @param {string} command type
 	 * @return {string} readable key pressed
 	 */
-	BattleMode.shortcutToKeyString = function shortcutToKeyString( component, cmd )
+	BattleMode.shortcutToKeyString = function shortcutToKeyString(component, cmd)
 	{
 		var keys, shortcut;
 		var i, count;
 
-		keys  = Object.keys(Preferences);
+		keys = Object.keys(Preferences);
 		count = keys.length;
 
 		for (i = 0; i < count; ++i) {

@@ -7,17 +7,17 @@
  *
  * @author Vincent Thibault
  */
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
 
 	// Load dependencies
-	var Session        = require('Engine/SessionStorage');
-	var Entity         = require('./Entity/Entity');
+	var Session = require('Engine/SessionStorage');
+	var Entity = require('./Entity/Entity');
 	var SpriteRenderer = require('./SpriteRenderer');
-	var Mouse          = require('Controls/MouseEventHandler');
-	var KEYS           = require('Controls/KeyEventHandler');
+	var Mouse = require('Controls/MouseEventHandler');
+	var KEYS = require('Controls/KeyEventHandler');
 
 
 	var _list = [];
@@ -28,14 +28,14 @@ define(function( require )
 	 * @param {number} gid
 	 * @returns {number} position
 	 */
-	function getEntityIndex( gid )
+	function getEntityIndex(gid)
 	{
 		if (gid < 0) {
 			return -1;
 		}
 
 		var i, count = _list.length;
-	
+
 		for (i = 0; i < count; ++i) {
 			if (_list[i].GID === gid) {
 				return i;
@@ -51,10 +51,10 @@ define(function( require )
 	 *
 	 * @param {function} callback
 	 */
-	function forEach( callback )
+	function forEach(callback)
 	{
 		var i, count = _list.length;
-	
+
 		for (i = 0; i < count; ++i) {
 			if (callback(_list[i]) === false) {
 				return;
@@ -69,7 +69,7 @@ define(function( require )
 	 * @param {number} gid
 	 * @returns {object} Entity
 	 */
-	function getEntity( gid )
+	function getEntity(gid)
 	{
 		// Reason for this check:
 		// - Most packets your received is for the main character, so
@@ -95,11 +95,11 @@ define(function( require )
 	 * @param {object} entity
 	 * @return {object}
 	 */
-	function addEntity( entity )
+	function addEntity(entity)
 	{
-		var index = getEntityIndex( entity.GID );
+		var index = getEntityIndex(entity.GID);
 		if (index < 0) {
-			index = _list.push( entity ) - 1;
+			index = _list.push(entity) - 1;
 		}
 		else {
 			_list[index].set(entity);
@@ -128,13 +128,13 @@ define(function( require )
 	 * Remove an entity
 	 * @param {number} gid
 	 */
-	function removeEntity( gid )
+	function removeEntity(gid)
 	{
-		var index = getEntityIndex( gid );
+		var index = getEntityIndex(gid);
 
 		if (index > -1) {
 			_list[index].clean();
-			_list.splice( index, 1 );
+			_list.splice(index, 1);
 		}
 	}
 
@@ -158,7 +158,7 @@ define(function( require )
 	 * Set over entity
 	 */
 	var _saveShift = false;
-	function setOverEntity( target )
+	function setOverEntity(target)
 	{
 		var current = _over;
 
@@ -201,7 +201,7 @@ define(function( require )
 	 * Set over entity
 	 * @param {Entity} entity
 	 */
-	function setFocusEntity( entity )
+	function setFocusEntity(entity)
 	{
 		_focus = entity;
 	}
@@ -213,10 +213,10 @@ define(function( require )
 	 * @param {Entity} a
 	 * @param {Entity} b
 	 */
-	function sort(  a, b )
+	function sort(a, b)
 	{
-		var aDepth = a.depth + (a.GID%100) / 1000;
-		var bDepth = b.depth + (b.GID%100) / 1000;
+		var aDepth = a.depth + (a.GID % 100) / 1000;
+		var bDepth = b.depth + (b.GID % 100) / 1000;
 
 		return bDepth - aDepth;
 	}
@@ -228,10 +228,10 @@ define(function( require )
 	 * @param {Entity} a
 	 * @param {Entity} b
 	 */
-	function sortByPriority( a, b )
+	function sortByPriority(a, b)
 	{
-		var aDepth = a.depth + (a.GID%100) / 1000;
-		var bDepth = b.depth + (b.GID%100) / 1000;
+		var aDepth = a.depth + (a.GID % 100) / 1000;
+		var bDepth = b.depth + (b.GID % 100) / 1000;
 
 		if (a.objecttype !== b.objecttype) {
 			aDepth -= Entity.PickingPriority[a.objecttype] * 100;
@@ -252,7 +252,7 @@ define(function( require )
 	 *
 	 * Infos: RO Game doesn't seems to render ambiant and diffuse on Sprites
 	 */
-	function render( gl, modelView, projection, fog )
+	function render(gl, modelView, projection, fog)
 	{
 		var i, count;
 		var tick = Date.now();
@@ -265,7 +265,7 @@ define(function( require )
 		_list.sort(sort);
 
 		// Use program
-		SpriteRenderer.bind3DContext( gl, modelView, projection, fog );
+		SpriteRenderer.bind3DContext(gl, modelView, projection, fog);
 
 		// Rendering
 		for (i = 0, count = _list.length; i < count; ++i) {
@@ -278,11 +278,11 @@ define(function( require )
 				continue;
 			}
 
-			_list[i].render( modelView, projection);
+			_list[i].render(modelView, projection);
 		}
 
 		// Clean program
-		SpriteRenderer.unbind( gl );
+		SpriteRenderer.unbind(gl);
 	}
 
 
@@ -324,19 +324,19 @@ define(function( require )
 
 
 	var EntityManager = {
-		free:                 free,
-		add:                  addEntity,
-		remove:               removeEntity,
-		get:                  getEntity,
-		forEach:              forEach,
+		free: free,
+		add: addEntity,
+		remove: removeEntity,
+		get: getEntity,
+		forEach: forEach,
 
-		getOverEntity:        getOverEntity,
-		setOverEntity:        setOverEntity,
-		getFocusEntity:       getFocusEntity,
-		setFocusEntity:       setFocusEntity,
+		getOverEntity: getOverEntity,
+		setOverEntity: setOverEntity,
+		getFocusEntity: getFocusEntity,
+		setFocusEntity: setFocusEntity,
 
-		render:               render,
-		intersect:            intersect
+		render: render,
+		intersect: intersect
 	};
 
 

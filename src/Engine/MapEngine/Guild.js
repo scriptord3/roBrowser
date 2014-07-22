@@ -8,7 +8,7 @@
  * @author Vincent Thibault
  */
 
-define(function( require )
+define(function (require)
 {
 	'use strict';
 
@@ -16,10 +16,10 @@ define(function( require )
 	/**
 	 * Load dependencies
 	 */
-	var Network       = require('Network/NetworkManager');
-	var PACKET        = require('Network/PacketStructure');
-	var ChatBox       = require('UI/Components/ChatBox/ChatBox');
-	var MiniMap       = require('UI/Components/MiniMap/MiniMap');
+	var Network = require('Network/NetworkManager');
+	var PACKET = require('Network/PacketStructure');
+	var ChatBox = require('UI/Components/ChatBox/ChatBox');
+	var MiniMap = require('UI/Components/MiniMap/MiniMap');
 
 
 	/**
@@ -27,9 +27,9 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NOTIFY_HP_TO_GROUPM
 	 */
-	function onMemberTalk( pkt )
+	function onMemberTalk(pkt)
 	{
-		ChatBox.addText( pkt.msg, ChatBox.TYPE.GUILD );
+		ChatBox.addText(pkt.msg, ChatBox.TYPE.GUILD);
 	}
 
 
@@ -38,14 +38,14 @@ define(function( require )
 	 *
 	 * @param {object} pkt - PACKET.ZC.NOTIFY_POSITION_TO_GUILDM
 	 */
-	function onMemberMove( pkt )
+	function onMemberMove(pkt)
 	{
 		// Server remove mark with "-1" as position
 		if (pkt.xPos < 0 || pkt.yPos < 0) {
-			MiniMap.removeGuildMemberMark( pkt.AID );
+			MiniMap.removeGuildMemberMark(pkt.AID);
 		}
 		else {
-			MiniMap.addGuildMemberMark( pkt.AID, pkt.xPos, pkt.yPos );
+			MiniMap.addGuildMemberMark(pkt.AID, pkt.xPos, pkt.yPos);
 		}
 	}
 
@@ -55,7 +55,7 @@ define(function( require )
 	 */
 	return function EntityEngine()
 	{
-		Network.hookPacket( PACKET.ZC.GUILD_CHAT,                onMemberTalk );
-		Network.hookPacket( PACKET.ZC.NOTIFY_POSITION_TO_GUILDM, onMemberMove );
+		Network.hookPacket(PACKET.ZC.GUILD_CHAT, onMemberTalk);
+		Network.hookPacket(PACKET.ZC.NOTIFY_POSITION_TO_GUILDM, onMemberMove);
 	};
 });

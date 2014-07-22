@@ -9,7 +9,8 @@
  */
 
 // Errors Handler (hack)
-require.onError = function (err) {
+require.onError = function (err)
+{
 	'use strict';
 
 	if (require.defined('UI/Components/Error/Error')) {
@@ -17,7 +18,8 @@ require.onError = function (err) {
 		return;
 	}
 
-	require(['UI/Components/Error/Error'], function( Errors ){
+	require(['UI/Components/Error/Error'], function (Errors)
+	{
 		Errors.addTrace(err);
 	});
 };
@@ -25,10 +27,10 @@ require.onError = function (err) {
 require({
 	baseUrl: './src/',
 	paths: {
-		text:   'Vendors/text.require',
+		text: 'Vendors/text.require',
 		jquery: 'Vendors/jquery-1.9.1'
 	}
-}, ['UI/Components/GrfViewer/GrfViewer'], function( GRFViewer )
+}, ['UI/Components/GrfViewer/GrfViewer'], function (GRFViewer)
 {
 	'use strict';
 
@@ -36,6 +38,7 @@ require({
 });
 
 // Avoid user from mistakenly leaving
-window.onbeforeunload = function() {
+window.onbeforeunload = function ()
+{
 	return 'GrfViewer';
 };

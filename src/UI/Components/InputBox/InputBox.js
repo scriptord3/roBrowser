@@ -7,7 +7,7 @@
  *
  * @author Vincent Thibault
  */
-define(function(require)
+define(function (require)
 {
 	'use strict';
 
@@ -15,21 +15,21 @@ define(function(require)
 	/**
 	 * Dependencies
 	 */
-	var jQuery             = require('Utils/jquery');
-	var Renderer           = require('Renderer/Renderer');
-	var KEYS               = require('Controls/KeyEventHandler');
-	var DB                 = require('DB/DBManager');
+	var jQuery = require('Utils/jquery');
+	var Renderer = require('Renderer/Renderer');
+	var KEYS = require('Controls/KeyEventHandler');
+	var DB = require('DB/DBManager');
 	var MsgStringIDs = require('DB/MsgStringIds');
-	var UIManager          = require('UI/UIManager');
-	var UIComponent        = require('UI/UIComponent');
-	var htmlText           = require('text!./InputBox.html');
-	var cssText            = require('text!./InputBox.css');
+	var UIManager = require('UI/UIManager');
+	var UIComponent = require('UI/UIComponent');
+	var htmlText = require('text!./InputBox.html');
+	var cssText = require('text!./InputBox.css');
 
 
 	/**
 	 * Create NpcBox component
 	 */
-	var InputBox = new UIComponent( 'InputBox', htmlText, cssText );
+	var InputBox = new UIComponent('InputBox', htmlText, cssText);
 
 
 	/**
@@ -38,13 +38,14 @@ define(function(require)
 	InputBox.init = function Init()
 	{
 		this.draggable();
-		this.ui.css({ top: (Renderer.height-120)/1.5-49, left: (Renderer.width -280)/2+1 });
+		this.ui.css({ top: (Renderer.height - 120) / 1.5 - 49, left: (Renderer.width - 280) / 2 + 1 });
 		this.ui.find('button').click(validate.bind(this));
 
 		this.overlay = jQuery('<div/>')
 			.addClass('win_popup_overlay')
 			.css('zIndex', 30)
-			.click(function(){
+			.click(function ()
+			{
 				this.remove();
 			}.bind(this));
 	};
@@ -76,7 +77,7 @@ define(function(require)
 	 * @param {object} event
 	 * @return {boolean}
 	 */
-	InputBox.onKeyDown = function OnKeyDown( event )
+	InputBox.onKeyDown = function OnKeyDown(event)
 	{
 		if (!this.isPersistent && event.which === KEYS.ENTER) {
 			validate.call(this);
@@ -103,7 +104,7 @@ define(function(require)
 				text = parseInt(text, 10) | 0;
 			}
 
-			this.onSubmitRequest( text );
+			this.onSubmitRequest(text);
 		}
 	}
 
@@ -115,7 +116,7 @@ define(function(require)
 	 * @param {boolean} is the popup persistent ? false : clicking in any part of the game will remove the input
 	 * @param {string|number} default value to show in the input
 	 */
-	InputBox.setType = function setType( type, isPersistent, defaultVal )
+	InputBox.setType = function setType(type, isPersistent, defaultVal)
 	{
 		this.isPersistent = !!isPersistent;
 
@@ -126,7 +127,7 @@ define(function(require)
 		switch (type) {
 			case 'number':
 				this.ui.addClass('number');
-				this.ui.find('.text').text( DB.getMessage(MsgStringIDs.MSI_INPUT_NUMBER) );
+				this.ui.find('.text').text(DB.getMessage(MsgStringIDs.MSI_INPUT_NUMBER));
 				this.ui.find('input').attr('type', 'text');
 				defaultVal = defaultVal || 0;
 				break;
@@ -145,14 +146,14 @@ define(function(require)
 
 			case 'mail':
 				this.ui.removeClass('number');
-				this.ui.find('.text').text( DB.getMessage(MsgStringIDs.MSI_ENTER_EMAIL_TOOLTIP) );
+				this.ui.find('.text').text(DB.getMessage(MsgStringIDs.MSI_ENTER_EMAIL_TOOLTIP));
 				this.ui.find('input').attr('type', 'password');
 				break;
 		}
 
 		if (typeof defaultVal !== 'undefined') {
 			this.ui.find('input')
-				.val( defaultVal )
+				.val(defaultVal)
 				.select();
 		}
 	};
@@ -161,7 +162,7 @@ define(function(require)
 	/**
 	 * Callback to define
 	 */
-	InputBox.onSubmitRequest = function OnSubmitRequest(){};
+	InputBox.onSubmitRequest = function OnSubmitRequest() { };
 
 
 	/**
